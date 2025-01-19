@@ -1,3 +1,4 @@
+drop table if exists app.account cascade;
 drop table if exists app.error_log cascade;
 drop table if exists app.state cascade;
 drop table if exists app.city cascade;
@@ -6,7 +7,6 @@ drop table if exists app.street cascade;
 drop table if exists app.address cascade;
 drop table if exists app.address_type cascade;
 drop table if exists app.user cascade;
-drop table if exists app.user_login cascade;
 drop table if exists app.user_token cascade;
 drop table if exists app.user_address cascade;
 drop table if exists app.quote cascade;
