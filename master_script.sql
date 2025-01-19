@@ -5,7 +5,7 @@
 
 
 
-\i 'C:/Development/EnemDB/EnemDB/Config.sql'
+\i './Config.sql'
 
 --For UTF character in the sql file
 -- \! chcp 65001
@@ -16,9 +16,9 @@
 
 
 
-\i 'C:/Development/EnemDB/EnemDB/schemas.sql'
-\i 'C:/Development/EnemDB/EnemDB/extensions.sql'
-\i 'C:/Development/EnemDB/EnemDB/DropTable.sql'
+\i './schemas.sql'
+\i './extensions.sql'
+\i './DropTable.sql'
 
 --Add types
 -- \i 'C:/Development/EnemDB/EnemDB/app/Types/user_login_record.sql'
@@ -33,7 +33,7 @@
 
 --Add app tables
 
-\i 'C:/Development/EnemDB/EnemDB/app/Tables/account.sql'
+\i './app/Tables/account.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/Tables/user_login.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/Tables/profession.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/Tables/professional.sql'
@@ -85,7 +85,7 @@
 --Add Stored Procedures
 
 
-\i 'C:/Development/EnemDB/EnemDB/app/StoredProcedures/usp_api_account_create.sql'
+\i './app/StoredProcedures/usp_api_account_create.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/StoredProcedures/drop_foreign_keys.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/StoredProcedures/usp_api_user_login_create.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/StoredProcedures/usp_api_user_create.sql'
@@ -132,6 +132,6 @@
 
 
 
-\i 'C:/Development/EnemDB/EnemDB/seed.sql'
+\i './seed.sql'
 
 \c enem
