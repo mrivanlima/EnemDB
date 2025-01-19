@@ -3,6 +3,7 @@ create table app.account
 	user_id serial,
 	user_unique_id uuid,
 	username varchar(100) not null,
+    email varchar(100) not null,
 	password_hash varchar(100) not null,
 	password_salt varchar(100) not null,
 	is_verified boolean default false,

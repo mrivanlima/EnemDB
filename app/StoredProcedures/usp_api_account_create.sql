@@ -7,6 +7,7 @@ CREATE OR REPLACE PROCEDURE app.usp_api_account_create(
 	OUT p_out_message VARCHAR(100),
     IN p_user_unique_id uuid,
     IN p_username VARCHAR(100),
+    IN p_email VARCHAR(100),
     IN p_password_hash VARCHAR(100),
     IN p_password_salt VARCHAR(100),
     IN p_is_verified BOOLEAN DEFAULT FALSE,
@@ -37,6 +38,7 @@ BEGIN
         INSERT INTO app.account (
             user_unique_id,
             username,
+            email,
             password_hash,
             password_salt,
             is_verified,
@@ -54,6 +56,7 @@ BEGIN
         (
             p_user_unique_id,
             p_username,
+            p_email,
             p_password_hash,
             p_password_salt,
             COALESCE(p_is_verified, FALSE),
