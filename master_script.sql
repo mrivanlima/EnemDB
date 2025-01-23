@@ -34,6 +34,8 @@
 --Add app tables
 
 \i './app/Tables/account.sql'
+\i './app/Tables/address.sql'
+\i './app/Tables/error_log.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/Tables/user_login.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/Tables/profession.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/Tables/professional.sql'
@@ -86,6 +88,7 @@
 
 
 \i './app/StoredProcedures/usp_api_account_create.sql'
+\i './app/StoredProcedures/usp_api_address_create.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/StoredProcedures/drop_foreign_keys.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/StoredProcedures/usp_api_user_login_create.sql'
 -- \i 'C:/Development/EnemDB/EnemDB/app/StoredProcedures/usp_api_user_create.sql'
