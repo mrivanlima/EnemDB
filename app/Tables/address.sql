@@ -7,11 +7,11 @@ create table app.address
     number varchar(100) not null,
     complement varchar(100) not null,
     neighborhood varchar(100) not null,
-    zipCode varchar(100) not null,
-    --created_by integer null,
+    zipcode varchar(100) not null,
     created_on timestamp with time zone default current_timestamp,
-    --modified_by integer null,
     modified_on timestamp with time zone default current_timestamp,
+    created_by integer null,
+    modified_by integer null,
     constraint pk_address primary key (address_id)
     --constraint fk_address_created_by foreign key (created_by) references app.account(user_id),
     --constraint fk_address_modified_by foreign key (modified_by) references app.account(user_id)

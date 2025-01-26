@@ -11,7 +11,7 @@ CREATE OR REPLACE PROCEDURE app.usp_api_address_create(
     IN p_number VARCHAR(100),
     IN p_complement VARCHAR(100),
     IN p_neighborhood VARCHAR(100),
-    IN p_zipCode VARCHAR(100),
+    IN p_zipcode VARCHAR(100),
     IN p_created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     IN p_modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     IN p_created_by INTEGER DEFAULT NULL,
@@ -25,11 +25,11 @@ BEGIN
     BEGIN
         INSERT INTO app.address (
             city, state, street, number, complement,
-            neighborhood, zipCode, created_on, modified_on
+            neighborhood, zipcode, created_on, modified_on, created_by, modified_by
         )
         VALUES (
             p_city, p_state, p_street, p_number, p_complement,
-            p_neighborhood, p_zipCode, p_created_on, p_modified_on
+            p_neighborhood, p_zipcode, p_created_on, p_modified_on, p_created_by, p_modified_by
         ) RETURNING address_id INTO p_out_address_id;
 
         p_out_message := 'Endereço criado com sucesso!';
