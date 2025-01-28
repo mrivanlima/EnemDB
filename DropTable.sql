@@ -1,28 +1,10 @@
 drop table if exists app.account cascade;
 drop table if exists app.address cascade;
-drop table if exists app.address_id cascade;
 drop table if exists app.error_log cascade;
-drop table if exists app.state cascade;
-drop table if exists app.complement cascade;
-drop table if exists app.number cascade;
-drop table if exists app.city cascade;
-drop table if exists app.neighborhood cascade;
-drop table if exists app.street cascade;
-drop table if exists app.address_type cascade;
-drop table if exists app.user cascade;
-drop table if exists app.user_token cascade;
-drop table if exists app.useraddress cascade;
-drop table if exists app.quote cascade;
-drop table if exists app.product cascade;
-drop table if exists app.role cascade;
-drop table if exists app.user_role cascade;
-drop table if exists app.group cascade;
-drop table if exists app.user_group cascade;
-drop table if exists app.product_version cascade;
-drop table if exists app.quote_response cascade;
-drop table if exists app.quote_product_response cascade;
-drop table if exists app.contact_type cascade;
-drop table if exists app.user_password_reset cascade;
+
+drop table if exists imp.enem_dictionary cascade;
+drop table if exists imp.enem_cutoff_scores_2010_2018 cascade;
+drop table if exists imp.enem_cutoff_scores_2019_2024 cascade;
 
 
 
