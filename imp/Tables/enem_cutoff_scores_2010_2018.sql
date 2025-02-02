@@ -1,4 +1,4 @@
-create table imp.enem_cutoff_scores_2010_2018
+create table if not exists imp.enem_cutoff_scores_2010_2018
 (
     edicao text,
 	cod_ies int,

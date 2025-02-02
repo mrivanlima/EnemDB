@@ -1,4 +1,4 @@
-create table imp.enem_cutoff_scores_2019_2024
+create table if not exists imp.enem_cutoff_scores_2019_2024
 (
     edicao varchar(100),
     nu_ano int,
