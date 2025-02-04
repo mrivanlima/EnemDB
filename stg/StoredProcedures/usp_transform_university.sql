@@ -3,7 +3,16 @@ CREATE OR REPLACE PROCEDURE stg.usp_transform_university()
 AS $$
 BEGIN
 
-	TRUNCATE TABLE stg.school RESTART IDENTITY;
+	-- Step 1: Log start
+    RAISE NOTICE 'Starting procedure execution...';
+
+    -- Step 2: Truncate the target table
+    TRUNCATE TABLE stg.school RESTART IDENTITY;
+    RAISE NOTICE 'Table truncated successfully.';
+
+    -- Step 3: Insert distinct records
+    RAISE NOTICE 'Inserting distinct records...';
+
 	DROP TABLE IF EXISTS test;
 	CREATE TEMP TABLE test AS
 	SELECT
@@ -46,5 +55,10 @@ BEGIN
 	FROM imp.enem_cutoff_scores_2010_2018 ec
 	WHERE NOT EXISTS(SELECT * FROM test te WHERE te.school_code = ec.cod_ies)
 	ORDER BY 1;
+
+	-- Step 4: Log the number of rows inserted
+    RAISE NOTICE 'Number of rows inserted: %', (SELECT COUNT(*) FROM stg.school);
+
+    RAISE NOTICE 'Procedure execution completed successfully.';
 END;
 $$ LANGUAGE plpgsql;
