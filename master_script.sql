@@ -29,6 +29,8 @@
 \i './imp/Tables/enem_cutoff_scores_2010_2018.sql'
 \i './imp/Tables/enem_cutoff_scores_2019_2024.sql'
 \i './imp/Tables/sisu_offer_report.sql'
+\i './imp/Tables/enem_vagas_ofertadas_2010_2018.sql'
+\i './imp/Tables/enem_vagas_ofertadas_2019_2025.sql'
 
 --Add app tables
 
