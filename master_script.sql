@@ -37,6 +37,11 @@
 \i './app/Tables/account.sql'
 \i './app/Tables/address.sql'
 \i './app/Tables/error_log.sql'
+\i './stg/Tables/campus.sql'
+\i './stg/Tables/cutoff_score.sql'
+\i './stg/Tables/organization.sql'
+\i './stg/Tables/school.sql'
+\i './stg/Tables/category.sql'
 
 --Add app functions
 
@@ -47,6 +52,10 @@
 
 \i './app/StoredProcedures/usp_api_account_create.sql'
 \i './app/StoredProcedures/usp_api_address_create.sql'
+\i './stg/StoredProcedures/usp_transform_campus.sql'
+\i './stg/StoredProcedures/usp_transform_organization.sql'
+\i './stg/StoredProcedures/usp_transform_university.sql'
+\i './stg/StoredProcedures/usp_transform_category.sql'
 
 --Add Views
 
