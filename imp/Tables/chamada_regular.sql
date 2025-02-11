@@ -1,0 +1,26 @@
+create table if not exists imp.chamada_regular
+(
+    co_ies TEXT,
+    no_ies TEXT,
+    sg_ies TEXT,
+    sg_uf_ies TEXT,
+    no_campus TEXT,
+    co_ies_curso TEXT,
+    no_curso TEXT,
+    ds_turno TEXT,
+    ds_formacao TEXT,
+    qt_vagas_concorrencia TEXT,
+    co_inscricao_enem TEXT,
+    no_inscrito TEXT,
+    no_modalidade_concorrencia TEXT,
+    st_bonus_perc TEXT,
+    qt_bonus_perc TEXT,
+    no_acao_afirmativa_bonus TEXT,
+    nu_nota_candidato TEXT,
+    nu_notacorte_concorrida TEXT,
+    nu_classificacao TEXT,
+    ensino_medio TEXT,
+    quilombola TEXT,
+    deficiente TEXT,
+    tipo_concorrencia TEXT
+);

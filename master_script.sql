@@ -22,10 +22,11 @@
 
 --Add types
 
-
+\i './app/Types/account_record.sql'
 
 --Add imp tables
 
+\i './imp/Tables/chamada_regular.sql'
 \i './imp/Tables/enem_cutoff_scores_2010_2018.sql'
 \i './imp/Tables/enem_cutoff_scores_2019_2024.sql'
 \i './imp/Tables/sisu_offer_report.sql'
