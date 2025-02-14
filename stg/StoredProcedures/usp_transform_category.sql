@@ -18,21 +18,21 @@ BEGIN
         category_name_ascii
     )
     SELECT DISTINCT
-        combined.category_name,
-        combined.category_name_ascii
+        UPPER(combined.category_name),
+        UNACCENT(UPPER(combined.category_name_ascii))
     FROM (
         -- Data from 2019-2025
         SELECT
-            e.ds_categoria_adm AS category_name,
-            UNACCENT(e.ds_categoria_adm) AS category_name_ascii
+            TRIM(e.ds_categoria_adm) AS category_name,
+            TRIM(UNACCENT(e.ds_categoria_adm)) AS category_name_ascii
         FROM imp.enem_vagas_ofertadas_2019_2025 e
 
         UNION
 
         -- Data from 2010-2018
         SELECT
-            ec.categoria_administrativa AS category_name,
-            UNACCENT(ec.categoria_administrativa) AS category_name_ascii
+            TRIM(ec.categoria_administrativa) AS category_name,
+            TRIM(UNACCENT(ec.categoria_administrativa)) AS category_name_ascii
         FROM imp.enem_vagas_ofertadas_2010_2018 ec
     ) combined;
 
