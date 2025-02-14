@@ -45,7 +45,6 @@
 
 --Add Stored Procedures
 
-
 \i './app/StoredProcedures/usp_api_account_create.sql'
 \i './app/StoredProcedures/usp_api_address_create.sql'
 
@@ -57,6 +56,8 @@
 \i './stg/Tables/school.sql'
 \i './stg/Tables/category.sql'
 \i './stg/Tables/course.sql'
+\i './stg/Tables/degree.sql'
+\i './stg/Tables/shift.sql'
 
 --Add stg Stored Procedures
 
@@ -65,6 +66,8 @@
 \i './stg/StoredProcedures/usp_transform_university.sql'
 \i './stg/StoredProcedures/usp_transform_category.sql'
 \i './stg/StoredProcedures/usp_transform_course.sql'
+\i './stg/StoredProcedures/usp_transform_degree.sql'
+\i './stg/StoredProcedures/usp_transform_shift.sql'
 
 --Add Views
 
