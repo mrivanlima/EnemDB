@@ -1,5 +1,6 @@
 create table if not exists imp.chamada_regular
 (
+    ano_imp TEXT,
     co_ies TEXT,
     no_ies TEXT,
     sg_ies TEXT,

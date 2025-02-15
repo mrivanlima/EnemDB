@@ -2,6 +2,9 @@ drop table if exists app.account cascade;
 drop table if exists app.address cascade;
 drop table if exists app.error_log cascade;
 
+drop table if exists imp.chamada_regular cascade;
+drop table if exists imp.chamada_regular_json cascade;
+drop table if exists imp.institutions_json cascade;
 -- drop table if exists imp.enem_dictionary cascade;
 -- drop table if exists imp.enem_cutoff_scores_2010_2018 cascade;
 -- drop table if exists imp.enem_cutoff_scores_2019_2024 cascade;

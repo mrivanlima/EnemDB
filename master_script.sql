@@ -27,6 +27,8 @@
 --Add imp tables
 
 \i './imp/Tables/chamada_regular.sql'
+\i './imp/Tables/chamada_regular_json.sql'
+\i './imp/Tables/institutions_json.sql'
 \i './imp/Tables/enem_cutoff_scores_2010_2018.sql'
 \i './imp/Tables/enem_cutoff_scores_2019_2024.sql'
 \i './imp/Tables/sisu_offer_report.sql'
@@ -38,6 +40,11 @@
 \i './app/Tables/account.sql'
 \i './app/Tables/address.sql'
 \i './app/Tables/error_log.sql'
+\i './stg/Tables/campus.sql'
+\i './stg/Tables/cutoff_score.sql'
+\i './stg/Tables/organization.sql'
+\i './stg/Tables/school.sql'
+\i './stg/Tables/category.sql'
 
 --Add app functions
 
@@ -45,29 +52,13 @@
 
 --Add Stored Procedures
 
+
 \i './app/StoredProcedures/usp_api_account_create.sql'
 \i './app/StoredProcedures/usp_api_address_create.sql'
-
---Add stg tables
-
-\i './stg/Tables/campus.sql'
-\i './stg/Tables/cutoff_score.sql'
-\i './stg/Tables/organization.sql'
-\i './stg/Tables/school.sql'
-\i './stg/Tables/category.sql'
-\i './stg/Tables/course.sql'
-\i './stg/Tables/degree.sql'
-\i './stg/Tables/shift.sql'
-
---Add stg Stored Procedures
-
 \i './stg/StoredProcedures/usp_transform_campus.sql'
 \i './stg/StoredProcedures/usp_transform_organization.sql'
 \i './stg/StoredProcedures/usp_transform_university.sql'
 \i './stg/StoredProcedures/usp_transform_category.sql'
-\i './stg/StoredProcedures/usp_transform_course.sql'
-\i './stg/StoredProcedures/usp_transform_degree.sql'
-\i './stg/StoredProcedures/usp_transform_shift.sql'
 
 --Add Views
 
