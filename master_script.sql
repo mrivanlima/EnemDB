@@ -45,6 +45,9 @@
 \i './stg/Tables/organization.sql'
 \i './stg/Tables/school.sql'
 \i './stg/Tables/category.sql'
+\i './stg/Tables/degree.sql'
+\i './stg/Tables/shift.sql'
+\i './stg/Tables/course.sql'
 
 --Add app functions
 
@@ -59,6 +62,9 @@
 \i './stg/StoredProcedures/usp_transform_organization.sql'
 \i './stg/StoredProcedures/usp_transform_university.sql'
 \i './stg/StoredProcedures/usp_transform_category.sql'
+\i './stg/StoredProcedures/usp_transform_degree.sql'
+\i './stg/StoredProcedures/usp_transform_shift.sql'
+\i './stg/StoredProcedures/usp_transform_course.sql'
 
 --Add Views
 

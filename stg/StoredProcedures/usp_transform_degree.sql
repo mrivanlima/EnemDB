@@ -18,23 +18,26 @@ BEGIN
         degree_type_ascii
     )
     SELECT DISTINCT
-        combined.degree_type,
-        combined.degree_type_ascii
+        UPPER(combined.degree_type),
+        UNACCENT(UPPER(combined.degree_type_ascii))
     FROM (
         -- Data from 2019-2025
         SELECT
-            e.ds_grau AS degree_type,
-            UNACCENT(e.ds_grau) AS degree_type_ascii
+            TRIM(e.ds_grau) AS degree_type,
+            TRIM(UNACCENT(e.ds_grau)) AS degree_type_ascii
         FROM imp.enem_vagas_ofertadas_2019_2025 e
+        WHERE e.ds_grau IS NOT NULL AND TRIM(e.ds_grau) <> '-'
 
         UNION
 
         -- Data from 2010-2018
         SELECT
-            ec.grau AS degree_type,
-            UNACCENT(ec.grau) AS degree_type_ascii
+            TRIM(ec.grau) AS degree_type,
+            TRIM(UNACCENT(ec.grau)) AS degree_type_ascii
         FROM imp.enem_vagas_ofertadas_2010_2018 ec
-    ) combined;
+        WHERE ec.grau IS NOT NULL AND TRIM(ec.grau) <> '-'
+    ) combined
+    WHERE combined.degree_type IS NOT NULL AND combined.degree_type <> '-';
 
     -- Step 4: Log the number of rows inserted
     RAISE NOTICE 'Number of rows inserted: %', (SELECT COUNT(*) FROM stg.degree);

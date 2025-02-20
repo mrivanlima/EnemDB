@@ -10,7 +10,7 @@ BEGIN
     TRUNCATE TABLE stg.category RESTART IDENTITY;
     RAISE NOTICE 'Table truncated successfully.';
 
-    -- Step 3: Insert distinct records
+    
     RAISE NOTICE 'Inserting distinct records...';
 
     INSERT INTO stg.category (
@@ -26,6 +26,7 @@ BEGIN
             TRIM(e.ds_categoria_adm) AS category_name,
             TRIM(UNACCENT(e.ds_categoria_adm)) AS category_name_ascii
         FROM imp.enem_vagas_ofertadas_2019_2025 e
+        WHERE e.ds_categoria_adm IS NOT NULL 
 
         UNION
 
@@ -34,7 +35,9 @@ BEGIN
             TRIM(ec.categoria_administrativa) AS category_name,
             TRIM(UNACCENT(ec.categoria_administrativa)) AS category_name_ascii
         FROM imp.enem_vagas_ofertadas_2010_2018 ec
-    ) combined;
+        WHERE ec.categoria_administrativa IS NOT NULL 
+    ) combined
+    WHERE combined.category_name IS NOT NULL; 
 
     -- Step 4: Log the number of rows inserted
     RAISE NOTICE 'Number of rows inserted: %', (SELECT COUNT(*) FROM stg.category);

@@ -18,21 +18,21 @@ BEGIN
         shift_name_ascii
     )
     SELECT DISTINCT
-        combined.shift_name,
-        combined.shift_name_ascii
+        UPPER(combined.shift_name),
+        UNACCENT(UPPER(combined.shift_name_ascii))
     FROM (
         -- Data from 2019-2025
         SELECT
-            e.ds_turno AS shift_name,
-            UNACCENT(e.ds_turno) AS shift_name_ascii
+            TRIM(e.ds_turno) AS shift_name,
+            TRIM(e.ds_turno) AS shift_name_ascii
         FROM imp.enem_vagas_ofertadas_2019_2025 e
 
         UNION
 
         -- Data from 2010-2018
         SELECT
-            ec.turno AS shift_name,
-            UNACCENT(ec.turno) AS shift_name_ascii
+            TRIM(ec.turno) AS shift_name,
+            TRIM(ec.turno) AS shift_name_ascii
         FROM imp.enem_vagas_ofertadas_2010_2018 ec
     ) combined;
 

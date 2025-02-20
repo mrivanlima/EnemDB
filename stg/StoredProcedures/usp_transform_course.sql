@@ -14,17 +14,20 @@ BEGIN
     RAISE NOTICE 'Inserting distinct records...';
 
     INSERT INTO stg.course (
+    school_code,
     course_code,
     course_name,
     course_name_ascii
     )
 SELECT DISTINCT
+    combined.school_code,
     combined.course_code,
     UPPER(combined.course_name),
     UNACCENT(UPPER(combined.course_name_ascii))
 FROM (
     -- Dados de 2019-2025
     SELECT
+        e.co_ies AS school_code,
         e.co_ies_curso AS course_code,
         TRIM(e.no_curso) AS course_name,
         TRIM(UNACCENT(e.no_curso)) AS course_name_ascii
@@ -34,6 +37,7 @@ FROM (
 
     -- Dados de 2010-2018
     SELECT
+        ec.cod_ies AS school_code,
         ec.cod_curso AS course_code,
         TRIM(ec.nome_curso) AS course_name,
         TRIM(UNACCENT(ec.nome_curso)) AS course_name_ascii
