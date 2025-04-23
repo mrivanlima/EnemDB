@@ -5,6 +5,6 @@ create table if not exists imp.institutions_json
     sg_ies TEXT,
     sg_uf TEXT,
     co_municipio TEXT,
-    no_muinicipio TEXT,
+    no_municipio TEXT,
     no_sitio_ies TEXT
 );

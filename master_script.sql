@@ -26,6 +26,7 @@
 
 --Add imp tables
 
+\i './imp/Tables/old_chamada_regular.sql'
 \i './imp/Tables/chamada_regular.sql'
 \i './imp/Tables/chamada_regular_json.sql'
 \i './imp/Tables/institutions_json.sql'
