@@ -24,7 +24,5 @@ jobs:
           --host=${{ secrets.AZURE_PG_HOST }} \
           --port=${{ secrets.AZURE_PG_PORT }} \
           --username=${{ secrets.AZURE_PG_USER }} \
-          --dbname=${{ secrets.AZURE_PG_DB }} \
-          --file=EnemDB/master_script.sql \
-          --set sslmode=require \
-          --connect-timeout=10
+          --dbname="${{ secrets.AZURE_PG_DB }}?connect_timeout=10&sslmode=require" \
+          --file=EnemDB/master_script.sql
