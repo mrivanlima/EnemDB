@@ -1,0 +1,27 @@
+name: Deploy PostgreSQL via CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Run PostgreSQL deployment
+      env:
+        PGPASSWORD: ${{ secrets.AZURE_PG_PASSWORD }}
+      run: |
+        psql \
+          --host=${{ secrets.AZURE_PG_HOST }} \
+          --port=${{ secrets.AZURE_PG_PORT }} \
+          --username=${{ secrets.AZURE_PG_USER }} \
+          --dbname=${{ secrets.AZURE_PG_DB }} \
+          --file=EnemDB/master_script.sql \
+          --set sslmode=require \
+          --connect-timeout=10
