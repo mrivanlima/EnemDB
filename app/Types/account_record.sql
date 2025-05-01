@@ -10,6 +10,6 @@ CREATE TYPE app.account_record AS
 	is_verified boolean,
 	is_active boolean,
 	is_locked boolean,
-	password_attempts smallint,
+	password_attempts smallint, 
 	changed_initial_password boolean
 )
