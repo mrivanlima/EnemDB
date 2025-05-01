@@ -22,4 +22,4 @@ jobs:
           --port=${{ secrets.AZURE_PG_PORT }} \
           --username=${{ secrets.AZURE_PG_USER }} \
           --dbname=${{ secrets.AZURE_PG_DB }} \
-          --file=EnemDB/master_script.sql
+          --file=master_script.sql
