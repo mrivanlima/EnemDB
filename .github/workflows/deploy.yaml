@@ -1,4 +1,4 @@
-name: Deploy PostgreSQL via CI/CD with Temporary Firewall Access
+name: Deploy PostgreSQL via CI/CD
 
 on:
   push:
@@ -13,26 +13,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Login to Azure
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Get runner's public IP and allow in Azure Firewall
-      id: get-ip
-      run: |
-        IP=$(curl -s https://api.ipify.org)
-        echo "IP=$IP" >> $GITHUB_ENV
-        echo "Runner public IP: $IP"
-        
-        az postgres flexible-server firewall-rule create \
-          --name ${{ secrets.AZURE_PG_SERVER_NAME }} \
-          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-          --start-ip-address $IP \
-          --end-ip-address $IP \
-          --rule-name GitHubRunnerTemporaryAccess
-
-
     - name: Run PostgreSQL deployment
       env:
         PGPASSWORD: ${{ secrets.AZURE_PG_PASSWORD }}
@@ -43,11 +23,3 @@ jobs:
           --username=${{ secrets.AZURE_PG_USER }} \
           --dbname=${{ secrets.AZURE_PG_DB }} \
           --file=EnemDB/master_script.sql
-
-    - name: Remove temporary firewall rule
-      if: always()  # Ensures it runs even if deploy fails
-      run: |
-        az postgres flexible-server firewall-rule delete \
-          --name ${{ secrets.AZURE_PG_SERVER_NAME }} \
-          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-          --name GitHubRunnerTemporaryAccess
