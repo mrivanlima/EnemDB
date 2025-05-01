@@ -7,7 +7,7 @@ INSERT INTO app.account (
     email,
     password_hash, 
     password_salt, 
-    is_verified, 
+    is_verified,  
     is_active, 
     is_locked, 
     password_attempts, 
