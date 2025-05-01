@@ -2,7 +2,7 @@
 -- ALTER SEQUENCE app.user_login_user_id_seq RESTART WITH 0;
 
 INSERT INTO app.account (
-    user_unique_id, 
+    user_unique_id,  
     username, 
     email,
     password_hash, 
