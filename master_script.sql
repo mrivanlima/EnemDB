@@ -76,4 +76,7 @@
 
 \i './seed.sql'
 
+-- \echo 'Table "my_table" created.'
+-- SELECT COUNT(*) FROM my_table;
+
 \c enem

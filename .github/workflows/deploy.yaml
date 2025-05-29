@@ -25,6 +25,8 @@ jobs:
         scp -i ~/.ssh/id_rsa master_script.sql ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/
         ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
           export PGPASSWORD="${{ secrets.DB_PASS }}"
-          psql -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -f /tmp/master_script.sql
+          echo "Running master_script.sql..."
+          psql -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -v ON_ERROR_STOP=1 -f /tmp/master_script.sql
+          echo "Cleaning up..."
           rm /tmp/master_script.sql
         EOF
