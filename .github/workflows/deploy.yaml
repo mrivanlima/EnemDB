@@ -1,4 +1,4 @@
-name: Deploy PostgreSQL via CI/CD
+name: Deploy PostgreSQL from GitHub Repo
 
 on:
   push:
@@ -7,19 +7,24 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Run PostgreSQL deployment
-      env:
-        PGPASSWORD: ${{ secrets.AZURE_PG_PASSWORD }}
+    - name: Setup SSH access to Azure VM
       run: |
-        psql \
-          --host=${{ secrets.AZURE_PG_HOST }} \
-          --port=${{ secrets.AZURE_PG_PORT }} \
-          --username=${{ secrets.AZURE_PG_USER }} \
-          --dbname=${{ secrets.AZURE_PG_DB }} \
-          --file=master_script.sql
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Run master_script.sql on remote PostgreSQL
+      run: |
+        scp -i ~/.ssh/id_rsa master_script.sql ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/
+        ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+          export PGPASSWORD="${{ secrets.DB_PASS }}"
+          psql -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -f /tmp/master_script.sql
+          rm /tmp/master_script.sql
+        EOF
