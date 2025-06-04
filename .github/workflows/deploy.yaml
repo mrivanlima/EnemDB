@@ -1,41 +1,26 @@
-name: Deploy PostgreSQL from GitHub Repo
+name: Test SSH to Azure VM
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  test-ssh:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
-
-    - name: Setup SSH access to Azure VM
+    - name: Setup SSH access
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Copy repo to Azure VM via tarball
+    - name: SSH and verify connection
       run: |
-        tar czf db_deploy.tar.gz .
-        scp -i ~/.ssh/id_rsa db_deploy.tar.gz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/
-
-
-    - name: Run master_script.sql on remote PostgreSQL
-      run: |
+        echo "Trying SSH connection..."
         ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
-          set -e
-          cd /tmp
-          tar xzf db_deploy.tar.gz
-          cd db_deploy
-          export PGPASSWORD="${{ secrets.DB_PASS }}"
-          psql -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -v ON_ERROR_STOP=1 -f master_script.sql
-          echo "Cleaning up..."
-          rm -rf /tmp/db_deploy /tmp/db_deploy.tar.gz
+          echo "✅ SSH SUCCESS"
+          echo "Hostname:"; hostname
+          echo "User:"; whoami
+          echo "System Info:"; uname -a
         EOF
-
