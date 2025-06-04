@@ -21,24 +21,22 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Compress and copy repo to VM
+    - name: Copy SQL files and folders to VM
       run: |
-        tar --exclude=db_deploy.tar.gz -czf db_deploy.tar.gz .
-        scp -i ~/.ssh/id_rsa db_deploy.tar.gz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/
+        mkdir upload
+        cp master_script.sql upload/
+        cp -r app stg imp Config.sql schemas.sql extensions.sql DropTable.sql seed.sql upload/
+        scp -i ~/.ssh/id_rsa -r upload ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/
 
     - name: SSH and verify connection
       run: |
         echo "Trying SSH connection..."
         ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
           set -e
-          cd /tmp
-          tar xzf db_deploy.tar.gz
-          cd db_deploy
-
+          cd /tmp/upload
           export PGPASSWORD="${{ secrets.DB_PASS }}"
           echo "Running master_script.sql..."
           psql -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -v ON_ERROR_STOP=1 -f master_script.sql
-
           echo "DB Deploy Complete"
-          rm -rf /tmp/db_deploy /tmp/db_deploy.tar.gz
+          rm -rf /tmp/upload
         EOF
