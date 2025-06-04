@@ -23,7 +23,7 @@ jobs:
 
     - name: Compress and copy repo to VM
       run: |
-        tar czf db_deploy.tar.gz .
+        tar --exclude=db_deploy.tar.gz -czf db_deploy.tar.gz .
         scp -i ~/.ssh/id_rsa db_deploy.tar.gz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/
 
     - name: SSH and verify connection
