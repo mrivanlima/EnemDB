@@ -19,7 +19,7 @@ jobs:
       run: |
         echo "Trying SSH connection..."
         ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
-          echo "✅ SSH SUCCESS"
+          echo "SSH SUCCESS"
           echo "Hostname:"; hostname
           echo "User:"; whoami
           echo "System Info:"; uname -a
