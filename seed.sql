@@ -29,9 +29,9 @@ INSERT INTO app.account (
     0,  -- password_attempts
     true,  -- changed_initial_password
     NULL,  -- locked_time
-    0,  -- created_by
+    1,  -- created_by
     current_timestamp,  -- created_on
-    0,  -- modified_by
+    1,  -- modified_by
     current_timestamp  -- modified_on
 );
 
