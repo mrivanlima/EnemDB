@@ -14,6 +14,10 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
 
+    - name: Reconstruct Config.sql from secret
+      run: |
+        echo "${{ secrets.CONFIG_SQL_B64 }}" | base64 -d > Config.sql
+
     - name: Setup SSH access
       run: |
         mkdir -p ~/.ssh
@@ -24,8 +28,8 @@ jobs:
     - name: Copy SQL files and folders to VM
       run: |
         mkdir upload
-        cp master_script.sql upload/
-        cp -r app stg imp Config.sql schemas.sql extensions.sql DropTable.sql seed.sql upload/
+        cp master_script.sql Config.sql upload/
+        cp -r app stg imp schemas.sql extensions.sql DropTable.sql seed.sql upload/
         scp -i ~/.ssh/id_rsa -r upload ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/
 
     - name: SSH and verify connection
