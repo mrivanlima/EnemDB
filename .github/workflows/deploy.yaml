@@ -40,7 +40,7 @@ jobs:
           cd /tmp/upload
           export PGPASSWORD="${{ secrets.DB_PASS }}"
           echo "Running master_script.sql..."
-          psql -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -v ON_ERROR_STOP=1 -f master_script.sql
+          psql -h localhost -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -v ON_ERROR_STOP=1 -f master_script.sql
           echo "DB Deploy Complete"
           rm -rf /tmp/upload
         EOF
