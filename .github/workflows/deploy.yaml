@@ -20,18 +20,22 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Copy full repo to Azure VM
+    - name: Copy repo to Azure VM via tarball
       run: |
-        scp -i ~/.ssh/id_rsa -r . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/db_deploy/
+        tar czf db_deploy.tar.gz .
+        scp -i ~/.ssh/id_rsa db_deploy.tar.gz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/
+
 
     - name: Run master_script.sql on remote PostgreSQL
       run: |
         ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
           set -e
+          cd /tmp
+          tar xzf db_deploy.tar.gz
+          cd db_deploy
           export PGPASSWORD="${{ secrets.DB_PASS }}"
-          echo "Running master_script.sql..."
-          cd /tmp/db_deploy
           psql -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -v ON_ERROR_STOP=1 -f master_script.sql
           echo "Cleaning up..."
-          rm -rf /tmp/db_deploy
+          rm -rf /tmp/db_deploy /tmp/db_deploy.tar.gz
         EOF
+
