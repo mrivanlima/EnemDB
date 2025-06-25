@@ -84,3 +84,24 @@ BEGIN
     END LOOP;
 END;
 $$;
+
+DO $$
+DECLARE
+    rec RECORD;
+    v_out_message TEXT;
+BEGIN
+    FOR rec IN
+        SELECT DISTINCT ds_organizacao_academica
+        FROM imp.vagas_ofertadas
+        WHERE ds_organizacao_academica IS NOT NULL
+    LOOP
+        CALL app.usp_api_academic_organization_create(
+            rec.ds_organizacao_academica,
+            'system',
+            v_out_message
+        );
+        RAISE NOTICE 'Inserted academic organization "%", result: %',
+            rec.ds_organizacao_academica, v_out_message;
+    END LOOP;
+END;
+$$;
