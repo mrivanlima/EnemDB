@@ -320,3 +320,236 @@ VALUES
 (5, 'PR', 'Paraná',       unaccent('Paraná'),       'system', NOW()),
 (5, 'RS', 'Rio Grande do Sul', unaccent('Rio Grande do Sul'), 'system', NOW()),
 (5, 'SC', 'Santa Catarina', unaccent('Santa Catarina'), 'system', NOW());
+
+
+DO $$
+DECLARE
+    v_out_message TEXT;
+BEGIN
+    -- LB_PPI
+    CALL app.usp_api_quota_type_create(
+        'LB_PPI',
+        'Candidatos autodeclarados pretos, pardos ou indígenas, com renda familiar bruta per capita igual ou inferior a 1 salário mínimo e que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'PPI, baixa renda, escola pública',
+        'Candidatos autodeclarados pretos, pardos ou indígenas, com renda familiar bruta per capita igual ou inferior a 1 salário mínimo e que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LB_PPI: %', v_out_message;
+
+    -- LI_PPI
+    CALL app.usp_api_quota_type_create(
+        'LI_PPI',
+        'Candidatos autodeclarados pretos, pardos ou indígenas, independentemente da renda, que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'PPI, qualquer renda, escola pública',
+        'Candidatos autodeclarados pretos, pardos ou indígenas, independentemente da renda, que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LI_PPI: %', v_out_message;
+
+    -- LB_Q
+    CALL app.usp_api_quota_type_create(
+        'LB_Q',
+        'Candidatos autodeclarados quilombolas, com renda familiar bruta per capita igual ou inferior a 1 salário mínimo e que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'Quilombola, baixa renda, escola pública',
+        'Candidatos autodeclarados quilombolas, com renda familiar bruta per capita igual ou inferior a 1 salário mínimo e que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LB_Q: %', v_out_message;
+
+    -- LI_Q
+    CALL app.usp_api_quota_type_create(
+        'LI_Q',
+        'Candidatos autodeclarados quilombolas, independentemente da renda, tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'Quilombola, qualquer renda, escola pública',
+        'Candidatos autodeclarados quilombolas, independentemente da renda, tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LI_Q: %', v_out_message;
+
+    -- LB_PCD
+    CALL app.usp_api_quota_type_create(
+        'LB_PCD',
+        'Candidatos com deficiência, que tenham renda familiar bruta per capita igual ou inferior a 1 salário mínimo e que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'PcD, baixa renda, escola pública',
+        'Candidatos com deficiência, que tenham renda familiar bruta per capita igual ou inferior a 1 salário mínimo e que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LB_PCD: %', v_out_message;
+
+    -- LI_PCD
+    CALL app.usp_api_quota_type_create(
+        'LI_PCD',
+        'Candidatos com deficiência, independentemente da renda, que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'PcD, qualquer renda, escola pública',
+        'Candidatos com deficiência, independentemente da renda, que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LI_PCD: %', v_out_message;
+
+    -- LB_EP
+    CALL app.usp_api_quota_type_create(
+        'LB_EP',
+        'Candidatos com renda familiar bruta per capita igual ou inferior a 1 salário mínimo que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'Baixa renda, escola pública',
+        'Candidatos com renda familiar bruta per capita igual ou inferior a 1 salário mínimo que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LB_EP: %', v_out_message;
+
+    -- LI_EP
+    CALL app.usp_api_quota_type_create(
+        'LI_EP',
+        'Candidatos que, independentemente da renda, tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'Qualquer renda, escola pública',
+        'Candidatos que, independentemente da renda, tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LI_EP: %', v_out_message;
+
+    -- AC
+    CALL app.usp_api_quota_type_create(
+        'AC',
+        'Ampla concorrência',
+        'Ampla concorrência',
+        'Ampla concorrência',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'AC: %', v_out_message;
+
+    -- LB_PP
+    CALL app.usp_api_quota_type_create(
+        'LB_PP',
+        'Candidatos autodeclarados pretos ou pardos, com renda familiar bruta per capita igual ou inferior a 1 salário mínimo e que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'Pretos/pardos, baixa renda, escola pública',
+        'Candidatos autodeclarados pretos ou pardos, com renda familiar bruta per capita igual ou inferior a 1 salário mínimo e que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LB_PP: %', v_out_message;
+
+    -- LI_PP
+    CALL app.usp_api_quota_type_create(
+        'LI_PP',
+        'Candidatos autodeclarados pretos ou pardos, independentemente da renda, que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'Pretos/pardos, qualquer renda, escola pública',
+        'Candidatos autodeclarados pretos ou pardos, independentemente da renda, que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LI_PP: %', v_out_message;
+
+    -- LB_I
+    CALL app.usp_api_quota_type_create(
+        'LB_I',
+        'Candidatos autodeclarados indígenas, com renda familiar bruta per capita igual ou inferior a 1 salário mínimo e que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'Indígena, baixa renda, escola pública',
+        'Candidatos autodeclarados indígenas, com renda familiar bruta per capita igual ou inferior a 1 salário mínimo e que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LB_I: %', v_out_message;
+
+    -- LI_I
+    CALL app.usp_api_quota_type_create(
+        'LI_I',
+        'Candidatos autodeclarados indígenas, independentemente da renda, que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'Indígena, qualquer renda, escola pública',
+        'Candidatos autodeclarados indígenas, independentemente da renda, que tenham cursado integralmente o ensino médio em escolas públicas ou em escolas comunitárias que atuam no âmbito da educação do campo conveniadas com o poder público (Lei nº 12.711/2012).',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'LI_I: %', v_out_message;
+
+    -- B
+    CALL app.usp_api_quota_type_create(
+        'B',
+        'Candidatos que tenham cursado integralmente o Ensino Médio em instituições públicas de ensino.',
+        'Baixa renda, escola pública',
+        'Candidatos que tenham cursado integralmente o Ensino Médio em instituições públicas de ensino.',
+        'system',
+        v_out_message
+    ); RAISE NOTICE 'B: %', v_out_message;
+END;
+$$;
+
+DO $$
+DECLARE
+    v_out_message TEXT;
+BEGIN
+    CALL app.usp_api_quota_type_create(
+        'V',
+        'Cotas Especiais/Locais (institucionais ou ação afirmativa específica definida pela instituição de ensino).',
+        'Cota Especial',
+        'Reservada para tipos de cotas especiais/institucionais não padronizados nacionalmente.',
+        'system',
+        v_out_message
+    );
+    RAISE NOTICE 'V: %', v_out_message;
+END;
+$$;
+
+DO $$
+DECLARE
+    v_out_message TEXT;
+    v_quota_type_id INTEGER;
+BEGIN
+    -- Get the quota_type_id for 'V'
+    SELECT quota_type_id INTO v_quota_type_id FROM app.quota_type WHERE quota_type_code = 'V';
+
+    -- Insert each special quota
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'indígenas, condição que deve ser comprovada mediante apresentação do RANI (Registro Administrativo de Nascimento de Indígena) ou declaração emitida por entidade de representação indígena. (A2)', 'Indígena (RANI/declaração)', 'Indígena com comprovação por RANI ou declaração.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'que tenham cursado parcialmente o ensino médio em escola pública (pelo menos um ano com aprovação) ou em escolas de direito privado sem fins lucrativos, cujo orçamento da instituição seja proveniente do poder público, em pelo menos 50%. (A1)', 'Ensino médio parcial público', 'Ensino médio parcialmente em escola pública ou privada sem fins lucrativos (50%).', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos com deficiência, qualquer que seja a sua procedência escolar.', 'PcD qualquer escola', 'Pessoa com deficiência de qualquer origem escolar.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'que tenham cursado todo o Ensino Médio e os últimos quatro anos do Ensino Fundamental em Escola Pública e que sejam índios reconhecidos pela FUNAI ou moradores de comunidades remanescentes de quilombos registrados na Fundação Cultural Palmares.', 'Indígena FUNAI/Quilombola', 'Índio FUNAI ou Quilombola (Ensino público).', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'que tenham cursado todo o Ensino Médio e os últimos quatro anos do Ensino Fundamental em Escola Pública e que se autodeclararam negros.', 'Negros ensino público', 'Negros, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'que tenham cursado todo o Ensino Médio e os últimos quatro anos do Ensino Fundamental em Escola Pública e que não se autodeclararam negros.', 'Não negros ensino público', 'Não negros, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'que tenham cursado todo o Ensino Médio e os últimos quatro anos do Ensino Fundamental em Escola Pública e que sejam Pessoa com Deficiência (PcD).', 'PcD ensino público', 'PcD, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Cotas Sociais', 'Cotas sociais', 'Cotas sociais.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Cotas Sociais para Negros', 'Cotas sociais negros', 'Cotas sociais para negros.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Pessoas com deficiência, oriundos de qualquer percurso escolar', 'PcD, qualquer percurso', 'PcD, qualquer percurso escolar.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Indígenas', 'Indígenas', 'Indígenas.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos autodeclarados como pessoa trans, com renda familiar bruta per capita igual ou inferior a 1 salários mínimo que tenham cursado integralmente o ensino médio em escolas públicas (Resolução CONSEPE nº 5.905/2024)', 'Trans baixa renda', 'Pessoa trans, baixa renda, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos que se declararem negros (pretos e pardos) e que tenham cursado todo o ensino médio e pelo menos quatro anos letivos do Ensino Fundamental em escola pública (renda familiar de 1,5 salários mínimos per capita)', 'Negros 1,5 SM', 'Negros, ensino público, renda 1,5 SM.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos que se declararem não-negros e que tenham cursado todo o ensino médio e pelo menos quatro anos letivos do Ensino Fundamental em escola pública  (renda familiar de 1,5 salários mínimos per capita)', 'Não negros 1,5 SM', 'Não negros, ensino público, renda 1,5 SM.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos membros de comunidade quilombola e que tenham cursado todo o ensino médio e pelo menos quatro anos letivos do Ensino Fundamental em escola pública  (renda familiar de 1,5 salários mínimos per capita)', 'Quilombola 1,5 SM', 'Quilombola, ensino público, renda 1,5 SM.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos membros de grupos indígenas (aldeados) e que tenham cursado todo o ensino médio e pelo menos quatro anos letivos do Ensino Fundamental em escola pública  (renda familiar de 1,5 salários mínimos per capita)', 'Indígena aldeado 1,5 SM', 'Indígena aldeado, ensino público, renda 1,5 SM.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos membros de Comunidade Cigana que tenham cursado todo o ensino médio e pelo menos quatro anos letivos do Ensino Fundamental em escola pública  (renda familiar de 1,5 salários mínimos per capita)', 'Cigano 1,5 SM', 'Cigano, ensino público, renda 1,5 SM.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos Transsexuais, Travestis e Transgêneros que tenham cursado todo o ensino médio e pelo menos quatro anos letivos do Ensino Fundamental em escola pública  (renda familiar de 1,5 salários mínimos per capita)', 'Trans/travesti/gênero 1,5 SM', 'Trans/travesti/gênero, ensino público, renda 1,5 SM.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos com Deficiência que tenham cursado todo o ensino médio e pelo menos quatro anos letivos do Ensino Fundamental em escola pública  (renda familiar de 1,5 salários mínimos per capita)', 'PcD 1,5 SM', 'PcD, ensino público, renda 1,5 SM.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'que cursaram integralmente o Ensino Médio em Escola Pública/ESTUDANTES COM DEFICIÊNCIA', 'Estudantes PcD ensino público', 'Estudantes PcD, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'que cursaram integralmente o Ensino Médio em Escola Pública/ESTUDANTES NEGROS', 'Estudantes negros ensino público', 'Estudantes negros, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'que cursaram integralmente o Ensino Médio em Escola Pública/DEMAIS ESTUDANTES DE ESCOLA PÚBLICA', 'Outros ensino público', 'Demais estudantes, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'que cursaram integralmente o Ensino Médio em Escola Pública/ESTUDANTES INDÍGENAS', 'Estudantes indígenas ensino público', 'Estudantes indígenas, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos com deficiência', 'PcD', 'Candidatos PcD.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidato (s) autodeclarados negros (somatório das categorias pretos e pardos, segundo classificação étnico-racial adotada pelo IBGE) que tenham cursado o ensino fundamental 2 (do 6º ao 9º ano) e ensino medio completo ( incluindo os cursos técnicos com duração de 4 anos) ou ter realizado curso supletivo ou outra modalidade de ensino equivalente, em estabelecimento da Rede Pública de Ensino do Brasil. Vedado aos portadores de diploma de nível superior', 'Negros IBGE', 'Negros, critério IBGE.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidato (s) com procedência de no mínimo sete anos de estudos regulares ou que tenham realizado curso supletivo ou outra modalidade de ensino equivalente, em estabelecimento da Rede Pública de Ensino do Brasil, compreendendo parte do ensino fundamental (6º ao 9º ano) e Ensino Médio  completo (incluindo os cursos técnicos com duração de 4 anos) ou ter realizado curso supletivo ou outra modalidade de ensino equivalente.', 'Ensino público 7 anos', 'Ensino público mínimo 7 anos.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Cota Social - Pretos, Pardos e Indígenas (PPI)', 'Cota social PPI', 'Cota social: pretos, pardos, indígenas.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Pessoa com Deficiência (PcD)', 'PcD', 'Pessoa com deficiência.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Cota Social - Egresso de Escola Pública (EEP)', 'Cota social EEP', 'Cota social: egresso escola pública.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Ação Afirmativa 1 - Pessoas negras, quilombolas e indígenas que tenham cursado integralmente o Ensino Médio em escolas da rede pública de ensino, com renda per capita (mensal) de até um salário-mínimo e meio (1,5).', 'Ação Afirmativa 1', 'Negros, quilombolas e indígenas, escola pública, renda até 1,5 SM.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Ação Afirmativa 2 - Pessoas com deficiência que tenham cursado integralmente o Ensino Médio em escolas da rede pública de ensino, com renda per capita (mensal) de até um salário-mínimo e meio (1,5);', 'Ação Afirmativa 2', 'PcD, escola pública, renda até 1,5 SM.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Ação Afirmativa 3 - Pessoas que tenham cursado integralmente o Ensino Médio em escolas da rede pública de ensino, com renda per capita (mensal) de até um salário-mínimo e meio (1,5) e que não estejam concorrendo na forma das Ações Afirmativas 1 e 2.', 'Ação Afirmativa 3', 'Escola pública, renda até 1,5 SM, não incluídos nas anteriores.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos estudantes oriundos de Escolas Públicas integrantes da estrutura da Secretaria de Estado de Educação, unidade integrante do Governo do Estado ou Municípios, vinculadas pedagógica e administrativamente às respectivas Diretorias Regionais de Ensino', 'Secretaria Educação', 'Estudantes da Secretaria de Educação.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos estudantes oriundos de Escolas Públicas integrantes da estrutura da Secretaria de Estado de Educação, unidade integrante do Governo do Estado ou Municípios, vinculadas pedagógica e administrativamente às respectivas Diretorias Regionais de Ensino, com renda familiar de até 02 (dois) salários mínimos.', 'Secretaria Educação até 2 SM', 'Estudantes Secretaria de Educação, renda até 2 SM.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos estudantes oriundos de Escolas Públicas integrantes da estrutura da Secretaria de Estado de Educação, unidade integrante do Governo do Estado ou Municípios, vinculadas pedagógica e administrativamente às respectivas Diretorias Regionais de Ensino autodeclarados pretos ou pardos', 'Secretaria Educação negros/pardos', 'Negros/pardos da Secretaria de Educação.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Pessoas com deficiência e transtornos globais do desenvolvimento (PCD)', 'PcD TGD', 'PcD e transtornos globais do desenvolvimento.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Negros/as (Pretos/as ou Pardos/as) que cursaram integralmente o Ensino Médio em escolas públicas', 'Negros ensino público', 'Negros ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Indígenas que cursaram integralmente o Ensino Médio em escolas públicas', 'Indígenas ensino público', 'Indígenas ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'travestis, transexuais, transgêneras - transmasculinas, transfemininas e/ou trans não binárias, que tenham cursado o ensino médio integralmente em escola pública,', 'Trans/travestis ensino público', 'Travestis, trans, transgêneras, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'refugiados', 'Refugiados', 'Refugiados.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'pertencentes a povos de comunidades remanescentes de quilombos ou comunidades identitárias tradicionais, que tenham cursado integralmente o ensino médio em escolas públicas.', 'Quilombola/tradicional ensino público', 'Quilombolas/tradicionais ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'pertencentes a povos indígenas aldeados, que tenham cursado integralmente o ensino médio em escolas públicas.', 'Indígena aldeado ensino público', 'Indígenas aldeados ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'transexuais, travestis e transgêneros, que tenham cursado integralmente o ensino médio em escolas públicas.', 'Trans/travestis ensino público', 'Trans, travestis, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'pertencentes a povos de origem cigana, que tenham cursado integralmente o ensino médio em escolas públicas.', 'Cigano ensino público', 'Ciganos ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'em situação de privação de liberdade ou egressas do sistema prisional ou refugiadas, que tenham cursado integralmente o ensino médio em escolas públicas.', 'Privação/egresso/refugiado', 'Privação de liberdade, egresso sistema prisional ou refugiado, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'para a reserva de vagas para pessoas trans (travestis, transexuais, transgêneras - transmasculinas, transfemininas e/ou trans não binárias), que tenham cursado o ensino médio integralmente em escola pública', 'Reserva trans', 'Reserva vagas para trans/travestis/transgêneras, ensino público.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos egressos de escolas públicas da rede federal, estadual ou municipal, que cursaram os anos finais do Ensino Fundamental (6º ao 9º anos) e todo o Ensino Médio (1º ao 3º anos), com renda familiar bruta per capita igual ou inferior a 1 salário mínimo (corresponde ao estrato A1 e a 10% das vagas), devendo essa condição ser comprovada no ato da matrícula.', 'Egresso ensino público baixa renda', 'Egresso escola pública, baixa renda, comprovada.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos egressos de escolas públicas da rede federal, estadual ou municipal, que cursaram os anos finais do Ensino Fundamental (6º ao 9º anos) e todo o Ensino Médio (1º ao 3º anos), com qualquer renda renda per capita bruta (corresponde ao estrato A2 e a 10% das vagas), devendo essa condição ser comprovada no ato da matrícula.', 'Egresso ensino público qualquer renda', 'Egresso escola pública, qualquer renda, comprovada.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos Candidatos egressos de escolas públicas da rede federal, estadual ou municipal, que cursaram os anos finais do Ensino Fundamental (6º ao 9º anos) e todo o Ensino Médio (1º ao 3º anos), com renda familiar bruta per capita igual ou inferior a 1 salário mínimo, para estudantes autodeclarados (as) pretos(as), pardos(as), quilombolas ou indígenas (corresponde ao estrato A3 e a 10% das vagas), devendo essa condição ser analisada e aprovada por Comissão de Heteroidentificação, bem como comprovada no ato da matrícula.', 'Egresso público A3', 'Egresso público, renda baixa, negros/pardos/quilombolas/indígenas, com análise e comprovante.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Candidatos Candidatos egressos de escolas públicas da rede federal, estadual ou municipal, que cursaram os anos finais do Ensino Fundamental (6º ao 9º anos) e todo o Ensino Médio (1º ao 3º anos), com qualquer renda familiar bruta per capita, para estudantes autodeclarados (as) pretos(as), pardos(as), quilombolas ou indígenas (corresponde ao estrato A4 e a 10% das vagas), devendo essa condição ser analisada e aprovada por Comissão de Heteroidentificação, bem como comprovada no ato da matrícula.', 'Egresso público A4', 'Egresso público, qualquer renda, negros/pardos/quilombolas/indígenas, com análise e comprovante.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'Quilombolas', 'Quilombolas', 'Quilombolas.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'com deficiência oriundos da rede de ensino privada ou pública. Os candidatos oriundos da rede pública devem optar por concorrer à vaga desta ação afirmativa ou às vagas reservadas para os grupos de cotas estabelecidos na Lei nº 12.711/2012, não sendo permitida aplicação cumulativa.', 'PcD rede pública/privada', 'PcD de escola pública ou privada, escolha de vaga afirmativa.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'com deficiência (Denominada A1)', 'PcD A1', 'PcD, Ação afirmativa 1.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'autodeclarados Negros (Denominada A2)', 'Negros A2', 'Negros, Ação afirmativa 2.', 'system', v_out_message);
+    CALL app.usp_api_special_quota_create(v_quota_type_id, 'com Deficiência (Resolução CONAC/UFRB 117/2024)', 'PcD CONAC/UFRB', 'PcD, conforme Resolução CONAC/UFRB.', 'system', v_out_message);
+
+END
+$$;
+
+
