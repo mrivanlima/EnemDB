@@ -194,6 +194,29 @@ $$;
 
 
 
+DO $$
+DECLARE
+    rec RECORD;
+    v_out_message TEXT;
+BEGIN
+    FOR rec IN
+        SELECT DISTINCT ds_grau
+        FROM imp.vagas_ofertadas
+        WHERE ds_grau IS NOT NULL
+    LOOP
+        CALL app.usp_api_degree_level_create(
+            rec.ds_grau,
+            'system',
+            v_out_message
+        );
+        RAISE NOTICE 'Inserted degree level "%", result: %',
+            rec.ds_grau, v_out_message;
+    END LOOP;
+END;
+$$;
+
+
+
 
 
 
