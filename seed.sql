@@ -59,3 +59,28 @@ BEGIN
     END LOOP;
 END;
 $$;
+
+DO $$
+DECLARE
+    rec RECORD;
+    v_out_message TEXT;
+BEGIN
+    FOR rec IN
+        SELECT DISTINCT
+            co_ies AS university_code,
+            no_ies AS university_name,
+            sg_ies AS university_abbr
+        FROM imp.vagas_ofertadas
+        WHERE co_ies IS NOT NULL
+    LOOP
+        CALL app.usp_api_university_create(
+            rec.university_code,
+            rec.university_name,
+            rec.university_abbr,
+            'system',
+            v_out_message
+        );
+        RAISE NOTICE 'Inserted university_code %, result: %', rec.university_code, v_out_message;
+    END LOOP;
+END;
+$$;
