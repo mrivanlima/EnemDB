@@ -126,3 +126,45 @@ BEGIN
     END LOOP;
 END;
 $$;
+
+DO $$
+DECLARE
+    rec RECORD;
+    v_out_message TEXT;
+BEGIN
+    FOR rec IN
+        SELECT DISTINCT no_campus
+        FROM imp.vagas_ofertadas
+        WHERE no_campus IS NOT NULL
+    LOOP
+        CALL app.usp_api_university_campus_create(
+            rec.no_campus,
+            'system',
+            v_out_message
+        );
+        RAISE NOTICE 'Inserted university_campus "%", result: %',
+            rec.no_campus, v_out_message;
+    END LOOP;
+END;
+$$;
+
+DO $$
+DECLARE
+    rec RECORD;
+    v_out_message TEXT;
+BEGIN
+    FOR rec IN
+        SELECT DISTINCT ds_regiao
+        FROM imp.vagas_ofertadas
+        WHERE ds_regiao IS NOT NULL
+    LOOP
+        CALL app.usp_api_region_create(
+            rec.ds_regiao,
+            'system',
+            v_out_message
+        );
+        RAISE NOTICE 'Inserted region "%", result: %',
+            rec.ds_regiao, v_out_message;
+    END LOOP;
+END;
+$$;
