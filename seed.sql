@@ -552,4 +552,124 @@ BEGIN
 END
 $$;
 
+INSERT INTO app.offered_seats (
+    year_id,
+    university_id,
+    academic_organization_id,
+    university_category_id,
+    university_campus_id,
+    state_id,
+    city_id,
+    region_id,
+    degree_id,
+    degree_level_id,
+    shift_id,
+    frequency_id,
+    quota_type_id,
+    special_quota_id,
+    edition,
+    seats_authorized,
+    seats_offered,
+    score_bonus_percent,
+    num_semesters,
+    weight_essay,
+    min_score_essay,
+    weight_language,
+    min_score_language,
+    weight_math,
+    min_score_math,
+    weight_humanities,
+    min_score_humanities,
+    weight_sciences,
+    min_score_sciences,
+    min_avg_score_enem,
+    pct_state_ppi_ibge,
+    pct_state_pp_ibge,
+    pct_state_indigenous_ibge,
+    pct_state_quilombola_ibge,
+    pct_state_pcd_ibge,
+    pct_quota_law,
+    pct_quota_ppi,
+    pct_quota_pp,
+    pct_quota_indigenous,
+    pct_quota_quilombola,
+    pct_quota_pcd,
+    created_by
+)
+SELECT
+    y.year_id,
+    u.university_id,
+    ao.academic_organization_id,
+    uc.university_category_id,
+    ucamp.university_campus_id,
+    s.state_id,
+    c.city_id,
+    r.region_id,
+    d.degree_id,
+    dl.degree_level_id,
+    sh.shift_id,
+    f.frequency_id,
+    qt.quota_type_id,
+    sq.special_quota_id,
+    ivo.edicao,
+    ivo.nu_vagas_autorizadas,
+    ivo.qt_vagas_ofertadas,
+    ivo.nu_percentual_bonus,
+    ivo.qt_semestre,
+    ivo.peso_redacao,
+    ivo.nota_minima_redacao,
+    ivo.peso_linguagens,
+    ivo.nota_minima_linguagens,
+    ivo.peso_matematica,
+    ivo.nota_minima_matematica,
+    ivo.peso_ciencias_humanas,
+    ivo.nota_minima_ciencias_humanas,
+    ivo.peso_ciencias_natureza,
+    ivo.nota_minima_ciencias_natureza,
+    ivo.nu_media_minima_enem,
+    ivo.perc_uf_ibge_ppi,
+    ivo.perc_uf_ibge_pp,
+    ivo.perc_uf_ibge_i,
+    ivo.perc_uf_ibge_q,
+    ivo.perc_uf_ibge_pcd,
+    ivo.nu_perc_lei,
+    ivo.nu_perc_ppi,
+    ivo.nu_perc_pp,
+    ivo.nu_perc_i,
+    ivo.nu_perc_q,
+    ivo.nu_perc_pcd,
+    'system'
+FROM
+    imp.vagas_ofertadas ivo
+LEFT JOIN app.year y
+    ON y.year = ivo.edicao::integer
+LEFT JOIN app.university u
+    ON u.university_code = ivo.co_ies
+LEFT JOIN app.academic_organization ao
+    ON ao.academic_organization_name = ivo.ds_organizacao_academica
+LEFT JOIN app.university_category uc
+    ON uc.university_category_name = ivo.ds_categoria_adm
+LEFT JOIN app.university_campus ucamp
+    ON ucamp.university_campus_name = ivo.no_campus
+LEFT JOIN app.state s
+    ON s.state_abbr = ivo.sg_uf_campus
+LEFT JOIN app.city c
+    ON c.city_name = ivo.no_municipio_campus AND c.state_id = s.state_id
+LEFT JOIN app.region r
+    ON r.region_name = ivo.ds_regiao
+LEFT JOIN app.degree d
+    ON d.degree_name = ivo.no_curso
+LEFT JOIN app.degree_level dl
+    ON dl.degree_level_name = ivo.ds_grau
+LEFT JOIN app.shift sh
+    ON sh.shift_name = ivo.ds_turno
+LEFT JOIN app.frequency f
+    ON f.frequency_name = ivo.ds_periodicidade
+LEFT JOIN app.quota_type qt
+    ON qt.quota_type_code = ivo.tp_cota
+LEFT JOIN app.special_quota sq
+    ON sq.special_quota_desc_short = ivo.ds_mod_concorrencia
+;
+
+
 
