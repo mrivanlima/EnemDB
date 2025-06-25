@@ -215,6 +215,49 @@ BEGIN
 END;
 $$;
 
+DO $$
+DECLARE
+    rec RECORD;
+    v_out_message TEXT;
+BEGIN
+    FOR rec IN
+        SELECT DISTINCT ds_turno
+        FROM imp.vagas_ofertadas
+        WHERE ds_turno IS NOT NULL
+    LOOP
+        CALL app.usp_api_shift_create(
+            rec.ds_turno,
+            'system',
+            v_out_message
+        );
+        RAISE NOTICE 'Inserted shift "%", result: %',
+            rec.ds_turno, v_out_message;
+    END LOOP;
+END;
+$$;
+
+DO $$
+DECLARE
+    rec RECORD;
+    v_out_message TEXT;
+BEGIN
+    FOR rec IN
+        SELECT DISTINCT ds_periodicidade
+        FROM imp.vagas_ofertadas
+        WHERE ds_periodicidade IS NOT NULL
+    LOOP
+        CALL app.usp_api_frequency_create(
+            rec.ds_periodicidade,
+            'system',
+            v_out_message
+        );
+        RAISE NOTICE 'Inserted frequency "%", result: %',
+            rec.ds_periodicidade, v_out_message;
+    END LOOP;
+END;
+$$;
+
+
 
 
 
