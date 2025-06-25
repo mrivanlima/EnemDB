@@ -105,3 +105,24 @@ BEGIN
     END LOOP;
 END;
 $$;
+
+DO $$
+DECLARE
+    rec RECORD;
+    v_out_message TEXT;
+BEGIN
+    FOR rec IN
+        SELECT DISTINCT ds_categoria_adm
+        FROM imp.vagas_ofertadas
+        WHERE ds_categoria_adm IS NOT NULL
+    LOOP
+        CALL app.usp_api_university_category_create(
+            rec.ds_categoria_adm,
+            'system',
+            v_out_message
+        );
+        RAISE NOTICE 'Inserted university_category "%", result: %',
+            rec.ds_categoria_adm, v_out_message;
+    END LOOP;
+END;
+$$;
