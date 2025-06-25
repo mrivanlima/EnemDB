@@ -36,3 +36,26 @@ INSERT INTO app.account (
 );
 
 CALL app.usp_seed();
+
+
+
+DO $$
+DECLARE
+    rec RECORD;
+    v_out_message TEXT;
+BEGIN
+    FOR rec IN 
+        SELECT DISTINCT edicao FROM imp.vagas_ofertadas
+        WHERE edicao IS NOT NULL
+    LOOP
+        CALL app.usp_api_year_create(
+            rec.edicao::SMALLINT,     -- p_year (cast if needed)
+            'system',                 -- p_created_by
+            v_out_message,            -- OUT parameter
+            rec.edicao                -- p_year_name
+        );
+        -- Optionally print/log result:
+        RAISE NOTICE 'Inserted year %, result: %', rec.edicao, v_out_message;
+    END LOOP;
+END;
+$$;
