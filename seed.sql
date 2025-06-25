@@ -168,3 +168,89 @@ BEGIN
     END LOOP;
 END;
 $$;
+
+
+
+DO $$
+DECLARE
+    rec RECORD;
+    v_out_message TEXT;
+BEGIN
+    FOR rec IN
+        SELECT DISTINCT no_curso
+        FROM imp.vagas_ofertadas
+        WHERE no_curso IS NOT NULL
+    LOOP
+        CALL app.usp_api_degree_create(
+            rec.no_curso,
+            'system',
+            v_out_message
+        );
+        RAISE NOTICE 'Inserted degree "%", result: %',
+            rec.no_curso, v_out_message;
+    END LOOP;
+END;
+$$;
+
+
+
+
+
+
+
+
+TRUNCATE TABLE app.state RESTART IDENTITY CASCADE;
+TRUNCATE TABLE app.region RESTART IDENTITY CASCADE;
+
+-- Insert all regions of Brazil
+INSERT INTO app.region (region_name, region_name_friendly, created_by, created_on)
+VALUES
+('Norte',     unaccent('Norte'),     'system', NOW()),
+('Nordeste',  unaccent('Nordeste'),  'system', NOW()),
+('Centro-Oeste', unaccent('Centro-Oeste'), 'system', NOW()),
+('Sudeste',   unaccent('Sudeste'),   'system', NOW()),
+('Sul',       unaccent('Sul'),       'system', NOW());
+
+-- Insert all states of Brazil, assuming region_id mapping:
+-- 1=Norte, 2=Nordeste, 3=Centro-Oeste, 4=Sudeste, 5=Sul
+
+INSERT INTO app.state (
+    region_id, state_abbr, state_name, state_name_friendly, created_by, created_on
+)
+VALUES
+-- Norte
+(1, 'AC', 'Acre',         unaccent('Acre'),         'system', NOW()),
+(1, 'AP', 'Amapá',        unaccent('Amapá'),        'system', NOW()),
+(1, 'AM', 'Amazonas',     unaccent('Amazonas'),     'system', NOW()),
+(1, 'PA', 'Pará',         unaccent('Pará'),         'system', NOW()),
+(1, 'RO', 'Rondônia',     unaccent('Rondônia'),     'system', NOW()),
+(1, 'RR', 'Roraima',      unaccent('Roraima'),      'system', NOW()),
+(1, 'TO', 'Tocantins',    unaccent('Tocantins'),    'system', NOW()),
+
+-- Nordeste
+(2, 'AL', 'Alagoas',      unaccent('Alagoas'),      'system', NOW()),
+(2, 'BA', 'Bahia',        unaccent('Bahia'),        'system', NOW()),
+(2, 'CE', 'Ceará',        unaccent('Ceará'),        'system', NOW()),
+(2, 'MA', 'Maranhão',     unaccent('Maranhão'),     'system', NOW()),
+(2, 'PB', 'Paraíba',      unaccent('Paraíba'),      'system', NOW()),
+(2, 'PE', 'Pernambuco',   unaccent('Pernambuco'),   'system', NOW()),
+(2, 'PI', 'Piauí',        unaccent('Piauí'),        'system', NOW()),
+(2, 'RN', 'Rio Grande do Norte', unaccent('Rio Grande do Norte'), 'system', NOW()),
+(2, 'SE', 'Sergipe',      unaccent('Sergipe'),      'system', NOW()),
+
+-- Centro-Oeste
+(3, 'DF', 'Distrito Federal', unaccent('Distrito Federal'), 'system', NOW()),
+(3, 'GO', 'Goiás',        unaccent('Goiás'),        'system', NOW()),
+(3, 'MT', 'Mato Grosso',  unaccent('Mato Grosso'),  'system', NOW()),
+(3, 'MS', 'Mato Grosso do Sul', unaccent('Mato Grosso do Sul'), 'system', NOW()),
+
+-- Sudeste
+(4, 'ES', 'Espírito Santo', unaccent('Espírito Santo'), 'system', NOW()),
+(4, 'MG', 'Minas Gerais',  unaccent('Minas Gerais'), 'system', NOW()),
+(4, 'RJ', 'Rio de Janeiro', unaccent('Rio de Janeiro'), 'system', NOW()),
+(4, 'SP', 'São Paulo',     unaccent('São Paulo'),   'system', NOW()),
+
+-- Sul
+(5, 'PR', 'Paraná',       unaccent('Paraná'),       'system', NOW()),
+(5, 'RS', 'Rio Grande do Sul', unaccent('Rio Grande do Sul'), 'system', NOW()),
+(5, 'SC', 'Santa Catarina', unaccent('Santa Catarina'), 'system', NOW());
