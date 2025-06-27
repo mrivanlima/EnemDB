@@ -1,5 +1,5 @@
-CREATE TABLE app.offered_seats (
-    offered_seats_id            SERIAL,
+CREATE TABLE app.seats (
+    seats_id                     SERIAL,
     year_id                     INTEGER,
     university_id               INTEGER,
     academic_organization_id    INTEGER,
@@ -15,10 +15,11 @@ CREATE TABLE app.offered_seats (
     quota_type_id               INTEGER,
     special_quota_id            INTEGER,
     edition                     TEXT,
+    score_bonus_percent         NUMERIC(5,2) NULL,
+    seats_offered               INTEGER NULL,   
+    cutoff_score                NUMERIC(6,2) NULL, 
+    num_applicants              INTEGER NULL,
     seats_authorized            INTEGER,
-    seats_offered               INTEGER,
-    score_bonus_percent         NUMERIC(5,2),
-    num_semesters               INTEGER,
     weight_essay                NUMERIC(5,2),
     min_score_essay             NUMERIC(5,2),
     weight_language             NUMERIC(5,2),
@@ -47,7 +48,7 @@ CREATE TABLE app.offered_seats (
     modified_on                 TIMESTAMP,
 
     -- Constraints
-    CONSTRAINT pk_offered_seats PRIMARY KEY (offered_seats_id),
+    CONSTRAINT pk_offered_seats PRIMARY KEY (seats_id),
     CONSTRAINT fk_offered_seats_year FOREIGN KEY (year_id) REFERENCES app.year(year_id),
     CONSTRAINT fk_offered_seats_university FOREIGN KEY (university_id) REFERENCES app.university(university_id),
     CONSTRAINT fk_offered_seats_academic_org FOREIGN KEY (academic_organization_id) REFERENCES app.academic_organization(academic_organization_id),
