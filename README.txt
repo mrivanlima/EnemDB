@@ -267,3 +267,31 @@ Upload this README before a session so the assistant understands the data wareho
 
 Update as schema changes—add or alter table/column summaries as needed.
 
+
+
+Recommended Next Table Options
+1. User/Account Profile Extension
+If you want to track user details beyond account_id (name, school, city, gender, birthdate, etc.).
+
+Example: app.account_profile
+
+2. Exam Catalog Table
+Normalize all official exams you might support (for ENEM, “exam_year”, “title”, “reference”, etc.).
+
+Example: app.exam
+
+3. Subject/Skill Dictionary
+A table to hold all valid subject areas or skills for normalization/reference (enables mapping, better reporting, filtering, and translation).
+
+Example: app.subject_area, app.skill
+
+4. Question Analytics Table
+Aggregate statistics: percent correct, usage, etc.—for dashboards and adaptive learning.
+
+Example: app.question_stats
+
+5. Import/Source Control
+Track data loads from ENEM microdata, PDF versions, etc. Useful for data lineage/auditing.
+
+Example: app.data_import_control
+
