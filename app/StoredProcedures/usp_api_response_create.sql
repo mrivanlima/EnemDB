@@ -4,10 +4,10 @@ CREATE OR REPLACE PROCEDURE app.usp_api_response_create (
     IN  p_question_id           INTEGER,
     IN  p_alternative_id        INTEGER,
     IN  p_is_correct            BOOLEAN,
+     IN  p_created_by           TEXT,
+    OUT out_message             TEXT,
     IN  p_flag_for_review       BOOLEAN DEFAULT FALSE,
-    IN  p_notes                 TEXT DEFAULT NULL,
-    IN  p_created_by            TEXT,
-    OUT out_message             TEXT
+    IN  p_notes                 TEXT DEFAULT NULL
 )
 LANGUAGE plpgsql
 AS $$

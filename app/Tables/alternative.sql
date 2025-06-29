@@ -1,4 +1,4 @@
-CREATE TABLE app.alternative (
+CREATE TABLE IF NOT EXISTS app.alternative (
     alternative_id           SERIAL,
     question_id              INTEGER NOT NULL,
     option_letter            TEXT NOT NULL,
@@ -8,15 +8,17 @@ CREATE TABLE app.alternative (
     image_url                TEXT,
     notes                    TEXT,
     notes_friendly           TEXT,
-    created_by               TEXT NOT NULL,
+    created_by               INTEGER NOT NULL,
     created_on               TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    modified_by              TEXT,
+    modified_by              INTEGER,
     modified_on              TIMESTAMPTZ,
     is_active                BOOLEAN NOT NULL DEFAULT TRUE,
 
     -- Constraints (all named)
     CONSTRAINT pk_alternative_id PRIMARY KEY (alternative_id),
     CONSTRAINT fk_alternative_question_id FOREIGN KEY (question_id) REFERENCES app.question (question_id) ON DELETE CASCADE,
+    CONSTRAINT fk_alternative_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_alternative_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
     CONSTRAINT uq_alternative_per_question UNIQUE (question_id, option_letter)
 );
 
@@ -33,8 +35,8 @@ COMMENT ON COLUMN app.alternative.is_correct IS 'TRUE if this is the correct ans
 COMMENT ON COLUMN app.alternative.image_url IS 'URL for associated image (if any).';
 COMMENT ON COLUMN app.alternative.notes IS 'Notes or comments about the alternative.';
 COMMENT ON COLUMN app.alternative.notes_friendly IS 'Normalized notes for search.';
-COMMENT ON COLUMN app.alternative.created_by IS 'Record creator.';
+COMMENT ON COLUMN app.alternative.created_by IS 'FK to app.user_login; record creator.';
 COMMENT ON COLUMN app.alternative.created_on IS 'Creation timestamp.';
-COMMENT ON COLUMN app.alternative.modified_by IS 'Last modifier.';
+COMMENT ON COLUMN app.alternative.modified_by IS 'FK to app.user_login; last modifier.';
 COMMENT ON COLUMN app.alternative.modified_on IS 'Modification timestamp.';
 COMMENT ON COLUMN app.alternative.is_active IS 'Active/archive flag.';

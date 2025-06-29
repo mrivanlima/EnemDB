@@ -1,92 +1,101 @@
------------------------------------------------------------------
---Create procedure to add new user login
------------------------------------------------------------------
-DROP PROCEDURE IF EXISTS app.usp_api_account_create;
-CREATE OR REPLACE PROCEDURE app.usp_api_account_create(
-    OUT p_out_user_id INTEGER,
-	OUT p_out_message VARCHAR(100),
-    IN p_user_unique_id uuid,
-    IN p_username VARCHAR(100),
-    IN p_email VARCHAR(100),
-    IN p_password_hash VARCHAR(100),
-    IN p_password_salt VARCHAR(100),
-    IN p_is_verified BOOLEAN DEFAULT FALSE,
-    IN p_is_active BOOLEAN DEFAULT TRUE,
-    IN p_is_locked BOOLEAN DEFAULT FALSE,
-    IN p_password_attempts SMALLINT DEFAULT 0,
-    IN p_changed_initial_password BOOLEAN DEFAULT TRUE,
-    IN p_locked_time TIMESTAMPTZ DEFAULT NULL,
-    IN p_created_by INTEGER DEFAULT NULL,
-    IN p_modified_by INTEGER DEFAULT NULL,
-    INOUT p_error BOOLEAN DEFAULT FALSE
+CREATE OR REPLACE PROCEDURE app.usp_api_account_create (
+    IN  p_email             CITEXT,
+    IN  p_password_hash     TEXT,
+    IN  p_created_by        TEXT,
+    OUT out_message         TEXT
 )
+LANGUAGE plpgsql
 AS $$
 DECLARE
-    l_context TEXT;
+    v_exists       INTEGER;
+    v_account_id   INTEGER;
+    v_command      TEXT;
+    v_error_message TEXT;
+    v_error_code    TEXT;
 BEGIN
+    -- VALIDATIONS
+    IF p_email IS NULL OR length(trim(p_email)) = 0 THEN
+        out_message := 'Validation failed: email cannot be empty.';
+        RETURN;
+    END IF;
+
+    IF p_created_by IS NULL OR length(trim(p_created_by)) = 0 THEN
+        out_message := 'Validation failed: created_by cannot be empty.';
+        RETURN;
+    END IF;
+
+    -- Email format check (duplicate of table CHECK, but for early error)
+    IF NOT (p_email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$') THEN
+        out_message := 'Validation failed: email format is invalid.';
+        RETURN;
+    END IF;
+
+    -- Enforce unique active email (ignore soft-deleted, allow re-use if only soft-deleted exists)
+    SELECT account_id INTO v_exists FROM app.account
+     WHERE email = p_email AND is_active = TRUE;
+    IF FOUND THEN
+        out_message := format('Validation failed: An active account with email "%s" already exists.', p_email);
+        RETURN;
+    END IF;
+
+    -- DML & ERROR LOGGING
     BEGIN
-        p_username := TRIM(p_username);
-
-		IF EXISTS (SELECT 1 FROM app.account WHERE username = p_username) THEN
-	        p_out_message := 'Usuario ja registrado!';
-            p_error = TRUE;
-            RETURN;
-	        -- RAISE EXCEPTION USING MESSAGE = p_out_message;
-    	END IF;
-
-        -- Insert the new user login record into the app.account table
         INSERT INTO app.account (
-            user_unique_id,
-            username,
             email,
             password_hash,
-            password_salt,
-            is_verified,
+            is_email_verified,
             is_active,
-            is_locked,
-            password_attempts,
-            changed_initial_password,
-            locked_time,
+            soft_deleted_at,
             created_by,
             created_on,
             modified_by,
             modified_on
-        )
-        VALUES 
-        (
-            p_user_unique_id,
-            p_username,
+        ) VALUES (
             p_email,
             p_password_hash,
-            p_password_salt,
-            COALESCE(p_is_verified, FALSE),
-            COALESCE(p_is_active, FALSE),
-            COALESCE(p_is_locked, FALSE),
-            COALESCE(p_password_attempts, 0),
-            p_changed_initial_password,
-            p_locked_time,
+            FALSE,     -- is_email_verified at creation
+            TRUE,      -- is_active
+            NULL,      -- soft_deleted_at
             p_created_by,
-            DEFAULT,  -- Use default for created_on
-            p_modified_by,
-            DEFAULT   -- Use default for modified_on
-        ) RETURNING user_id INTO p_out_user_id;
+            NOW(),
+            NULL,
+            NULL
+        )
+        RETURNING account_id INTO v_account_id;
 
-        EXCEPTION
+        out_message := format('OK (account_id=%s)', v_account_id);
+        RETURN;
+
+    EXCEPTION
         WHEN OTHERS THEN
-            p_error := TRUE;
-            GET STACKED DIAGNOSTICS l_context = PG_EXCEPTION_CONTEXT;
-            INSERT INTO app.error_log 
-            (
-                error_message, 
-                error_code, 
-                error_line
-            )
-            VALUES 
-            (
-                SQLERRM, 
-                SQLSTATE, 
-                l_context
+            v_command := format(
+                'CALL app.usp_api_account_create(%L, %L, %L, out_message)',
+                p_email,
+                COALESCE(p_password_hash, 'NULL'),
+                p_created_by
             );
+            v_error_message := SQLERRM;
+            v_error_code := SQLSTATE;
+            -- Error log pattern matches your example, add table if not present
+            INSERT INTO app.error_log (
+                table_name,
+                process,
+                operation,
+                command,
+                error_message,
+                error_code,
+                user_name
+            ) VALUES (
+                'account',
+                'app.usp_api_account_create',
+                'INSERT',
+                v_command,
+                v_error_message,
+                v_error_code,
+                p_created_by
+            );
+            out_message := format('Error during insert: %s', v_error_message);
+            RETURN;
     END;
 END;
-$$ LANGUAGE plpgsql;
+$$;

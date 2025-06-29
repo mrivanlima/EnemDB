@@ -3,13 +3,14 @@ CREATE OR REPLACE PROCEDURE app.usp_api_exam_attempt_create (
     IN  p_exam_year              INTEGER,
     IN  p_booklet_color          TEXT,
     IN  p_test_day_number        INTEGER,
+    IN  p_created_by             TEXT,
+    OUT out_message              TEXT,
     IN  p_started_on             TIMESTAMPTZ DEFAULT NOW(),
     IN  p_finished_on            TIMESTAMPTZ DEFAULT NULL,
     IN  p_score                  NUMERIC DEFAULT NULL,
     IN  p_is_simulation          BOOLEAN DEFAULT FALSE,
-    IN  p_notes                  TEXT DEFAULT NULL,
-    IN  p_created_by             TEXT,
-    OUT out_message              TEXT
+    IN  p_notes                  TEXT DEFAULT NULL
+    
 )
 LANGUAGE plpgsql
 AS $$

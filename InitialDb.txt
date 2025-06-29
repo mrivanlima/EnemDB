@@ -1,0 +1,1002 @@
+CREATE TABLE IF NOT EXISTS app.user_login (
+    user_login_id         SERIAL,
+    email                 CITEXT NOT NULL,
+    password_hash         TEXT,
+    is_email_verified     BOOLEAN NOT NULL DEFAULT FALSE,
+    is_active             BOOLEAN NOT NULL DEFAULT TRUE,
+    soft_deleted_at       TIMESTAMPTZ,
+    created_by            INTEGER NOT NULL,
+    created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by           INTEGER,
+    modified_on           TIMESTAMPTZ,
+
+    -- Constraints (all named)
+    CONSTRAINT pk_user_login_id PRIMARY KEY (user_login_id),
+    CONSTRAINT uq_user_login_email UNIQUE (email)
+);
+
+-- Table comment
+COMMENT ON TABLE app.user_login IS 'Stores primary authentication details for all users. Uses email as unique login.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.user_login.user_login_id IS 'Primary key.';
+COMMENT ON COLUMN app.user_login.email IS 'User email, unique, case-insensitive.';
+COMMENT ON COLUMN app.user_login.password_hash IS 'BCrypt (or similar) hash of password. NULL for Google-only accounts.';
+COMMENT ON COLUMN app.user_login.is_email_verified IS 'TRUE if the email was verified by user.';
+COMMENT ON COLUMN app.user_login.is_active IS 'FALSE for deactivated/soft-deleted accounts.';
+COMMENT ON COLUMN app.user_login.soft_deleted_at IS 'Timestamp of soft deletion, if any.';
+COMMENT ON COLUMN app.user_login.created_by IS 'FK to app.user_login; record creator (system or admin).';
+COMMENT ON COLUMN app.user_login.created_on IS 'Creation timestamp.';
+COMMENT ON COLUMN app.user_login.modified_by IS 'FK to app.user_login; last modifier (system or admin).';
+COMMENT ON COLUMN app.user_login.modified_on IS 'Modification timestamp.';
+
+CREATE TABLE IF NOT EXISTS app.year (
+    year_id              SERIAL,
+    year                 SMALLINT NOT NULL,
+    year_name            TEXT NOT NULL,
+    year_name_friendly   TEXT NOT NULL,
+    created_by           INTEGER NOT NULL,
+    created_on           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by          INTEGER,
+    modified_on          TIMESTAMPTZ,
+
+    -- Constraints (all named)
+    CONSTRAINT pk_year_id PRIMARY KEY (year_id),
+    CONSTRAINT uq_year UNIQUE (year),
+    CONSTRAINT uq_year_name UNIQUE (year_name),
+    CONSTRAINT uq_year_name_friendly UNIQUE (year_name_friendly),
+    CONSTRAINT fk_year_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_year_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.year IS 'Stores exam years with friendly names and audit information.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.year.year_id IS 'Primary key.';
+COMMENT ON COLUMN app.year.year IS 'Year number (e.g., 2024).';
+COMMENT ON COLUMN app.year.year_name IS 'Official year name.';
+COMMENT ON COLUMN app.year.year_name_friendly IS 'User-friendly year name for display.';
+COMMENT ON COLUMN app.year.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.year.created_on IS 'Timestamp when the record was created.';
+COMMENT ON COLUMN app.year.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.year.modified_on IS 'Timestamp of the last modification.';
+
+CREATE TABLE IF NOT EXISTS app.region (
+    region_id               SERIAL,
+    region_name             TEXT NOT NULL,
+    region_name_friendly    TEXT NOT NULL,
+    created_by              INTEGER NOT NULL,
+    created_on              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by             INTEGER,
+    modified_on             TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_region_id PRIMARY KEY (region_id),
+    CONSTRAINT uq_region_name UNIQUE (region_name),
+    CONSTRAINT uq_region_name_friendly UNIQUE (region_name_friendly),
+    CONSTRAINT fk_region_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_region_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.region IS 'Represents geographic or administrative regions, with friendly names and audit trail.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.region.region_id IS 'Primary key.';
+COMMENT ON COLUMN app.region.region_name IS 'Official region name (unique).';
+COMMENT ON COLUMN app.region.region_name_friendly IS 'User-friendly or display name for the region (unique).';
+COMMENT ON COLUMN app.region.created_by IS 'FK to app.user_login; identifies the user who created this record.';
+COMMENT ON COLUMN app.region.created_on IS 'Timestamp when the region record was created.';
+COMMENT ON COLUMN app.region.modified_by IS 'FK to app.user_login; identifies the user who last modified this record.';
+COMMENT ON COLUMN app.region.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.degree_level (
+    degree_level_id               SERIAL,
+    degree_level_name             TEXT NOT NULL,
+    degree_level_name_friendly    TEXT NOT NULL,
+    created_by                    INTEGER NOT NULL,
+    created_on                    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by                   INTEGER,
+    modified_on                   TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_degree_level_id PRIMARY KEY (degree_level_id),
+    CONSTRAINT uq_degree_level_name UNIQUE (degree_level_name),
+    CONSTRAINT uq_degree_level_name_friendly UNIQUE (degree_level_name_friendly),
+    CONSTRAINT fk_degree_level_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_degree_level_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.degree_level IS 'Represents possible academic degree levels (e.g., Bachelor, Master, Doctorate), supporting unique friendly names and audit fields.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.degree_level.degree_level_id IS 'Primary key.';
+COMMENT ON COLUMN app.degree_level.degree_level_name IS 'Official name of the degree level (unique).';
+COMMENT ON COLUMN app.degree_level.degree_level_name_friendly IS 'User-friendly display name for the degree level (unique).';
+COMMENT ON COLUMN app.degree_level.created_by IS 'FK to app.user_login; identifies the user who created this record.';
+COMMENT ON COLUMN app.degree_level.created_on IS 'Timestamp when the degree level record was created.';
+COMMENT ON COLUMN app.degree_level.modified_by IS 'FK to app.user_login; identifies the user who last modified this record.';
+COMMENT ON COLUMN app.degree_level.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.degree (
+    degree_id               SERIAL,
+    degree_name             TEXT NOT NULL,
+    degree_name_friendly    TEXT NOT NULL,
+    created_by              INTEGER NOT NULL,
+    created_on              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by             INTEGER,
+    modified_on             TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_degree_id PRIMARY KEY (degree_id),
+    CONSTRAINT uq_degree_name UNIQUE (degree_name),
+    CONSTRAINT uq_degree_name_friendly UNIQUE (degree_name_friendly),
+    CONSTRAINT fk_degree_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_degree_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.degree IS 'Represents specific academic degrees (e.g., Bachelor of Science, Master of Arts), with unique friendly names and full audit fields.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.degree.degree_id IS 'Primary key.';
+COMMENT ON COLUMN app.degree.degree_name IS 'Official name of the academic degree (unique).';
+COMMENT ON COLUMN app.degree.degree_name_friendly IS 'User-friendly display name for the degree (unique).';
+COMMENT ON COLUMN app.degree.created_by IS 'FK to app.user_login; identifies the user who created this record.';
+COMMENT ON COLUMN app.degree.created_on IS 'Timestamp when the degree record was created.';
+COMMENT ON COLUMN app.degree.modified_by IS 'FK to app.user_login; identifies the user who last modified this record.';
+COMMENT ON COLUMN app.degree.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.frequency (
+    frequency_id               SERIAL,
+    frequency_name             TEXT NOT NULL,
+    frequency_name_friendly    TEXT NOT NULL,
+    created_by                 INTEGER NOT NULL,
+    created_on                 TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by                INTEGER,
+    modified_on                TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_frequency_id PRIMARY KEY (frequency_id),
+    CONSTRAINT uq_frequency_name UNIQUE (frequency_name),
+    CONSTRAINT uq_frequency_name_friendly UNIQUE (frequency_name_friendly),
+    CONSTRAINT fk_frequency_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_frequency_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.frequency IS 'Represents possible frequency values for scheduling, attendance, or reporting (e.g., daily, weekly), with friendly names and audit fields.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.frequency.frequency_id IS 'Primary key.';
+COMMENT ON COLUMN app.frequency.frequency_name IS 'Official name of the frequency (unique).';
+COMMENT ON COLUMN app.frequency.frequency_name_friendly IS 'User-friendly display name for the frequency (unique).';
+COMMENT ON COLUMN app.frequency.created_by IS 'FK to app.user_login; identifies the user who created this record.';
+COMMENT ON COLUMN app.frequency.created_on IS 'Timestamp when the frequency record was created.';
+COMMENT ON COLUMN app.frequency.modified_by IS 'FK to app.user_login; identifies the user who last modified this record.';
+COMMENT ON COLUMN app.frequency.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.shift (
+    shift_id                SERIAL,
+    shift_name              TEXT NOT NULL,
+    shift_name_friendly     TEXT NOT NULL,
+    created_by              INTEGER NOT NULL,
+    created_on              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by             INTEGER,
+    modified_on             TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_shift_id PRIMARY KEY (shift_id),
+    CONSTRAINT uq_shift_name UNIQUE (shift_name),
+    CONSTRAINT uq_shift_name_friendly UNIQUE (shift_name_friendly),
+    CONSTRAINT fk_shift_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_shift_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.shift IS 'Defines academic shift or session types (e.g., morning, evening) with friendly names and audit information.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.shift.shift_id IS 'Primary key.';
+COMMENT ON COLUMN app.shift.shift_name IS 'Official name of the shift (unique).';
+COMMENT ON COLUMN app.shift.shift_name_friendly IS 'User-friendly display name for the shift (unique).';
+COMMENT ON COLUMN app.shift.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.shift.created_on IS 'Timestamp when the record was created.';
+COMMENT ON COLUMN app.shift.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.shift.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.quota_type (
+    quota_type_id            SERIAL,
+    quota_type_code          TEXT NOT NULL,
+    quota_type_desc_pt       TEXT NOT NULL,
+    quota_type_desc_short_pt TEXT NOT NULL,
+    quota_explain            TEXT NOT NULL,
+    created_by               INTEGER NOT NULL DEFAULT 1,  -- system user_login_id or assign as needed
+    created_on               TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by              INTEGER,
+    modified_on              TIMESTAMPTZ,
+    CONSTRAINT pk_quota_type_id PRIMARY KEY (quota_type_id),
+    CONSTRAINT uq_quota_type_code UNIQUE (quota_type_code),
+    CONSTRAINT uq_quota_type_short UNIQUE (quota_type_desc_short_pt),
+    CONSTRAINT fk_quota_type_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_quota_type_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.quota_type IS 'Defines quota or affirmative action types, with detailed and short Portuguese descriptions, explanation, and audit fields.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.quota_type.quota_type_id IS 'Primary key.';
+COMMENT ON COLUMN app.quota_type.quota_type_code IS 'Unique code identifying the quota type.';
+COMMENT ON COLUMN app.quota_type.quota_type_desc_pt IS 'Full description of the quota type in Portuguese.';
+COMMENT ON COLUMN app.quota_type.quota_type_desc_short_pt IS 'Short description of the quota type in Portuguese.';
+COMMENT ON COLUMN app.quota_type.quota_explain IS 'Text explanation of how this quota type works.';
+COMMENT ON COLUMN app.quota_type.created_by IS 'FK to app.user_login; user who created this record (default: system).';
+COMMENT ON COLUMN app.quota_type.created_on IS 'Timestamp when the record was created.';
+COMMENT ON COLUMN app.quota_type.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.quota_type.modified_on IS 'Timestamp of last modification.';
+
+CREATE TABLE IF NOT EXISTS app.special_quota (
+    special_quota_id         SERIAL,
+    quota_type_id            INTEGER NOT NULL,
+    special_quota_desc_pt    TEXT NOT NULL,
+    special_quota_desc_short TEXT NOT NULL,
+    quota_explain            TEXT NOT NULL,
+    created_by               INTEGER NOT NULL DEFAULT 1,  -- system user_login_id or adjust as needed
+    created_on               TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by              INTEGER,
+    modified_on              TIMESTAMPTZ,
+
+    CONSTRAINT pk_special_quota_id PRIMARY KEY (special_quota_id),
+    CONSTRAINT fk_special_quota_quota_type_id FOREIGN KEY (quota_type_id) REFERENCES app.quota_type (quota_type_id),
+    CONSTRAINT uq_special_quota_desc_short UNIQUE (special_quota_desc_short),
+    CONSTRAINT fk_special_quota_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_special_quota_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.special_quota IS 'Defines special quota categories linked to quota types, with descriptions, explanations, and audit fields.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.special_quota.special_quota_id IS 'Primary key.';
+COMMENT ON COLUMN app.special_quota.quota_type_id IS 'FK to app.quota_type; the parent quota type.';
+COMMENT ON COLUMN app.special_quota.special_quota_desc_pt IS 'Full Portuguese description of the special quota.';
+COMMENT ON COLUMN app.special_quota.special_quota_desc_short IS 'Short Portuguese description, unique.';
+COMMENT ON COLUMN app.special_quota.quota_explain IS 'Explanation of the special quota rules or usage.';
+COMMENT ON COLUMN app.special_quota.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.special_quota.created_on IS 'Timestamp when the record was created.';
+COMMENT ON COLUMN app.special_quota.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.special_quota.modified_on IS 'Timestamp of last modification.';
+
+CREATE TABLE IF NOT EXISTS app.university_category (
+    university_category_id             SERIAL,
+    university_category_name           TEXT NOT NULL,
+    university_category_name_friendly  TEXT NOT NULL,
+    created_by                         INTEGER NOT NULL,
+    created_on                         TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by                        INTEGER,
+    modified_on                        TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_university_category_id PRIMARY KEY (university_category_id),
+    CONSTRAINT uq_university_category_name UNIQUE (university_category_name),
+    CONSTRAINT uq_university_category_name_friendly UNIQUE (university_category_name_friendly),
+    CONSTRAINT fk_university_category_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_university_category_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.university_category IS 'Defines categories/types of universities with friendly names and audit fields.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.university_category.university_category_id IS 'Primary key.';
+COMMENT ON COLUMN app.university_category.university_category_name IS 'Official name of the university category (unique).';
+COMMENT ON COLUMN app.university_category.university_category_name_friendly IS 'User-friendly display name for the university category (unique).';
+COMMENT ON COLUMN app.university_category.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.university_category.created_on IS 'Timestamp when the record was created.';
+COMMENT ON COLUMN app.university_category.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.university_category.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.state (
+    state_id               SERIAL,
+    region_id              INT NOT NULL,
+    state_abbr             TEXT NOT NULL,
+    state_name             TEXT NOT NULL,
+    state_name_friendly    TEXT NOT NULL,
+    created_by             INTEGER NOT NULL,
+    created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by            INTEGER,
+    modified_on            TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_state_id PRIMARY KEY (state_id),
+    CONSTRAINT fk_state_region_id FOREIGN KEY (region_id) REFERENCES app.region(region_id),
+    CONSTRAINT fk_state_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_state_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT uq_state_abbr UNIQUE (state_abbr),
+    CONSTRAINT uq_state_name UNIQUE (state_name),
+    CONSTRAINT uq_state_name_friendly UNIQUE (state_name_friendly)
+);
+
+-- Table comment
+COMMENT ON TABLE app.state IS 'Represents states/provinces within regions, with abbreviations, friendly names, and audit tracking.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.state.state_id IS 'Primary key.';
+COMMENT ON COLUMN app.state.region_id IS 'FK to app.region; region containing this state.';
+COMMENT ON COLUMN app.state.state_abbr IS 'State abbreviation (unique).';
+COMMENT ON COLUMN app.state.state_name IS 'Full state name (unique).';
+COMMENT ON COLUMN app.state.state_name_friendly IS 'User-friendly display name for the state (unique).';
+COMMENT ON COLUMN app.state.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.state.created_on IS 'Timestamp when the record was created.';
+COMMENT ON COLUMN app.state.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.state.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.academic_organization (
+    academic_organization_id            SERIAL,
+    academic_organization_name          TEXT NOT NULL,
+    academic_organization_name_friendly TEXT NOT NULL,
+    created_by                          TEXT NOT NULL,
+    created_on                          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by                         TEXT,
+    modified_on                         TIMESTAMPTZ,
+    -- Constraints
+    CONSTRAINT pk_academic_organization_id PRIMARY KEY (academic_organization_id),
+    CONSTRAINT uq_academic_organization_name UNIQUE (academic_organization_name),
+    CONSTRAINT uq_academic_organization_name_friendly UNIQUE (academic_organization_name_friendly)
+);
+
+-- Table comment
+COMMENT ON TABLE app.academic_organization IS 'Represents educational or academic institutions such as schools, universities, or organizations.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.academic_organization.academic_organization_id IS 'Primary key.';
+COMMENT ON COLUMN app.academic_organization.academic_organization_name IS 'Official name of the academic organization, unique.';
+COMMENT ON COLUMN app.academic_organization.academic_organization_name_friendly IS 'User-friendly or display name for the academic organization, unique.';
+COMMENT ON COLUMN app.academic_organization.created_by IS 'Identifier for the user or system that created this record.';
+COMMENT ON COLUMN app.academic_organization.created_on IS 'Timestamp when the record was created.';
+COMMENT ON COLUMN app.academic_organization.modified_by IS 'Identifier for the user or system that last modified this record.';
+COMMENT ON COLUMN app.academic_organization.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.university (
+    university_id            SERIAL,
+    university_code          INT NOT NULL,
+    university_name          TEXT NOT NULL,
+    university_abbr          TEXT NOT NULL,
+    university_name_friendly TEXT NOT NULL,
+    created_by               INTEGER NOT NULL,
+    created_on               TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by              INTEGER,
+    modified_on              TIMESTAMPTZ,
+
+    -- Constraints (all named)
+    CONSTRAINT pk_university_id PRIMARY KEY (university_id),
+    CONSTRAINT uq_university_code UNIQUE (university_code),
+    CONSTRAINT uq_university_name UNIQUE (university_name),
+    CONSTRAINT uq_university_name_friendly UNIQUE (university_name_friendly),
+    CONSTRAINT fk_university_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_university_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.university IS 'Stores universities with unique codes, full names, abbreviations, friendly names, and audit information.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.university.university_id IS 'Primary key.';
+COMMENT ON COLUMN app.university.university_code IS 'Unique numeric code for the university.';
+COMMENT ON COLUMN app.university.university_name IS 'Official university name (unique).';
+COMMENT ON COLUMN app.university.university_abbr IS 'Official university abbreviation.';
+COMMENT ON COLUMN app.university.university_name_friendly IS 'User-friendly display name for the university (unique).';
+COMMENT ON COLUMN app.university.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.university.created_on IS 'Timestamp when the record was created.';
+COMMENT ON COLUMN app.university.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.university.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.university_campus (
+    university_campus_id              SERIAL,
+    university_campus_name            TEXT NOT NULL,
+    university_campus_name_friendly  TEXT NOT NULL,
+    created_by                       INTEGER NOT NULL,
+    created_on                       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by                      INTEGER,
+    modified_on                      TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_university_campus_id PRIMARY KEY (university_campus_id),
+    CONSTRAINT uq_university_campus_name UNIQUE (university_campus_name),
+    CONSTRAINT uq_university_campus_name_friendly UNIQUE (university_campus_name_friendly),
+    CONSTRAINT fk_university_campus_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_university_campus_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.university_campus IS 'Stores university campus names with friendly display names and audit information.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.university_campus.university_campus_id IS 'Primary key.';
+COMMENT ON COLUMN app.university_campus.university_campus_name IS 'Official university campus name (unique).';
+COMMENT ON COLUMN app.university_campus.university_campus_name_friendly IS 'User-friendly display name for the campus (unique).';
+COMMENT ON COLUMN app.university_campus.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.university_campus.created_on IS 'Timestamp when the record was created.';
+COMMENT ON COLUMN app.university_campus.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.university_campus.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.city (
+    city_id               SERIAL,
+    state_id              INT NOT NULL,
+    city_name             TEXT NOT NULL,
+    city_name_friendly    TEXT NOT NULL,
+    created_by            INTEGER NOT NULL,
+    created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by           INTEGER,
+    modified_on           TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_city_id PRIMARY KEY (city_id),
+    CONSTRAINT fk_city_state_id FOREIGN KEY (state_id) REFERENCES app.state(state_id) ON DELETE CASCADE,
+    CONSTRAINT fk_city_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_city_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT uq_city_state UNIQUE (state_id, city_name),
+    CONSTRAINT uq_city_state_friendly UNIQUE (state_id, city_name_friendly)
+);
+
+-- Table comment
+COMMENT ON TABLE app.city IS 'Represents a city within a state, supporting friendly names and auditing of creation/modification.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.city.city_id IS 'Primary key.';
+COMMENT ON COLUMN app.city.state_id IS 'FK to app.state; identifies the state where the city is located.';
+COMMENT ON COLUMN app.city.city_name IS 'Official city name (unique per state).';
+COMMENT ON COLUMN app.city.city_name_friendly IS 'User-friendly display name for the city (unique per state).';
+COMMENT ON COLUMN app.city.created_by IS 'FK to app.user_login; identifies the user who created this record.';
+COMMENT ON COLUMN app.city.created_on IS 'Timestamp when the city record was created.';
+COMMENT ON COLUMN app.city.modified_by IS 'FK to app.user_login; identifies the user who last modified this record.';
+COMMENT ON COLUMN app.city.modified_on IS 'Timestamp of the most recent modification.';
+
+-- Table 'course' definition not found in provided DDL.
+
+-- Table 'institution' definition not found in provided DDL.
+
+CREATE TABLE IF NOT EXISTS app.booklet_color (
+    booklet_color_id             SERIAL,
+    booklet_color_name           TEXT NOT NULL,
+    booklet_color_name_friendly  TEXT NOT NULL,
+    is_accessible                BOOLEAN NOT NULL DEFAULT FALSE,
+    sort_order                   SMALLINT NOT NULL DEFAULT 0,
+    active                       BOOLEAN NOT NULL DEFAULT TRUE,
+    created_by                   INTEGER NOT NULL,
+    created_on                   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by                  INTEGER,
+    modified_on                  TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_booklet_color_id PRIMARY KEY (booklet_color_id),
+    CONSTRAINT uq_booklet_color_name UNIQUE (booklet_color_name),
+    CONSTRAINT uq_booklet_color_name_friendly UNIQUE (booklet_color_name_friendly),
+    CONSTRAINT fk_booklet_color_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_booklet_color_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.booklet_color IS 'Defines available exam booklet colors, their friendly display names, accessibility, sort order, and active status.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.booklet_color.booklet_color_id IS 'Primary key.';
+COMMENT ON COLUMN app.booklet_color.booklet_color_name IS 'Official name of the booklet color, unique.';
+COMMENT ON COLUMN app.booklet_color.booklet_color_name_friendly IS 'User-friendly or display name for the booklet color, unique.';
+COMMENT ON COLUMN app.booklet_color.is_accessible IS 'TRUE if this booklet is designed for accessibility needs.';
+COMMENT ON COLUMN app.booklet_color.sort_order IS 'Integer for sorting/display order (lowest value first).';
+COMMENT ON COLUMN app.booklet_color.active IS 'TRUE if this booklet color is currently in use.';
+COMMENT ON COLUMN app.booklet_color.created_by IS 'FK to app.user_login; who created this booklet color record.';
+COMMENT ON COLUMN app.booklet_color.created_on IS 'Timestamp when the booklet color record was created.';
+COMMENT ON COLUMN app.booklet_color.modified_by IS 'FK to app.user_login; who last modified this booklet color record.';
+COMMENT ON COLUMN app.booklet_color.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.booklet_mapping (
+    booklet_mapping_id     SERIAL,
+    year_id               INTEGER NOT NULL,
+    exam_day              SMALLINT NOT NULL,
+    booklet_color_id      INTEGER NOT NULL,
+    base_question_no      INTEGER NOT NULL,
+    booklet_question_no   INTEGER NOT NULL,
+    created_by            INTEGER NOT NULL,
+    created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by           INTEGER,
+    modified_on           TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_booklet_mapping_id PRIMARY KEY (booklet_mapping_id),
+    CONSTRAINT fk_booklet_mapping_year_id FOREIGN KEY (year_id) REFERENCES app.year(year_id),
+    CONSTRAINT fk_booklet_mapping_booklet_color_id FOREIGN KEY (booklet_color_id) REFERENCES app.booklet_color(booklet_color_id),
+    CONSTRAINT fk_booklet_mapping_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_booklet_mapping_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT uq_booklet_mapping UNIQUE (year_id, exam_day, booklet_color_id, base_question_no)
+);
+
+-- Table comment
+COMMENT ON TABLE app.booklet_mapping IS 'Maps each base question number to its position in each colored exam booklet, for each year and exam day.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.booklet_mapping.booklet_mapping_id IS 'Primary key.';
+COMMENT ON COLUMN app.booklet_mapping.year_id IS 'FK to app.year; identifies the exam year.';
+COMMENT ON COLUMN app.booklet_mapping.exam_day IS 'Exam day number (e.g., 1 for first day, 2 for second).';
+COMMENT ON COLUMN app.booklet_mapping.booklet_color_id IS 'FK to app.booklet_color; identifies the booklet color/version.';
+COMMENT ON COLUMN app.booklet_mapping.base_question_no IS 'Canonical (base) question number as per master list.';
+COMMENT ON COLUMN app.booklet_mapping.booklet_question_no IS 'Question number as printed in this booklet color/version.';
+COMMENT ON COLUMN app.booklet_mapping.created_by IS 'FK to app.user_login; who created this booklet mapping record.';
+COMMENT ON COLUMN app.booklet_mapping.created_on IS 'Timestamp when the booklet mapping record was created.';
+COMMENT ON COLUMN app.booklet_mapping.modified_by IS 'FK to app.user_login; who last modified this booklet mapping record.';
+COMMENT ON COLUMN app.booklet_mapping.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.user_auth_provider (
+    user_auth_provider_id SERIAL,
+    user_login_id         INTEGER NOT NULL,
+    provider_name         TEXT NOT NULL,   -- e.g., 'local', 'google'
+    provider_uid          TEXT NOT NULL,   -- For Google: their subject/ID; for local: email
+    linked_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    unlinked_on           TIMESTAMPTZ,
+    is_active             BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_by            INTEGER NOT NULL,
+    created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by           INTEGER,
+    modified_on           TIMESTAMPTZ,
+
+    -- Constraints (all named)
+    CONSTRAINT pk_user_auth_provider_id PRIMARY KEY (user_auth_provider_id),
+    CONSTRAINT fk_user_auth_provider_user_login_id FOREIGN KEY (user_login_id) REFERENCES app.user_login (user_login_id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_auth_provider_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_user_auth_provider_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT uq_user_auth_provider UNIQUE (provider_name, provider_uid, is_active)
+);
+
+-- Table comment
+COMMENT ON TABLE app.user_auth_provider IS 'Tracks which authentication providers (local, Google, etc.) are linked to each user_login. Supports multiple providers per user and future extensibility.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.user_auth_provider.user_auth_provider_id IS 'Primary key.';
+COMMENT ON COLUMN app.user_auth_provider.user_login_id IS 'FK to app.user_login.';
+COMMENT ON COLUMN app.user_auth_provider.provider_name IS 'Provider name, e.g., "local", "google".';
+COMMENT ON COLUMN app.user_auth_provider.provider_uid IS 'Unique ID from provider (Google subject, or user email for local).';
+COMMENT ON COLUMN app.user_auth_provider.linked_on IS 'Timestamp when provider was linked.';
+COMMENT ON COLUMN app.user_auth_provider.unlinked_on IS 'Timestamp when provider was unlinked (nullable).';
+COMMENT ON COLUMN app.user_auth_provider.is_active IS 'TRUE if provider is currently linked.';
+COMMENT ON COLUMN app.user_auth_provider.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.user_auth_provider.created_on IS 'Creation timestamp.';
+COMMENT ON COLUMN app.user_auth_provider.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.user_auth_provider.modified_on IS 'Modification timestamp.';
+
+-- Table 'user_role' definition not found in provided DDL.
+
+CREATE TABLE IF NOT EXISTS app.email_verification (
+    email_verification_id  SERIAL,
+    user_login_id          INTEGER NOT NULL,
+    verification_token     TEXT NOT NULL,
+    requested_on           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    verified_on            TIMESTAMPTZ,
+    is_verified            BOOLEAN NOT NULL DEFAULT FALSE,
+    is_active              BOOLEAN NOT NULL DEFAULT TRUE,
+    created_by             INTEGER NOT NULL,
+    created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by            INTEGER,
+    modified_on            TIMESTAMPTZ,
+
+    -- Constraints (all named)
+    CONSTRAINT pk_email_verification_id PRIMARY KEY (email_verification_id),
+    CONSTRAINT fk_email_verification_user_login_id FOREIGN KEY (user_login_id) REFERENCES app.user_login(user_login_id) ON DELETE CASCADE,
+    CONSTRAINT uq_email_verification_token UNIQUE (verification_token),
+    CONSTRAINT fk_email_verification_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_email_verification_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.email_verification IS 'Tracks email verification tokens, requested/verified status, and auditing info for user accounts.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.email_verification.email_verification_id IS 'Primary key.';
+COMMENT ON COLUMN app.email_verification.user_login_id IS 'FK to app.user_login; identifies the user being verified.';
+COMMENT ON COLUMN app.email_verification.verification_token IS 'Unique verification token sent to user.';
+COMMENT ON COLUMN app.email_verification.requested_on IS 'Timestamp when verification was requested.';
+COMMENT ON COLUMN app.email_verification.verified_on IS 'Timestamp when email was verified (nullable).';
+COMMENT ON COLUMN app.email_verification.is_verified IS 'TRUE if the email is verified.';
+COMMENT ON COLUMN app.email_verification.is_active IS 'TRUE if this verification process is currently valid.';
+COMMENT ON COLUMN app.email_verification.created_by IS 'FK to app.user_login; who created this record.';
+COMMENT ON COLUMN app.email_verification.created_on IS 'Creation timestamp.';
+COMMENT ON COLUMN app.email_verification.modified_by IS 'FK to app.user_login; who last modified this record.';
+COMMENT ON COLUMN app.email_verification.modified_on IS 'Modification timestamp.';
+
+
+--
+
+CREATE TABLE IF NOT EXISTS app.password_reset (
+    password_reset_id     SERIAL,
+    user_login_id         INTEGER NOT NULL,
+    reset_token           TEXT NOT NULL,
+    requested_on          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    used_on               TIMESTAMPTZ,
+    is_used               BOOLEAN NOT NULL DEFAULT FALSE,
+    is_active             BOOLEAN NOT NULL DEFAULT TRUE,
+    created_by            INTEGER NOT NULL,
+    created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by           INTEGER,
+    modified_on           TIMESTAMPTZ,
+
+    -- Constraints (all named)
+    CONSTRAINT pk_password_reset_id PRIMARY KEY (password_reset_id),
+    CONSTRAINT fk_password_reset_user_login_id FOREIGN KEY (user_login_id) REFERENCES app.user_login(user_login_id) ON DELETE CASCADE,
+    CONSTRAINT uq_password_reset_token UNIQUE (reset_token),
+    CONSTRAINT fk_password_reset_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_password_reset_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.password_reset IS 'Handles password reset requests for user accounts, with secure tokens and audit fields.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.password_reset.password_reset_id IS 'Primary key.';
+COMMENT ON COLUMN app.password_reset.user_login_id IS 'FK to app.user_login.';
+COMMENT ON COLUMN app.password_reset.reset_token IS 'Unique, secure token for password reset.';
+COMMENT ON COLUMN app.password_reset.requested_on IS 'Timestamp when reset was requested.';
+COMMENT ON COLUMN app.password_reset.used_on IS 'Timestamp when reset was completed/used.';
+COMMENT ON COLUMN app.password_reset.is_used IS 'TRUE if this token has already been used.';
+COMMENT ON COLUMN app.password_reset.is_active IS 'TRUE if token is currently valid.';
+COMMENT ON COLUMN app.password_reset.created_by IS 'FK to app.user_login; who created this record.';
+COMMENT ON COLUMN app.password_reset.created_on IS 'Creation timestamp.';
+COMMENT ON COLUMN app.password_reset.modified_by IS 'FK to app.user_login; who last modified this record.';
+COMMENT ON COLUMN app.password_reset.modified_on IS 'Modification timestamp.';
+
+CREATE TABLE IF NOT EXISTS app.terms_acceptance (
+    terms_acceptance_id  SERIAL,
+    user_login_id        INTEGER NOT NULL,
+    terms_version        TEXT NOT NULL,       -- E.g. "2024-06", "v1.0", etc.
+    accepted_on          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    accepted_by          INTEGER NOT NULL,    -- FK to user_login who accepted
+    is_active            BOOLEAN NOT NULL DEFAULT TRUE,
+    created_by           INTEGER NOT NULL,
+    created_on           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by          INTEGER,
+    modified_on          TIMESTAMPTZ,
+
+    -- Constraints (all named)
+    CONSTRAINT pk_terms_acceptance_id PRIMARY KEY (terms_acceptance_id),
+    CONSTRAINT fk_terms_acceptance_user_login_id FOREIGN KEY (user_login_id) REFERENCES app.user_login(user_login_id) ON DELETE CASCADE,
+    CONSTRAINT fk_terms_acceptance_accepted_by FOREIGN KEY (accepted_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_terms_acceptance_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_terms_acceptance_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.terms_acceptance IS 'Tracks when a user account accepts Terms of Service and/or Privacy Policy, including version.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.terms_acceptance.terms_acceptance_id IS 'Primary key.';
+COMMENT ON COLUMN app.terms_acceptance.user_login_id IS 'FK to app.user_login; user who accepted the terms.';
+COMMENT ON COLUMN app.terms_acceptance.terms_version IS 'Version of the terms/policy accepted.';
+COMMENT ON COLUMN app.terms_acceptance.accepted_on IS 'Timestamp when user accepted the terms.';
+COMMENT ON COLUMN app.terms_acceptance.accepted_by IS 'FK to app.user_login; user who accepted the terms.';
+COMMENT ON COLUMN app.terms_acceptance.is_active IS 'TRUE if this record is the most current acceptance.';
+COMMENT ON COLUMN app.terms_acceptance.created_by IS 'FK to app.user_login; who created this record.';
+COMMENT ON COLUMN app.terms_acceptance.created_on IS 'Creation timestamp.';
+COMMENT ON COLUMN app.terms_acceptance.modified_by IS 'FK to app.user_login; who last modified this record.';
+COMMENT ON COLUMN app.terms_acceptance.modified_on IS 'Modification timestamp.';
+
+-- Table 'exam_attempt' definition not found in provided DDL.
+
+-- Table 'question' definition not found in provided DDL.
+
+CREATE TABLE IF NOT EXISTS app.alternative (
+    alternative_id           SERIAL,
+    question_id              INTEGER NOT NULL,
+    option_letter            TEXT NOT NULL,
+    option_text              TEXT NOT NULL,
+    option_text_friendly     TEXT,
+    is_correct               BOOLEAN NOT NULL,
+    image_url                TEXT,
+    notes                    TEXT,
+    notes_friendly           TEXT,
+    created_by               INTEGER NOT NULL,
+    created_on               TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by              INTEGER,
+    modified_on              TIMESTAMPTZ,
+    is_active                BOOLEAN NOT NULL DEFAULT TRUE,
+
+    -- Constraints (all named)
+    CONSTRAINT pk_alternative_id PRIMARY KEY (alternative_id),
+    CONSTRAINT fk_alternative_question_id FOREIGN KEY (question_id) REFERENCES app.question (question_id) ON DELETE CASCADE,
+    CONSTRAINT fk_alternative_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_alternative_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT uq_alternative_per_question UNIQUE (question_id, option_letter)
+);
+
+-- Table comment
+COMMENT ON TABLE app.alternative IS 'Stores alternatives (options) for each ENEM question, with friendly columns for search.';
+
+-- Field comments
+COMMENT ON COLUMN app.alternative.alternative_id IS 'Primary key.';
+COMMENT ON COLUMN app.alternative.question_id IS 'FK to app.question (question_id).';
+COMMENT ON COLUMN app.alternative.option_letter IS 'Option label (A, B, C, D, E).';
+COMMENT ON COLUMN app.alternative.option_text IS 'Official text of the alternative.';
+COMMENT ON COLUMN app.alternative.option_text_friendly IS 'Normalized option text for search.';
+COMMENT ON COLUMN app.alternative.is_correct IS 'TRUE if this is the correct answer.';
+COMMENT ON COLUMN app.alternative.image_url IS 'URL for associated image (if any).';
+COMMENT ON COLUMN app.alternative.notes IS 'Notes or comments about the alternative.';
+COMMENT ON COLUMN app.alternative.notes_friendly IS 'Normalized notes for search.';
+COMMENT ON COLUMN app.alternative.created_by IS 'FK to app.user_login; record creator.';
+COMMENT ON COLUMN app.alternative.created_on IS 'Creation timestamp.';
+COMMENT ON COLUMN app.alternative.modified_by IS 'FK to app.user_login; last modifier.';
+COMMENT ON COLUMN app.alternative.modified_on IS 'Modification timestamp.';
+COMMENT ON COLUMN app.alternative.is_active IS 'Active/archive flag.';
+
+CREATE TABLE IF NOT EXISTS app.answer_key (
+    answer_key_id   SERIAL,
+    year_id         INTEGER NOT NULL,
+    exam_day        SMALLINT NOT NULL,
+    key_type        TEXT NOT NULL,         -- e.g., 'official', 'unofficial'
+    key_source      TEXT NOT NULL,         -- e.g., 'INEP', 'Prof. Lima'
+    answers         TEXT NOT NULL,         -- Correct answers in base order (string of N letters)
+    created_by      INTEGER NOT NULL,
+    created_on      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by     INTEGER,
+    modified_on     TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_answer_key_id PRIMARY KEY (answer_key_id),
+    CONSTRAINT fk_answer_key_year_id FOREIGN KEY (year_id) REFERENCES app.year(year_id),
+    CONSTRAINT fk_answer_key_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_answer_key_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT uq_answer_key_year_day_type UNIQUE (year_id, exam_day, key_type)
+);
+
+-- Table comment
+COMMENT ON TABLE app.answer_key IS 'Stores official and unofficial answer keys for each exam year, day, and key type.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.answer_key.answer_key_id IS 'Primary key.';
+COMMENT ON COLUMN app.answer_key.year_id IS 'FK to app.year; identifies the exam year.';
+COMMENT ON COLUMN app.answer_key.exam_day IS 'Exam day number (e.g., 1 for first day, 2 for second day).';
+COMMENT ON COLUMN app.answer_key.key_type IS 'Type of answer key, e.g., "official" or "unofficial".';
+COMMENT ON COLUMN app.answer_key.key_source IS 'Source or author of the answer key (e.g., "INEP", teacher name).';
+COMMENT ON COLUMN app.answer_key.answers IS 'String of correct answers in base order (one letter per question).';
+COMMENT ON COLUMN app.answer_key.created_by IS 'FK to app.user_login; who created the answer key record.';
+COMMENT ON COLUMN app.answer_key.created_on IS 'Timestamp when the answer key was created.';
+COMMENT ON COLUMN app.answer_key.modified_by IS 'FK to app.user_login; who last modified the answer key record.';
+COMMENT ON COLUMN app.answer_key.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.answer_submission (
+    answer_submission_id      SERIAL,
+    user_id                  INTEGER NOT NULL,
+    year_id                  INTEGER NOT NULL,
+    exam_day                 SMALLINT NOT NULL,
+    booklet_color_id         INTEGER NOT NULL,
+    foreign_language         TEXT NOT NULL,
+    raw_answers              TEXT NOT NULL,
+    mapped_answers           TEXT,           -- Now nullable!
+    created_by               INTEGER NOT NULL,
+    created_on               TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by              INTEGER,
+    modified_on              TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_answer_submission_id PRIMARY KEY (answer_submission_id),
+    CONSTRAINT fk_answer_submission_user_id FOREIGN KEY (user_id) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_answer_submission_year_id FOREIGN KEY (year_id) REFERENCES app.year(year_id),
+    CONSTRAINT fk_answer_submission_booklet_color_id FOREIGN KEY (booklet_color_id) REFERENCES app.booklet_color(booklet_color_id),
+    CONSTRAINT fk_answer_submission_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_answer_submission_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT uq_answer_submission_user_year_day UNIQUE (user_id, year_id, exam_day)
+);
+
+-- Table comment
+COMMENT ON TABLE app.answer_submission IS 'Stores individual users’ answer submissions per exam year, day, and booklet color.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.answer_submission.answer_submission_id IS 'Primary key.';
+COMMENT ON COLUMN app.answer_submission.user_id IS 'FK to app.user_login; identifies who submitted the answers.';
+COMMENT ON COLUMN app.answer_submission.year_id IS 'FK to app.year; identifies the exam year.';
+COMMENT ON COLUMN app.answer_submission.exam_day IS 'Exam day number (e.g., 1 or 2).';
+COMMENT ON COLUMN app.answer_submission.booklet_color_id IS 'FK to app.booklet_color; identifies the version of the booklet used.';
+COMMENT ON COLUMN app.answer_submission.foreign_language IS 'Foreign language selected (e.g., "English", "Spanish").';
+COMMENT ON COLUMN app.answer_submission.raw_answers IS 'User’s original submitted answers (as entered).';
+COMMENT ON COLUMN app.answer_submission.mapped_answers IS 'System-mapped or normalized answers (nullable).';
+COMMENT ON COLUMN app.answer_submission.created_by IS 'FK to app.user_login; who created the submission record.';
+COMMENT ON COLUMN app.answer_submission.created_on IS 'Timestamp when the submission was created.';
+COMMENT ON COLUMN app.answer_submission.modified_by IS 'FK to app.user_login; who last modified the submission record.';
+COMMENT ON COLUMN app.answer_submission.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.response (
+    response_id           SERIAL,
+    exam_attempt_id       INTEGER NOT NULL,
+    user_login_id         INTEGER NOT NULL,
+    question_id           INTEGER NOT NULL,
+    alternative_id        INTEGER NOT NULL,
+    is_correct            BOOLEAN NOT NULL,
+    flag_for_review       BOOLEAN NOT NULL DEFAULT FALSE,
+    notes                 TEXT,
+    notes_friendly        TEXT,
+    created_by            INTEGER NOT NULL,
+    created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by           INTEGER,
+    modified_on           TIMESTAMPTZ,
+    is_active             BOOLEAN NOT NULL DEFAULT TRUE,
+
+    -- Constraints (all named)
+    CONSTRAINT pk_response_id PRIMARY KEY (response_id),
+    CONSTRAINT fk_response_exam_attempt_id FOREIGN KEY (exam_attempt_id) REFERENCES app.exam_attempt (exam_attempt_id) ON DELETE CASCADE,
+    CONSTRAINT fk_response_user_login_id FOREIGN KEY (user_login_id) REFERENCES app.user_login (user_login_id) ON DELETE CASCADE,
+    CONSTRAINT fk_response_question_id FOREIGN KEY (question_id) REFERENCES app.question (question_id) ON DELETE CASCADE,
+    CONSTRAINT fk_response_alternative_id FOREIGN KEY (alternative_id) REFERENCES app.alternative (alternative_id) ON DELETE CASCADE,
+    CONSTRAINT fk_response_created_by FOREIGN KEY (created_by) REFERENCES app.user_login (user_login_id),
+    CONSTRAINT fk_response_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login (user_login_id),
+    CONSTRAINT uq_response_per_attempt UNIQUE (exam_attempt_id, question_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.response IS 'Stores user answers for each question and attempt, with review flag, notes, and audit fields.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.response.response_id IS 'Primary key.';
+COMMENT ON COLUMN app.response.exam_attempt_id IS 'FK to exam attempt grouping responses.';
+COMMENT ON COLUMN app.response.user_login_id IS 'FK to user_login (user account).';
+COMMENT ON COLUMN app.response.question_id IS 'FK to app.question.';
+COMMENT ON COLUMN app.response.alternative_id IS 'FK to selected app.alternative.';
+COMMENT ON COLUMN app.response.is_correct IS 'TRUE if the selected answer was correct.';
+COMMENT ON COLUMN app.response.flag_for_review IS 'TRUE if user flagged this question for review.';
+COMMENT ON COLUMN app.response.notes IS 'Notes or comments for this response.';
+COMMENT ON COLUMN app.response.notes_friendly IS 'Normalized notes for search.';
+COMMENT ON COLUMN app.response.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.response.created_on IS 'Creation timestamp.';
+COMMENT ON COLUMN app.response.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.response.modified_on IS 'Modification timestamp.';
+COMMENT ON COLUMN app.response.is_active IS 'Active/archive flag.';
+
+CREATE TABLE IF NOT EXISTS app.approved_student (
+    approved_student_id         SERIAL,
+    enem_registration           VARCHAR(20) NOT NULL,
+    student_name                TEXT NOT NULL,
+    year                        SMALLINT NOT NULL,
+    institution_id              INTEGER NOT NULL,  -- FK to normalized institution table
+    institution_name            TEXT NOT NULL,
+    institution_abbr            TEXT,
+    institution_state_abbr      TEXT,
+    campus_name                 TEXT,
+    course_id                   INTEGER,           -- FK to normalized course table
+    course_code                 TEXT,
+    course_name                 TEXT,
+    shift                       TEXT,
+    degree_type                 TEXT,
+    vagas_concorrencia          INTEGER,
+    no_inscricao_enem           TEXT,              -- Original ENEM registration (for archival)
+    no_modalidade_concorrencia  TEXT,
+    st_bonus_perc               TEXT,
+    qt_bonus_perc               TEXT,
+    no_acao_afirmativa_bonus    TEXT,
+    enem_score                  NUMERIC(6,2),
+    cutoff_score                NUMERIC(6,2),
+    classification              INTEGER,
+    high_school_type            TEXT,
+    quilombola                  TEXT,
+    disabled                    TEXT,
+    tipo_concorrencia           TEXT,
+    user_id                     INTEGER,           -- Nullable FK to app.user_login(user_login_id)
+    created_by                  INTEGER NOT NULL,
+    created_on                  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by                 INTEGER,
+    modified_on                 TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_approved_student_id PRIMARY KEY (approved_student_id),
+    CONSTRAINT uq_approved_student UNIQUE (enem_registration, year, institution_id, course_code),
+    --CONSTRAINT fk_approved_student_institution_id FOREIGN KEY (institution_id) REFERENCES app.institution(institution_id),
+    --CONSTRAINT fk_approved_student_course_id FOREIGN KEY (course_id) REFERENCES app.course(course_id),
+    CONSTRAINT fk_approved_student_user_id FOREIGN KEY (user_id) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_approved_student_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_approved_student_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.approved_student IS 'Stores data about students approved in selection processes, including their ENEM details, assigned institution/course, bonus and affirmative action info, and user link if applicable.';
+
+-- Field comments (one-liners)
+COMMENT ON COLUMN app.approved_student.approved_student_id IS 'Primary key.';
+COMMENT ON COLUMN app.approved_student.enem_registration IS 'ENEM registration number (unique per year/institution/course).';
+COMMENT ON COLUMN app.approved_student.student_name IS 'Full name of the student.';
+COMMENT ON COLUMN app.approved_student.year IS 'Year of the selection process.';
+COMMENT ON COLUMN app.approved_student.institution_id IS 'FK to app.institution; normalized ID for the educational institution.';
+COMMENT ON COLUMN app.approved_student.institution_name IS 'Institution name as recorded for this entry (denormalized for history).';
+COMMENT ON COLUMN app.approved_student.institution_abbr IS 'Abbreviation for the institution.';
+COMMENT ON COLUMN app.approved_student.institution_state_abbr IS 'State abbreviation for the institution.';
+COMMENT ON COLUMN app.approved_student.campus_name IS 'Name of the campus, if applicable.';
+COMMENT ON COLUMN app.approved_student.course_id IS 'FK to app.course; normalized course ID (nullable).';
+COMMENT ON COLUMN app.approved_student.course_code IS 'Course code as recorded for this entry (denormalized for history).';
+COMMENT ON COLUMN app.approved_student.course_name IS 'Course name as recorded for this entry.';
+COMMENT ON COLUMN app.approved_student.shift IS 'Shift of the course (e.g., morning, evening).';
+COMMENT ON COLUMN app.approved_student.degree_type IS 'Type of degree (e.g., Bachelor, Technologist).';
+COMMENT ON COLUMN app.approved_student.vagas_concorrencia IS 'Number of seats available in this category.';
+COMMENT ON COLUMN app.approved_student.no_inscricao_enem IS 'Original ENEM registration (archival).';
+COMMENT ON COLUMN app.approved_student.no_modalidade_concorrencia IS 'Type of competition or seat modality.';
+COMMENT ON COLUMN app.approved_student.st_bonus_perc IS 'String representation of bonus percentage status.';
+COMMENT ON COLUMN app.approved_student.qt_bonus_perc IS 'String or value for the bonus percentage quantity.';
+COMMENT ON COLUMN app.approved_student.no_acao_afirmativa_bonus IS 'Type of affirmative action bonus.';
+COMMENT ON COLUMN app.approved_student.enem_score IS 'Student''s ENEM score (numeric, 2 decimals).';
+COMMENT ON COLUMN app.approved_student.cutoff_score IS 'Minimum cutoff score for approval (numeric, 2 decimals).';
+COMMENT ON COLUMN app.approved_student.classification IS 'Classification/ranking of the student.';
+COMMENT ON COLUMN app.approved_student.high_school_type IS 'Type of high school attended by the student.';
+COMMENT ON COLUMN app.approved_student.quilombola IS 'Indicates if student is quilombola (yes/no).';
+COMMENT ON COLUMN app.approved_student.disabled IS 'Indicates if student has a disability (yes/no).';
+COMMENT ON COLUMN app.approved_student.tipo_concorrencia IS 'Type of competition or seat for this record.';
+COMMENT ON COLUMN app.approved_student.user_id IS 'Nullable FK to app.user_login (if linked to a user account).';
+COMMENT ON COLUMN app.approved_student.created_by IS 'FK to app.user_login; who created this record.';
+COMMENT ON COLUMN app.approved_student.created_on IS 'Timestamp when the record was created.';
+COMMENT ON COLUMN app.approved_student.modified_by IS 'FK to app.user_login; who last modified this record.';
+COMMENT ON COLUMN app.approved_student.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.seats (
+    seats_id                     SERIAL,
+    year_id                     INTEGER,
+    university_id               INTEGER,
+    academic_organization_id    INTEGER,
+    university_category_id      INTEGER,
+    university_campus_id        INTEGER,
+    state_id                    INTEGER,
+    city_id                     INTEGER,
+    region_id                   INTEGER,
+    degree_id                   INTEGER,
+    degree_level_id             INTEGER,
+    shift_id                    INTEGER,
+    frequency_id                INTEGER,
+    quota_type_id               INTEGER,
+    special_quota_id            INTEGER,
+    edition                     TEXT,
+    score_bonus_percent         NUMERIC(5,2) NULL,
+    seats_offered               INTEGER NULL,   
+    cutoff_score                NUMERIC(6,2) NULL, 
+    num_applicants              INTEGER NULL,
+    seats_authorized            INTEGER,
+    weight_essay                NUMERIC(5,2),
+    min_score_essay             NUMERIC(5,2),
+    weight_language             NUMERIC(5,2),
+    min_score_language          NUMERIC(5,2),
+    weight_math                 NUMERIC(5,2),
+    min_score_math              NUMERIC(5,2),
+    weight_humanities           NUMERIC(5,2),
+    min_score_humanities        NUMERIC(5,2),
+    weight_sciences             NUMERIC(5,2),
+    min_score_sciences          NUMERIC(5,2),
+    min_avg_score_enem          NUMERIC(5,2),
+    pct_state_ppi_ibge          NUMERIC(5,2),
+    pct_state_pp_ibge           NUMERIC(5,2),
+    pct_state_indigenous_ibge   NUMERIC(5,2),
+    pct_state_quilombola_ibge   NUMERIC(5,2),
+    pct_state_pcd_ibge          NUMERIC(5,2),
+    pct_quota_law               NUMERIC(5,2),
+    pct_quota_ppi               NUMERIC(5,2),
+    pct_quota_pp                NUMERIC(5,2),
+    pct_quota_indigenous        NUMERIC(5,2),
+    pct_quota_quilombola        NUMERIC(5,2),
+    pct_quota_pcd               NUMERIC(5,2),
+    created_by                  INTEGER,
+    created_on                  TIMESTAMPTZ DEFAULT NOW(),
+    modified_by                 INTEGER,
+    modified_on                 TIMESTAMPTZ,
+
+    CONSTRAINT pk_seats PRIMARY KEY (seats_id),
+    CONSTRAINT fk_seats_year FOREIGN KEY (year_id) REFERENCES app.year(year_id),
+    CONSTRAINT fk_seats_university FOREIGN KEY (university_id) REFERENCES app.university(university_id),
+    CONSTRAINT fk_seats_academic_organization FOREIGN KEY (academic_organization_id) REFERENCES app.academic_organization(academic_organization_id),
+    CONSTRAINT fk_seats_university_category FOREIGN KEY (university_category_id) REFERENCES app.university_category(university_category_id),
+    CONSTRAINT fk_seats_university_campus FOREIGN KEY (university_campus_id) REFERENCES app.university_campus(university_campus_id),
+    CONSTRAINT fk_seats_state FOREIGN KEY (state_id) REFERENCES app.state(state_id),
+    CONSTRAINT fk_seats_city FOREIGN KEY (city_id) REFERENCES app.city(city_id),
+    CONSTRAINT fk_seats_region FOREIGN KEY (region_id) REFERENCES app.region(region_id),
+    CONSTRAINT fk_seats_degree FOREIGN KEY (degree_id) REFERENCES app.degree(degree_id),
+    CONSTRAINT fk_seats_degree_level FOREIGN KEY (degree_level_id) REFERENCES app.degree_level(degree_level_id),
+    CONSTRAINT fk_seats_shift FOREIGN KEY (shift_id) REFERENCES app.shift(shift_id),
+    CONSTRAINT fk_seats_frequency FOREIGN KEY (frequency_id) REFERENCES app.frequency(frequency_id),
+    CONSTRAINT fk_seats_quota_type FOREIGN KEY (quota_type_id) REFERENCES app.quota_type(quota_type_id),
+    CONSTRAINT fk_seats_special_quota FOREIGN KEY (special_quota_id) REFERENCES app.special_quota(special_quota_id),
+    CONSTRAINT fk_seats_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_seats_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+

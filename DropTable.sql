@@ -38,7 +38,7 @@ drop table if exists app.student_ability_estimation cascade;
 drop table if exists app.submission_deadline cascade;
 drop table if exists app.university_campus cascade;
 drop table if exists app.university_category cascade;
-drop table if exists app.university.sql cascade;
+drop table if exists app.university cascade;
 drop table if exists app.year cascade;
 
 
