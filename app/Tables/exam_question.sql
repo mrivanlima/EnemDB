@@ -50,7 +50,7 @@ COMMENT ON COLUMN app.exam_question.alternative_d IS 'Text of alternative D.';
 COMMENT ON COLUMN app.exam_question.alternative_e IS 'Text of alternative E.';
 COMMENT ON COLUMN app.exam_question.correct_alternative IS 'Correct alternative for the question (A-E).';
 COMMENT ON COLUMN app.exam_question.area_id IS 'FK to app.area; the high-level ENEM exam area for the question.';
-COMMENT ON COLUMN app.exam_question.exam_booklet_color_id IS 'FK to app.exam_booklet_color; identifies the exam booklet color.';
+COMMENT ON COLUMN app.exam_question.booklet_color_id IS 'FK to app.exam_booklet_color; identifies the exam booklet color.';
 COMMENT ON COLUMN app.exam_question.exam_day_id IS 'FK to app.exam_day; identifies the exam day.';
 COMMENT ON COLUMN app.exam_question.exam_year_id IS 'FK to app.exam_year; identifies the exam year.';
 COMMENT ON COLUMN app.exam_question.subject_id IS 'FK to app.subject; identifies the subject for the question.';
