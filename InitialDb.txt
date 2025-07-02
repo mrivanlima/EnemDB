@@ -1000,3 +1000,341 @@ CREATE TABLE IF NOT EXISTS app.seats (
     CONSTRAINT fk_seats_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
 );
 
+CREATE TABLE IF NOT EXISTS app.area (
+    area_id           SERIAL,
+    area_name         TEXT NOT NULL,
+    area_name_friendly TEXT NOT NULL,
+    created_by        INTEGER NOT NULL,
+    created_on        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by       INTEGER,
+    modified_on       TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_area_id PRIMARY KEY (area_id),
+    CONSTRAINT uq_area_name UNIQUE (area_name),
+    CONSTRAINT uq_area_name_friendly UNIQUE (area_name_friendly),
+    CONSTRAINT fk_area_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_area_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.area IS 'Represents a subject area of the ENEM exam (e.g., Linguagens, Códigos e suas Tecnologias e Redação), with support for friendly names and auditing.';
+
+-- Field comments
+COMMENT ON COLUMN app.area.area_id IS 'Primary key.';
+COMMENT ON COLUMN app.area.area_name IS 'Official name of the subject area (unique).';
+COMMENT ON COLUMN app.area.area_name_friendly IS 'User-friendly display name for the subject area (unique).';
+COMMENT ON COLUMN app.area.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.area.created_on IS 'Timestamp of record creation.';
+COMMENT ON COLUMN app.area.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.area.modified_on IS 'Timestamp of the most recent modification.';
+
+
+CREATE TABLE IF NOT EXISTS app.exam_booklet_color (
+    exam_booklet_color_id       SERIAL,
+    color_name                  TEXT NOT NULL,
+    color_name_friendly         TEXT NOT NULL,
+    created_by                  INTEGER NOT NULL,
+    created_on                  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by                 INTEGER,
+    modified_on                 TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_exam_booklet_color_id PRIMARY KEY (exam_booklet_color_id),
+    CONSTRAINT uq_color_name UNIQUE (color_name),
+    CONSTRAINT uq_color_name_friendly UNIQUE (color_name_friendly),
+    CONSTRAINT fk_exam_booklet_color_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_exam_booklet_color_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.exam_booklet_color IS 'Represents the color of the ENEM exam booklet (e.g., Blue, Yellow), with support for friendly names and auditing.';
+
+-- Field comments
+COMMENT ON COLUMN app.exam_booklet_color.exam_booklet_color_id IS 'Primary key.';
+COMMENT ON COLUMN app.exam_booklet_color.color_name IS 'Official color name (unique).';
+COMMENT ON COLUMN app.exam_booklet_color.color_name_friendly IS 'User-friendly display name for the exam color (unique).';
+COMMENT ON COLUMN app.exam_booklet_color.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.exam_booklet_color.created_on IS 'Timestamp of record creation.';
+COMMENT ON COLUMN app.exam_booklet_color.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.exam_booklet_color.modified_on IS 'Timestamp of the most recent modification.';
+
+
+CREATE TABLE IF NOT EXISTS app.exam_day (
+    exam_day_id           SERIAL,
+    day_name              TEXT NOT NULL,
+    day_name_friendly     TEXT NOT NULL,
+    created_by            INTEGER NOT NULL,
+    created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by           INTEGER,
+    modified_on           TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_exam_day_id PRIMARY KEY (exam_day_id),
+    CONSTRAINT uq_day_name UNIQUE (day_name),
+    CONSTRAINT uq_day_name_friendly UNIQUE (day_name_friendly),
+    CONSTRAINT fk_exam_day_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_exam_day_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.exam_day IS 'Represents the day of the ENEM exam (e.g., First day, Second day), supporting friendly names and auditing.';
+
+-- Field comments
+COMMENT ON COLUMN app.exam_day.exam_day_id IS 'Primary key.';
+COMMENT ON COLUMN app.exam_day.day_name IS 'Official name of the exam day (unique).';
+COMMENT ON COLUMN app.exam_day.day_name_friendly IS 'User-friendly display name for the exam day (unique).';
+COMMENT ON COLUMN app.exam_day.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.exam_day.created_on IS 'Timestamp of record creation.';
+COMMENT ON COLUMN app.exam_day.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.exam_day.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.exam_year (
+    exam_year_id        SERIAL,
+    year_value          INTEGER NOT NULL,
+    year_name_friendly  TEXT NOT NULL,
+    created_by          INTEGER NOT NULL,
+    created_on          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by         INTEGER,
+    modified_on         TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_exam_year_id PRIMARY KEY (exam_year_id),
+    CONSTRAINT uq_year_value UNIQUE (year_value),
+    CONSTRAINT uq_year_name_friendly UNIQUE (year_name_friendly),
+    CONSTRAINT fk_exam_year_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_exam_year_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.exam_year IS 'Represents the year of the ENEM exam, supporting friendly names and auditing.';
+
+-- Field comments
+COMMENT ON COLUMN app.exam_year.exam_year_id IS 'Primary key.';
+COMMENT ON COLUMN app.exam_year.year_value IS 'Official year value (unique).';
+COMMENT ON COLUMN app.exam_year.year_name_friendly IS 'User-friendly display name for the exam year (unique).';
+COMMENT ON COLUMN app.exam_year.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.exam_year.created_on IS 'Timestamp of record creation.';
+COMMENT ON COLUMN app.exam_year.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.exam_year.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.subject (
+    subject_id             SERIAL,
+    subject_name           TEXT NOT NULL,
+    subject_name_friendly  TEXT NOT NULL,
+    created_by             INTEGER NOT NULL,
+    created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by            INTEGER,
+    modified_on            TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_subject_id PRIMARY KEY (subject_id),
+    CONSTRAINT uq_subject_name UNIQUE (subject_name),
+    CONSTRAINT uq_subject_name_friendly UNIQUE (subject_name_friendly),
+    CONSTRAINT fk_subject_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_subject_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.subject IS 'Represents a high-level school subject (e.g., Mathematics, Languages), supporting friendly names and auditing.';
+
+-- Field comments
+COMMENT ON COLUMN app.subject.subject_id IS 'Primary key.';
+COMMENT ON COLUMN app.subject.subject_name IS 'Official name of the subject (unique).';
+COMMENT ON COLUMN app.subject.subject_name_friendly IS 'User-friendly display name for the subject (unique).';
+COMMENT ON COLUMN app.subject.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.subject.created_on IS 'Timestamp of record creation.';
+COMMENT ON COLUMN app.subject.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.subject.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.topic (
+    topic_id               SERIAL,
+    subject_id             INTEGER NOT NULL,
+    topic_name             TEXT NOT NULL,
+    topic_name_friendly    TEXT NOT NULL,
+    created_by             INTEGER NOT NULL,
+    created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by            INTEGER,
+    modified_on            TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_topic_id PRIMARY KEY (topic_id),
+    CONSTRAINT fk_topic_subject_id FOREIGN KEY (subject_id) REFERENCES app.subject(subject_id) ON DELETE CASCADE,
+    CONSTRAINT uq_topic_subject_name UNIQUE (subject_id, topic_name),
+    CONSTRAINT uq_topic_subject_name_friendly UNIQUE (subject_id, topic_name_friendly),
+    CONSTRAINT fk_topic_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_topic_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.topic IS 'Represents a topic within a subject (e.g., Algebra in Mathematics), supporting friendly names and auditing.';
+
+-- Field comments
+COMMENT ON COLUMN app.topic.topic_id IS 'Primary key.';
+COMMENT ON COLUMN app.topic.subject_id IS 'FK to app.subject; identifies the subject to which the topic belongs.';
+COMMENT ON COLUMN app.topic.topic_name IS 'Official name of the topic (unique within subject).';
+COMMENT ON COLUMN app.topic.topic_name_friendly IS 'User-friendly display name for the topic (unique within subject).';
+COMMENT ON COLUMN app.topic.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.topic.created_on IS 'Timestamp of record creation.';
+COMMENT ON COLUMN app.topic.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.topic.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.subtopic (
+    subtopic_id               SERIAL,
+    topic_id                  INTEGER NOT NULL,
+    subtopic_name             TEXT NOT NULL,
+    subtopic_name_friendly    TEXT NOT NULL,
+    created_by                INTEGER NOT NULL,
+    created_on                TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by               INTEGER,
+    modified_on               TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_subtopic_id PRIMARY KEY (subtopic_id),
+    CONSTRAINT fk_subtopic_topic_id FOREIGN KEY (topic_id) REFERENCES app.topic(topic_id) ON DELETE CASCADE,
+    CONSTRAINT uq_subtopic_topic_name UNIQUE (topic_id, subtopic_name),
+    CONSTRAINT uq_subtopic_topic_name_friendly UNIQUE (topic_id, subtopic_name_friendly),
+    CONSTRAINT fk_subtopic_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_subtopic_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.subtopic IS 'Represents a subtopic within a topic (e.g., Logarithms in Algebra), supporting friendly names and auditing.';
+
+-- Field comments
+COMMENT ON COLUMN app.subtopic.subtopic_id IS 'Primary key.';
+COMMENT ON COLUMN app.subtopic.topic_id IS 'FK to app.topic; identifies the topic to which the subtopic belongs.';
+COMMENT ON COLUMN app.subtopic.subtopic_name IS 'Official name of the subtopic (unique within topic).';
+COMMENT ON COLUMN app.subtopic.subtopic_name_friendly IS 'User-friendly display name for the subtopic (unique within topic).';
+COMMENT ON COLUMN app.subtopic.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.subtopic.created_on IS 'Timestamp of record creation.';
+COMMENT ON COLUMN app.subtopic.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.subtopic.modified_on IS 'Timestamp of the most recent modification.';
+
+
+CREATE TABLE IF NOT EXISTS app.school_year (
+    school_year_id         SERIAL,
+    school_year_name       TEXT NOT NULL,
+    school_year_name_friendly TEXT NOT NULL,
+    created_by             INTEGER NOT NULL,
+    created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by            INTEGER,
+    modified_on            TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_school_year_id PRIMARY KEY (school_year_id),
+    CONSTRAINT uq_school_year_name UNIQUE (school_year_name),
+    CONSTRAINT uq_school_year_name_friendly UNIQUE (school_year_name_friendly),
+    CONSTRAINT fk_school_year_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_school_year_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.school_year IS 'Represents a school grade/year (e.g., 6th grade, 1st year of high school), supporting friendly names and auditing.';
+
+-- Field comments
+COMMENT ON COLUMN app.school_year.school_year_id IS 'Primary key.';
+COMMENT ON COLUMN app.school_year.school_year_name IS 'Official name of the school year (unique).';
+COMMENT ON COLUMN app.school_year.school_year_name_friendly IS 'User-friendly display name for the school year (unique).';
+COMMENT ON COLUMN app.school_year.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.school_year.created_on IS 'Timestamp of record creation.';
+COMMENT ON COLUMN app.school_year.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.school_year.modified_on IS 'Timestamp of the most recent modification.';
+
+CREATE TABLE IF NOT EXISTS app.subtopic_school_year (
+    subtopic_id        INTEGER NOT NULL,
+    school_year_id     INTEGER NOT NULL,
+    created_by         INTEGER NOT NULL,
+    created_on         TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by        INTEGER,
+    modified_on        TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_subtopic_school_year PRIMARY KEY (subtopic_id, school_year_id),
+    CONSTRAINT fk_ssy_subtopic_id FOREIGN KEY (subtopic_id) REFERENCES app.subtopic(subtopic_id) ON DELETE CASCADE,
+    CONSTRAINT fk_ssy_school_year_id FOREIGN KEY (school_year_id) REFERENCES app.school_year(school_year_id) ON DELETE CASCADE,
+    CONSTRAINT fk_ssy_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_ssy_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.subtopic_school_year IS 'Associates subtopics with school years (grades), supporting auditing. Enables each subtopic to be linked to multiple years, and each year to multiple subtopics.';
+
+-- Field comments
+COMMENT ON COLUMN app.subtopic_school_year.subtopic_id IS 'FK to app.subtopic; identifies the subtopic.';
+COMMENT ON COLUMN app.subtopic_school_year.school_year_id IS 'FK to app.school_year; identifies the school year/grade.';
+COMMENT ON COLUMN app.subtopic_school_year.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.subtopic_school_year.created_on IS 'Timestamp of record creation.';
+COMMENT ON COLUMN app.subtopic_school_year.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.subtopic_school_year.modified_on IS 'Timestamp of the most recent modification.';
+
+
+CREATE TABLE IF NOT EXISTS app.exam_question (
+    exam_question_id         SERIAL,
+    question_number          INTEGER NOT NULL,
+    question_text            TEXT NOT NULL,
+    image_path               TEXT,
+    alternative_a            TEXT NOT NULL,
+    alternative_b            TEXT NOT NULL,
+    alternative_c            TEXT NOT NULL,
+    alternative_d            TEXT NOT NULL,
+    alternative_e            TEXT NOT NULL,
+    correct_alternative      CHAR(1),
+    area_id                  INTEGER REFERENCES app.area(area_id),
+    exam_booklet_color_id    INTEGER NOT NULL REFERENCES app.exam_booklet_color(exam_booklet_color_id),
+    exam_day_id              INTEGER NOT NULL REFERENCES app.exam_day(exam_day_id),
+    exam_year_id             INTEGER NOT NULL REFERENCES app.exam_year(exam_year_id),
+    subtopic_id              INTEGER REFERENCES app.subtopic(subtopic_id),
+    subject_id               INTEGER REFERENCES app.subject(subject_id),
+    topic_id                 INTEGER REFERENCES app.topic(topic_id),
+    created_by               INTEGER NOT NULL,
+    created_on               TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by              INTEGER,
+    modified_on              TIMESTAMPTZ,
+
+    -- Constraints
+    CONSTRAINT pk_exam_question_id PRIMARY KEY (exam_question_id),
+    CONSTRAINT uq_exam_question_unique UNIQUE (question_number, exam_booklet_color_id, exam_day_id, exam_year_id),
+    CONSTRAINT fk_exam_question_area_id FOREIGN KEY (area_id) REFERENCES app.area(area_id),
+    CONSTRAINT fk_exam_question_exam_booklet_color_id FOREIGN KEY (exam_booklet_color_id) REFERENCES app.exam_booklet_color(exam_booklet_color_id),
+    CONSTRAINT fk_exam_question_exam_day_id FOREIGN KEY (exam_day_id) REFERENCES app.exam_day(exam_day_id),
+    CONSTRAINT fk_exam_question_exam_year_id FOREIGN KEY (exam_year_id) REFERENCES app.exam_year(exam_year_id),
+    CONSTRAINT fk_exam_question_subject_id FOREIGN KEY (subject_id) REFERENCES app.subject(subject_id),
+    CONSTRAINT fk_exam_question_topic_id FOREIGN KEY (topic_id) REFERENCES app.topic(topic_id),
+    CONSTRAINT fk_exam_question_subtopic_id FOREIGN KEY (subtopic_id) REFERENCES app.subtopic(subtopic_id),
+    CONSTRAINT fk_exam_question_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_exam_question_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+);
+
+-- Table comment
+COMMENT ON TABLE app.exam_question IS 'Stores ENEM exam questions, including references to color, day, year, area, subject, topic, subtopic, and auditing.';
+
+-- Field comments
+COMMENT ON COLUMN app.exam_question.exam_question_id IS 'Primary key.';
+COMMENT ON COLUMN app.exam_question.question_number IS 'Number of the question in the exam.';
+COMMENT ON COLUMN app.exam_question.question_text IS 'Full text/enunciation of the question.';
+COMMENT ON COLUMN app.exam_question.image_path IS 'Filesystem path or URL to associated question image.';
+COMMENT ON COLUMN app.exam_question.alternative_a IS 'Text of alternative A.';
+COMMENT ON COLUMN app.exam_question.alternative_b IS 'Text of alternative B.';
+COMMENT ON COLUMN app.exam_question.alternative_c IS 'Text of alternative C.';
+COMMENT ON COLUMN app.exam_question.alternative_d IS 'Text of alternative D.';
+COMMENT ON COLUMN app.exam_question.alternative_e IS 'Text of alternative E.';
+COMMENT ON COLUMN app.exam_question.correct_alternative IS 'Correct alternative for the question (A-E).';
+COMMENT ON COLUMN app.exam_question.area_id IS 'FK to app.area; the high-level ENEM exam area for the question.';
+COMMENT ON COLUMN app.exam_question.exam_booklet_color_id IS 'FK to app.exam_booklet_color; identifies the exam booklet color.';
+COMMENT ON COLUMN app.exam_question.exam_day_id IS 'FK to app.exam_day; identifies the exam day.';
+COMMENT ON COLUMN app.exam_question.exam_year_id IS 'FK to app.exam_year; identifies the exam year.';
+COMMENT ON COLUMN app.exam_question.subject_id IS 'FK to app.subject; identifies the subject for the question.';
+COMMENT ON COLUMN app.exam_question.topic_id IS 'FK to app.topic; identifies the topic for the question.';
+COMMENT ON COLUMN app.exam_question.subtopic_id IS 'FK to app.subtopic; identifies the subtopic for the question.';
+COMMENT ON COLUMN app.exam_question.created_by IS 'FK to app.user_login; user who created this record.';
+COMMENT ON COLUMN app.exam_question.created_on IS 'Timestamp of record creation.';
+COMMENT ON COLUMN app.exam_question.modified_by IS 'FK to app.user_login; user who last modified this record.';
+COMMENT ON COLUMN app.exam_question.modified_on IS 'Timestamp of the most recent modification.';
+
+
+
+
+
+
+
