@@ -1,5 +1,937 @@
--- -- ALTER SEQUENCE app.user_login_user_id_seq MINVALUE 0;
--- -- ALTER SEQUENCE app.user_login_user_id_seq RESTART WITH 0;
+
+
+INSERT INTO app.user_login (
+    email,
+    password_hash,
+    is_email_verified,
+    is_active,
+    soft_deleted_at,
+    created_by,
+    created_on,
+    modified_by,
+    modified_on
+)
+VALUES (
+    'admin@yourdomain.com',                                  -- email
+    '$2a$12$EixZaYVK1fsbw1Zfbx3OXePaWxn96p36O8aCw/1hZ/8AXY9PQwztC', -- example hash for 'Admin123!'
+    TRUE,                                                    -- is_email_verified
+    TRUE,                                                    -- is_active
+    NULL,                                                    -- soft_deleted_at (NULL for active accounts)
+    1,                                                       -- created_by (usually another admin user or 1 for system)
+    NOW(),                                                   -- created_on
+    NULL,                                                    -- modified_by (NULL at creation)
+    NULL                                                     -- modified_on (NULL at creation)
+);
+
+
+
+INSERT INTO app.booklet_color (
+    booklet_color_name,
+    booklet_color_name_friendly,
+    is_accessible,
+    sort_order,
+    active,
+    created_by,
+    created_on,
+    modified_by,
+    modified_on
+)
+VALUES
+  ('Amarelo', 'Caderno Amarelo', FALSE, 1, TRUE, 1, NOW(), NULL, NULL),
+  ('Azul', 'Caderno Azul', FALSE, 2, TRUE, 1, NOW(), NULL, NULL),
+  ('Rosa', 'Caderno Rosa', FALSE, 3, TRUE, 1, NOW(), NULL, NULL),
+  ('Cinza', 'Caderno Cinza', FALSE, 4, TRUE, 1, NOW(), NULL, NULL),
+  ('Branco', 'Caderno Branco (Acessível)', TRUE, 5, TRUE, 1, NOW(), NULL, NULL),
+  ('Laranja', 'Caderno Laranja', FALSE, 6, TRUE, 1, NOW(), NULL, NULL),
+  ('Verde', 'Caderno Verde', FALSE, 7, TRUE, 1, NOW(), NULL, NULL);
+
+  INSERT INTO app.area (
+    area_name,
+    area_name_friendly,
+    created_by,
+    created_on,
+    modified_by,
+    modified_on
+)
+VALUES
+  ('Ciências da Natureza e suas Tecnologias', 'Ciencias da Natureza e suas Tecnologias', 1, NOW(), NULL, NULL),
+  ('Ciências Humanas e suas Tecnologias', 'Ciencias Humanas e suas Tecnologias', 1, NOW(), NULL, NULL),
+  ('Linguagens, Códigos e suas Tecnologias e Redação', 'Linguagens, Codigos e suas Tecnologias e Redacao', 1, NOW(), NULL, NULL),
+  ('Matemática e suas Tecnologias', 'Matematica e suas Tecnologias', 1, NOW(), NULL, NULL);
+
+
+INSERT INTO app.exam_day (
+    day_name,
+    day_name_friendly,
+    created_by,
+    created_on,
+    modified_by,
+    modified_on
+)
+VALUES
+  ('Primeiro Dia', 'Primeiro Dia', 1, NOW(), NULL, NULL),
+  ('Segundo Dia', 'Segundo Dia', 1, NOW(), NULL, NULL);
+
+
+  INSERT INTO app.exam_year (
+    year_name,
+    year_name_friendly,
+    created_by,
+    created_on,
+    modified_by,
+    modified_on
+)
+VALUES
+  (2010, '2010', 1, NOW(), NULL, NULL),
+  (2011, '2011', 1, NOW(), NULL, NULL),
+  (2012, '2012', 1, NOW(), NULL, NULL),
+  (2013, '2013', 1, NOW(), NULL, NULL),
+  (2014, '2014', 1, NOW(), NULL, NULL),
+  (2015, '2015', 1, NOW(), NULL, NULL),
+  (2016, '2016', 1, NOW(), NULL, NULL),
+  (2017, '2017', 1, NOW(), NULL, NULL),
+  (2018, '2018', 1, NOW(), NULL, NULL),
+  (2019, '2019', 1, NOW(), NULL, NULL),
+  (2020, '2020', 1, NOW(), NULL, NULL),
+  (2021, '2021', 1, NOW(), NULL, NULL),
+  (2022, '2022', 1, NOW(), NULL, NULL),
+  (2023, '2023', 1, NOW(), NULL, NULL),
+  (2024, '2024', 1, NOW(), NULL, NULL),
+  (2025, '2025', 1, NOW(), NULL, NULL),
+  (2026, '2026', 1, NOW(), NULL, NULL),
+  (2027, '2027', 1, NOW(), NULL, NULL),
+  (2028, '2028', 1, NOW(), NULL, NULL),
+  (2029, '2029', 1, NOW(), NULL, NULL),
+  (2030, '2030', 1, NOW(), NULL, NULL);
+
+
+INSERT INTO app.subject (
+    subject_name,
+    subject_name_friendly,
+    created_by,
+    created_on,
+    modified_by,
+    modified_on
+)
+VALUES
+  ('Arte', 'Arte', 1, NOW(), NULL, NULL),
+  ('Biologia', 'Biologia', 1, NOW(), NULL, NULL),
+  ('Ciências', 'Ciencias', 1, NOW(), NULL, NULL),
+  ('Educação Física', 'Educacao Fisica', 1, NOW(), NULL, NULL),
+  ('Espanhol', 'Espanhol', 1, NOW(), NULL, NULL),
+  ('Filosofia', 'Filosofia', 1, NOW(), NULL, NULL),
+  ('Física', 'Fisica', 1, NOW(), NULL, NULL),
+  ('Geografia', 'Geografia', 1, NOW(), NULL, NULL),
+  ('História', 'Historia', 1, NOW(), NULL, NULL),
+  ('Inglês', 'Ingles', 1, NOW(), NULL, NULL),
+  ('Literatura', 'Literatura', 1, NOW(), NULL, NULL),
+  ('Matemática', 'Matematica', 1, NOW(), NULL, NULL),
+  ('Português', 'Portugues', 1, NOW(), NULL, NULL),
+  ('Química', 'Quimica', 1, NOW(), NULL, NULL),
+  ('Redação', 'Redacao', 1, NOW(), NULL, NULL),
+  ('Sociologia', 'Sociologia', 1, NOW(), NULL, NULL),
+  ('Tecnologia da Informação', 'Tecnologia da Informacao', 1, NOW(), NULL, NULL),
+  ('Ensino Religioso', 'Ensino Religioso', 1, NOW(), NULL, NULL),
+  ('Projeto de Vida', 'Projeto de Vida', 1, NOW(), NULL, NULL);
+
+
+-- Matemática
+SELECT subject_id FROM app.subject WHERE subject_name = 'Matemática';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Aritmética', 'Aritmetica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Álgebra', 'Algebra', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Geometria', 'Geometria', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Funções', 'Funcoes', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Probabilidade e Estatística', 'Probabilidade e Estatistica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Trigonometria', 'Trigonometria', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Matemática Financeira', 'Matematica Financeira', 1, NOW(), NULL, NULL);
+
+-- Português
+SELECT subject_id FROM app.subject WHERE subject_name = 'Português';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Gramática', 'Gramatica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Interpretação de Texto', 'Interpretacao de Texto', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Ortografia', 'Ortografia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Literatura', 'Literatura', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Redação', 'Redacao', 1, NOW(), NULL, NULL);
+
+-- Ciências
+SELECT subject_id FROM app.subject WHERE subject_name = 'Ciências';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Corpo Humano', 'Corpo Humano', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Ecologia', 'Ecologia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Matéria e Energia', 'Materia e Energia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Astronomia', 'Astronomia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Saúde e Doenças', 'Saude e Doencas', 1, NOW(), NULL, NULL);
+
+-- História
+SELECT subject_id FROM app.subject WHERE subject_name = 'História';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'História do Brasil', 'Historia do Brasil', 1, NOW(), NULL, NULL),
+  (:subject_id, 'História Geral', 'Historia Geral', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Cidadania', 'Cidadania', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Antiguidade', 'Antiguidade', 1, NOW(), NULL, NULL);
+
+-- Geografia
+SELECT subject_id FROM app.subject WHERE subject_name = 'Geografia';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Geografia Física', 'Geografia Fisica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Geografia Humana', 'Geografia Humana', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Cartografia', 'Cartografia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Economia', 'Economia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Demografia', 'Demografia', 1, NOW(), NULL, NULL);
+
+-- Arte
+SELECT subject_id FROM app.subject WHERE subject_name = 'Arte';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'História da Arte', 'Historia da Arte', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Música', 'Musica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Teatro', 'Teatro', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Dança', 'Danca', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Artes Visuais', 'Artes Visuais', 1, NOW(), NULL, NULL);
+
+-- Educação Física
+SELECT subject_id FROM app.subject WHERE subject_name = 'Educação Física';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Esportes', 'Esportes', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Saúde e Movimento', 'Saude e Movimento', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Jogos e Brincadeiras', 'Jogos e Brincadeiras', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Cultura Corporal', 'Cultura Corporal', 1, NOW(), NULL, NULL);
+
+-- Inglês
+SELECT subject_id FROM app.subject WHERE subject_name = 'Inglês';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Compreensão Oral', 'Compreensao Oral', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Leitura e Interpretação', 'Leitura e Interpretacao', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Gramática', 'Gramatica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Vocabulário', 'Vocabulario', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Produção de Texto', 'Producao de Texto', 1, NOW(), NULL, NULL);
+
+-- Espanhol
+SELECT subject_id FROM app.subject WHERE subject_name = 'Espanhol';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Compreensão Oral', 'Compreensao Oral', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Leitura e Interpretação', 'Leitura e Interpretacao', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Gramática', 'Gramatica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Vocabulário', 'Vocabulario', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Produção de Texto', 'Producao de Texto', 1, NOW(), NULL, NULL);
+
+SELECT subject_id FROM app.subject WHERE subject_name = 'Biologia';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Citologia', 'Citologia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Histologia', 'Histologia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Fisiologia', 'Fisiologia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Genética', 'Genetica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Evolução', 'Evolucao', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Ecologia', 'Ecologia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Botânica', 'Botanica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Zoologia', 'Zoologia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Microbiologia', 'Microbiologia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Imunologia', 'Imunologia', 1, NOW(), NULL, NULL);
+
+ INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Bioquímica', 'Bioquimica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Embriologia', 'Embriologia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Parasitologia', 'Parasitologia', 1, NOW(), NULL, NULL);
+ 
+
+
+-- Física
+SELECT subject_id FROM app.subject WHERE subject_name = 'Física';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Mecânica', 'Mecanica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Gravitação', 'Gravitacao', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Hidrostática', 'Hidrostatica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Termologia', 'Termologia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Óptica', 'Optica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Ondulatória', 'Ondulatoria', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Eletricidade', 'Eletricidade', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Eletromagnetismo', 'Eletromagnetismo', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Física Moderna', 'Fisica Moderna', 1, NOW(), NULL, NULL);
+
+
+-- Química
+SELECT subject_id FROM app.subject WHERE subject_name = 'Química';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Química Geral', 'Quimica Geral', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Química Inorgânica', 'Quimica Inorganica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Fisico-Química', 'Fisico-Quimica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Química Orgânica', 'Quimica Organica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Química Ambiental', 'Quimica Ambiental', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Estequiometria', 'Estequiometria', 1, NOW(), NULL, NULL);
+
+  -- Adicional, só se quiser máxima granularidade:
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Química Analítica', 'Quimica Analitica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Química do Cotidiano', 'Quimica do Cotidiano', 1, NOW(), NULL, NULL);
+
+
+
+-- Sociologia
+SELECT subject_id FROM app.subject WHERE subject_name = 'Sociologia';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Teorias Sociológicas', 'Teorias Sociologicas', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Cidadania e Sociedade', 'Cidadania e Sociedade', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Cultura', 'Cultura', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Estratificação Social', 'Estratificacao Social', 1, NOW(), NULL, NULL);
+
+-- Filosofia
+SELECT subject_id FROM app.subject WHERE subject_name = 'Filosofia';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Filosofia Antiga', 'Filosofia Antiga', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Filosofia Moderna', 'Filosofia Moderna', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Filosofia Contemporânea', 'Filosofia Contemporanea', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Ética', 'Etica', 1, NOW(), NULL, NULL);
+
+-- Redação
+SELECT subject_id FROM app.subject WHERE subject_name = 'Redação';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Estrutura do Texto Dissertativo', 'Estrutura do Texto Dissertativo', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Argumentação', 'Argumentacao', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Coesão e Coerência', 'Coesao e Coerencia', 1, NOW(), NULL, NULL);
+
+-- Tecnologia da Informação
+SELECT subject_id FROM app.subject WHERE subject_name = 'Tecnologia da Informação';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Fundamentos de Informática', 'Fundamentos de Informatica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Internet e Redes', 'Internet e Redes', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Segurança Digital', 'Seguranca Digital', 1, NOW(), NULL, NULL);
+
+-- Projeto de Vida
+SELECT subject_id FROM app.subject WHERE subject_name = 'Projeto de Vida';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Autoconhecimento', 'Autoconhecimento', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Planejamento de Carreira', 'Planejamento de Carreira', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Habilidades Socioemocionais', 'Habilidades Socioemocionais', 1, NOW(), NULL, NULL);
+
+-- Ensino Religioso
+SELECT subject_id FROM app.subject WHERE subject_name = 'Ensino Religioso';
+\gset
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Diversidade Religiosa', 'Diversidade Religiosa', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Ética e Valores', 'Etica e Valores', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Religiões do Mundo', 'Religioes do Mundo', 1, NOW(), NULL, NULL);
+
+-- Matemática > Álgebra
+SELECT topic_id FROM app.topic WHERE topic_name = 'Álgebra';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Equações do 1º grau', 'Equacoes do 1 grau', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Equações do 2º grau', 'Equacoes do 2 grau', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Sistemas Lineares', 'Sistemas Lineares', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Inequações', 'Inequacoes', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Polinômios', 'Polinomios', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Logaritmos', 'Logaritmos', 1, NOW(), NULL, NULL);
+
+-- -- Matemática > Geometria
+SELECT topic_id FROM app.topic WHERE topic_name = 'Geometria';
+ \gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+   (:topic_id, 'Geometria Plana', 'Geometria Plana', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Geometria Espacial', 'Geometria Espacial', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Semelhança de Triângulos', 'Semelhanca de Triangulos', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Áreas e Perímetros', 'Areas e Perimetros', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Trigonometria no Triângulo Retângulo', 'Trigonometria no Triangulo Retangulo', 1, NOW(), NULL, NULL);
+
+-- -- Matemática > Funções
+ SELECT topic_id FROM app.topic WHERE topic_name = 'Funções';
+ \gset
+ INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+   (:topic_id, 'Função do 1º grau', 'Funcao do 1 grau', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Função do 2º grau', 'Funcao do 2 grau', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Função Exponencial', 'Funcao Exponencial', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Função Logarítmica', 'Funcao Logaritmica', 1, NOW(), NULL, NULL);
+
+-- -- Matemática > Probabilidade e Estatística
+SELECT topic_id FROM app.topic WHERE topic_name = 'Probabilidade e Estatística';
+ \gset
+ INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+   (:topic_id, 'Análise Combinatória', 'Analise Combinatoria', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Probabilidade', 'Probabilidade', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Estatística Descritiva', 'Estatistica Descritiva', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Média, Moda e Mediana', 'Media Moda e Mediana', 1, NOW(), NULL, NULL);
+
+-- -- Matemática > Trigonometria
+ SELECT topic_id FROM app.topic WHERE topic_name = 'Trigonometria';
+ \gset
+ INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+   (:topic_id, 'Seno, Cosseno e Tangente', 'Seno Cosseno e Tangente', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Círculo Trigonométrico', 'Circulo Trigonometrico', 1, NOW(), NULL, NULL),
+   (:topic_id, 'Funções Trigonométricas', 'Funcoes Trigonometricas', 1, NOW(), NULL, NULL);
+
+-- Progressões (PA e PG) em Álgebra
+SELECT topic_id FROM app.topic WHERE topic_name = 'Álgebra';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Progressão Aritmética (PA)', 'Progresao Aritmetica PA', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Progressão Geométrica (PG)', 'Progresao Geometrica PG', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Soma dos termos de PA', 'Soma dos termos de PA', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Soma dos termos de PG', 'Soma dos termos de PG', 1, NOW(), NULL, NULL);
+
+-- Geometria Analítica
+SELECT topic_id FROM app.topic WHERE topic_name = 'Geometria';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Ponto e Distância', 'Ponto e Distancia', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Equação da Reta', 'Equacao da Reta', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Circunferência', 'Circunferencia', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Parábola', 'Parabola', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Elipse', 'Elipse', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Hipérbole', 'Hiperbole', 1, NOW(), NULL, NULL);
+
+-- Poliedros e Corpos Redondos em Geometria
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Prismas', 'Prismas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Pirâmides', 'Piramides', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Cilindros', 'Cilindros', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Cones', 'Cones', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Esferas', 'Esferas', 1, NOW(), NULL, NULL);
+
+-- Conjuntos e Lógica em Aritmética
+SELECT topic_id FROM app.topic WHERE topic_name = 'Aritmética';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Noções de Conjuntos', 'Nocoes de Conjuntos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Operações com Conjuntos', 'Operacoes com Conjuntos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Diagramas de Venn', 'Diagramas de Venn', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Noções de Lógica', 'Nocoes de Logica', 1, NOW(), NULL, NULL);
+
+-- Análise Combinatória em Probabilidade e Estatística
+SELECT topic_id FROM app.topic WHERE topic_name = 'Probabilidade e Estatística';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Arranjos', 'Arranjos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Permutações', 'Permutacoes', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Combinações', 'Combinacoes', 1, NOW(), NULL, NULL);
+
+-- Estatística Avançada em Probabilidade e Estatística
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Desvio Padrão', 'Desvio Padrao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Variância', 'Variancia', 1, NOW(), NULL, NULL);
+
+ -- Matrizes e Determinantes (Álgebra)
+SELECT topic_id FROM app.topic WHERE topic_name = 'Álgebra';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Matrizes', 'Matrizes', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Determinantes', 'Determinantes', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Sequências Numéricas', 'Sequencias Numericas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Teorema do Resto', 'Teorema do Resto', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Teorema das Raízes', 'Teorema das Raizes', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Números Complexos', 'Numeros Complexos', 1, NOW(), NULL, NULL);
+
+-- Transformações Geométricas (Geometria)
+SELECT topic_id FROM app.topic WHERE topic_name = 'Geometria';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Transformações Geométricas', 'Transformacoes Geometricas', 1, NOW(), NULL, NULL);
+ 
+
+ SELECT topic_id FROM app.topic WHERE topic_name = 'Aritmética';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Divisibilidade Avançada', 'Divisibilidade Avancada', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Números Primos', 'Numeros Primos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Congruência', 'Congruencia', 1, NOW(), NULL, NULL);
+
+SELECT topic_id FROM app.topic WHERE topic_name = 'Funções';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Função Modular', 'Funcao Modular', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Função por Partes', 'Funcao por Partes', 1, NOW(), NULL, NULL);
+
+SELECT topic_id FROM app.topic WHERE topic_name = 'Funções';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Otimização e Modelagem', 'Otimizacao e Modelagem', 1, NOW(), NULL, NULL);
+
+SELECT topic_id FROM app.topic WHERE topic_name = 'Matemática Financeira';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Séries de Pagamentos', 'Series de Pagamentos', 1, NOW(), NULL, NULL);
+
+-- Propriedades dos Logaritmos em Álgebra
+SELECT topic_id FROM app.topic WHERE topic_name = 'Álgebra';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Propriedades dos Logaritmos', 'Propriedades dos Logaritmos', 1, NOW(), NULL, NULL);
+
+-- Sistemas Não Lineares em Álgebra
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Sistemas Não Lineares', 'Sistemas Nao Lineares', 1, NOW(), NULL, NULL);
+
+
+ -- Mecânica
+SELECT topic_id FROM app.topic WHERE topic_name = 'Mecânica';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Cinemática', 'Cinematica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Dinâmica', 'Dinamica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Estática', 'Estatica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Trabalho e Energia', 'Trabalho e Energia', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Quantidade de Movimento', 'Quantidade de Movimento', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Movimento Circular', 'Movimento Circular', 1, NOW(), NULL, NULL);
+
+-- Gravitação
+SELECT topic_id FROM app.topic WHERE topic_name = 'Gravitação';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Lei da Gravitação Universal', 'Lei da Gravitacao Universal', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Satélites e Órbitas', 'Satelites e Orbitas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Peso e Massa', 'Peso e Massa', 1, NOW(), NULL, NULL);
+
+-- Hidrostática
+SELECT topic_id FROM app.topic WHERE topic_name = 'Hidrostática';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Pressão', 'Pressao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Empuxo', 'Empuxo', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Princípio de Pascal', 'Principio de Pascal', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Princípio de Arquimedes', 'Principio de Arquimedes', 1, NOW(), NULL, NULL);
+
+-- Termologia
+SELECT topic_id FROM app.topic WHERE topic_name = 'Termologia';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Calorimetria', 'Calorimetria', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Termometria', 'Termometria', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Dilatação Térmica', 'Dilatacao Termica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Mudanças de Estado Físico', 'Mudancas de Estado Fisico', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Leis dos Gases', 'Leis dos Gases', 1, NOW(), NULL, NULL);
+
+-- Óptica
+SELECT topic_id FROM app.topic WHERE topic_name = 'Óptica';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Óptica Geométrica', 'Optica Geometrica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Reflexão', 'Reflexao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Refração', 'Refracao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Espelhos', 'Espelhos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Lentes', 'Lentes', 1, NOW(), NULL, NULL);
+
+-- Ondulatória
+SELECT topic_id FROM app.topic WHERE topic_name = 'Ondulatória';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Propriedades das Ondas', 'Propriedades das Ondas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Som', 'Som', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Luz como Onda', 'Luz como Onda', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Frequência e Comprimento de Onda', 'Frequencia e Comprimento de Onda', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Interferência e Difração', 'Interferencia e Difracao', 1, NOW(), NULL, NULL);
+
+-- Eletricidade
+SELECT topic_id FROM app.topic WHERE topic_name = 'Eletricidade';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Eletrostática', 'Eletrostatica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Corrente Elétrica', 'Corrente Eletrica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Resistores', 'Resistores', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Leis de Ohm', 'Leis de Ohm', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Circuitos Elétricos', 'Circuitos Eletricos', 1, NOW(), NULL, NULL);
+
+-- Eletromagnetismo
+SELECT topic_id FROM app.topic WHERE topic_name = 'Eletromagnetismo';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Campo Magnético', 'Campo Magnetico', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Força Magnética', 'Forca Magnetica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Indução Eletromagnética', 'Inducao Eletromagnetica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Geradores e Motores', 'Geradores e Motores', 1, NOW(), NULL, NULL);
+
+-- Física Moderna
+SELECT topic_id FROM app.topic WHERE topic_name = 'Física Moderna';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Física Quântica', 'Fisica Quantica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Relatividade', 'Relatividade', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Física Nuclear', 'Fisica Nuclear', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Radioatividade', 'Radioatividade', 1, NOW(), NULL, NULL);
+
+-- Termologia: Máquinas térmicas
+SELECT topic_id FROM app.topic WHERE topic_name = 'Termologia';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Máquinas Térmicas', 'Maquinas Termicas', 1, NOW(), NULL, NULL);
+
+-- Óptica: Espelhos esféricos e Lentes esféricas
+SELECT topic_id FROM app.topic WHERE topic_name = 'Óptica';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Espelhos Esféricos', 'Espelhos Esfericos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Lentes Esféricas', 'Lentes Esfericas', 1, NOW(), NULL, NULL);
+
+-- Mecânica: Princípios de conservação
+SELECT topic_id FROM app.topic WHERE topic_name = 'Mecânica';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Conservação de Energia', 'Conservacao de Energia', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Conservação da Quantidade de Movimento', 'Conservacao da Quantidade de Movimento', 1, NOW(), NULL, NULL);
+
+-- Erros de medição e algarismos significativos
+SELECT topic_id FROM app.topic WHERE topic_name = 'Mecânica';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Erros de Medição', 'Erros de Medicao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Algarismos Significativos', 'Algarismos Significativos', 1, NOW(), NULL, NULL);
+
+-- Unidades de medida
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Unidades de Medida', 'Unidades de Medida', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Conversão de Unidades', 'Conversao de Unidades', 1, NOW(), NULL, NULL);
+
+ -- Citologia
+SELECT topic_id FROM app.topic WHERE topic_name = 'Citologia';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Membrana Plasmática', 'Membrana Plasmatica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Organelas Celulares', 'Organelas Celulares', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Ciclo Celular', 'Ciclo Celular', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Divisão Celular', 'Divisao Celular', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Metabolismo Celular', 'Metabolismo Celular', 1, NOW(), NULL, NULL);
+
+-- Histologia
+SELECT topic_id FROM app.topic WHERE topic_name = 'Histologia';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Tecidos Epiteliais', 'Tecidos Epiteliais', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Tecidos Conjuntivos', 'Tecidos Conjuntivos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Tecidos Musculares', 'Tecidos Musculares', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Tecidos Nervosos', 'Tecidos Nervosos', 1, NOW(), NULL, NULL);
+
+-- Fisiologia
+SELECT topic_id FROM app.topic WHERE topic_name = 'Fisiologia';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Sistema Digestório', 'Sistema Digestorio', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Sistema Respiratório', 'Sistema Respiratorio', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Sistema Circulatório', 'Sistema Circulatorio', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Sistema Excretor', 'Sistema Excretor', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Sistema Nervoso', 'Sistema Nervoso', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Sistema Endócrino', 'Sistema Endocrino', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Sistema Reprodutor', 'Sistema Reprodutor', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Sistema Imunológico', 'Sistema Imunologico', 1, NOW(), NULL, NULL);
+
+-- Genética
+SELECT topic_id FROM app.topic WHERE topic_name = 'Genética';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'DNA e RNA', 'DNA e RNA', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Leis de Mendel', 'Leis de Mendel', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Genética Molecular', 'Genetica Molecular', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Mutações', 'Mutacoes', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Herança Genética', 'Heranca Genetica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Genética de Populações', 'Genetica de Populacoes', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Biotecnologia', 'Biotecnologia', 1, NOW(), NULL, NULL);
+
+-- Evolução
+SELECT topic_id FROM app.topic WHERE topic_name = 'Evolução';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Teorias Evolutivas', 'Teorias Evolutivas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Seleção Natural', 'Selecao Natural', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Especiação', 'Especiacao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Evidências da Evolução', 'Evidencias da Evolucao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Adaptação', 'Adaptacao', 1, NOW(), NULL, NULL);
+
+-- Ecologia
+-- SELECT topic_id FROM app.topic WHERE topic_name = 'Ecologia';
+-- \gset
+-- INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--   (:topic_id, 'Cadeias e Teias Alimentares', 'Cadeias e Teias Alimentares', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Ciclos Biogeoquímicos', 'Ciclos Biogeoquimicos', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Populações e Comunidades', 'Populacoes e Comunidades', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Sucessão Ecológica', 'Sucessao Ecologica', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Sustentabilidade', 'Sustentabilidade', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Poluição', 'Poluicao', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Impactos Ambientais', 'Impactos Ambientais', 1, NOW(), NULL, NULL);
+
+-- Botânica
+SELECT topic_id FROM app.topic WHERE topic_name = 'Botânica';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Classificação dos Vegetais', 'Classificacao dos Vegetais', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Fisiologia Vegetal', 'Fisiologia Vegetal', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Reprodução Vegetal', 'Reproducao Vegetal', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Tecidos Vegetais', 'Tecidos Vegetais', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Fotossíntese', 'Fotossintese', 1, NOW(), NULL, NULL);
+
+-- Zoologia
+SELECT topic_id FROM app.topic WHERE topic_name = 'Zoologia';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Classificação dos Animais', 'Classificacao dos Animais', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Fisiologia Animal', 'Fisiologia Animal', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Reprodução Animal', 'Reproducao Animal', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Desenvolvimento Animal', 'Desenvolvimento Animal', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Grupos de Animais', 'Grupos de Animais', 1, NOW(), NULL, NULL);
+
+-- Microbiologia
+SELECT topic_id FROM app.topic WHERE topic_name = 'Microbiologia';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Vírus', 'Virus', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Bactérias', 'Bacterias', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Protozoários', 'Protozoarios', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Fungos', 'Fungos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Doenças Microbianas', 'Doencas Microbianas', 1, NOW(), NULL, NULL);
+
+-- Imunologia
+SELECT topic_id FROM app.topic WHERE topic_name = 'Imunologia';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Sistema Imunológico', 'Sistema Imunologico', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Imunidade Inata', 'Imunidade Inata', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Imunidade Adquirida', 'Imunidade Adquirida', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Vacinas', 'Vacinas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Alergias e Doenças Autoimunes', 'Alergias e Doencas Autoimunes', 1, NOW(), NULL, NULL);
+
+-- Histologia (extra)
+SELECT topic_id FROM app.topic WHERE topic_name = 'Histologia';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Tecidos Vegetais', 'Tecidos Vegetais', 1, NOW(), NULL, NULL);
+  
+-- Bioquímica (opcional, se criar o tópico)
+SELECT topic_id FROM app.topic WHERE topic_name = 'Bioquímica';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Ácidos Nucleicos', 'Acidos Nucleicos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Carboidratos', 'Carboidratos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Lipídeos', 'Lipideos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Proteínas', 'Proteinas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Vitaminas', 'Vitaminas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Enzimas', 'Enzimas', 1, NOW(), NULL, NULL);
+
+-- Embriologia (opcional, se criar o tópico)
+SELECT topic_id FROM app.topic WHERE topic_name = 'Embriologia';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Fecundação', 'Fecundacao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Segmentação', 'Segmentacao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Gastrulação', 'Gastrulacao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Organogênese', 'Organogenese', 1, NOW(), NULL, NULL);
+
+-- Parasitologia (opcional, se criar o tópico)
+SELECT topic_id FROM app.topic WHERE topic_name = 'Parasitologia';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Protozooses', 'Protozooses', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Helmintíases', 'Helmintiases', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Ectoparasitoses', 'Ectoparasitoses', 1, NOW(), NULL, NULL);
+
+
+ -- Química Geral
+SELECT topic_id FROM app.topic WHERE topic_name = 'Química Geral';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Estrutura Atômica', 'Estrutura Atomica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Tabelas Periódicas', 'Tabelas Periodicas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Propriedades Periódicas', 'Propriedades Periodicas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Ligações Químicas', 'Ligacoes Quimicas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Funções Químicas', 'Funcoes Quimicas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Soluções', 'Solucoes', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Misturas e Separação de Misturas', 'Misturas e Separacao de Misturas', 1, NOW(), NULL, NULL);
+
+-- Química Inorgânica
+SELECT topic_id FROM app.topic WHERE topic_name = 'Química Inorgânica';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Ácidos', 'Acidos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Bases', 'Bases', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Sais', 'Sais', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Óxidos', 'Oxidos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Reações Inorgânicas', 'Reacoes Inorganicas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Propriedades dos Compostos Inorgânicos', 'Propriedades dos Compostos Inorganicos', 1, NOW(), NULL, NULL);
+
+-- Físico-Química
+SELECT topic_id FROM app.topic WHERE topic_name = 'Fisico-Química';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Termoquímica', 'Termoquimica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Eletroquímica', 'Eletroquimica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Cinética Química', 'Cinetica Quimica', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Equilíbrio Químico', 'Equilibrio Quimico', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Soluções e Propriedades Coligativas', 'Solucoes e Propriedades Coligativas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'pH e pOH', 'pH e pOH', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Radioatividade', 'Radioatividade', 1, NOW(), NULL, NULL);
+
+-- Química Orgânica
+SELECT topic_id FROM app.topic WHERE topic_name = 'Química Orgânica';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Hidrocarbonetos', 'Hidrocarbonetos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Funções Orgânicas', 'Funcoes Organicas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Reações Orgânicas', 'Reacoes Organicas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Isomeria', 'Isomeria', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Polímeros', 'Polimeros', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Biomoléculas', 'Biomoleculas', 1, NOW(), NULL, NULL);
+
+-- Química Ambiental
+SELECT topic_id FROM app.topic WHERE topic_name = 'Química Ambiental';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Poluição da Água', 'Poluicao da Agua', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Poluição do Ar', 'Poluicao do Ar', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Chuva Ácida', 'Chuva Acida', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Efeito Estufa e Aquecimento Global', 'Efeito Estufa e Aquecimento Global', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Tratamento de Água e Esgoto', 'Tratamento de Agua e Esgoto', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Sustentabilidade', 'Sustentabilidade', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Química do Cotidiano', 'Quimica do Cotidiano', 1, NOW(), NULL, NULL);
+
+-- Estequiometria
+SELECT topic_id FROM app.topic WHERE topic_name = 'Estequiometria';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Lei de Conservação das Massas', 'Lei de Conservacao das Massas', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Cálculos estequiométricos', 'Calculos estequiometricos', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Reagente Limitante', 'Reagente Limitante', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Rendimento de Reação', 'Rendimento de Reacao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Volumes de Gases', 'Volumes de Gases', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Pureza de Reagentes', 'Pureza de Reagentes', 1, NOW(), NULL, NULL);
+ 
+SELECT topic_id FROM app.topic WHERE topic_name = 'Química Analítica';
+\gset
+INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:topic_id, 'Volumetria', 'Volumetria', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Titulação', 'Titulacao', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Gravimetria', 'Gravimetria', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Análise Qualitativa', 'Analise Qualitativa', 1, NOW(), NULL, NULL),
+  (:topic_id, 'Análise Quantitativa', 'Analise Quantitativa', 1, NOW(), NULL, NULL);
+
+
+-- SELECT topic_id FROM app.topic WHERE topic_name = 'Ecologia';
+-- \gset
+-- INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--   (:topic_id, 'Biomas Brasileiros', 'Biomas Brasileiros', 1, NOW(), NULL, NULL);
+
+
+ --SELECT topic_id FROM app.topic WHERE topic_name = 'Gramática';
+--  \gset
+--  INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--    (:topic_id, 'Ortografia', 'Ortografia', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Morfologia', 'Morfologia', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Sintaxe', 'Sintaxe', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Pontuação', 'Pontuacao', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Concordância Verbal', 'Concordancia Verbal', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Concordância Nominal', 'Concordancia Nominal', 1, NOW(), NULL, NULL);
+
+-- -- Português > Gramática
+--  SELECT topic_id FROM app.topic WHERE topic_name = 'Gramática';
+--  \gset
+--  INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--    (:topic_id, 'Ortografia', 'Ortografia', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Morfologia', 'Morfologia', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Sintaxe', 'Sintaxe', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Pontuação', 'Pontuacao', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Concordância Verbal', 'Concordancia Verbal', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Concordância Nominal', 'Concordancia Nominal', 1, NOW(), NULL, NULL);
+
+-- -- Português > Interpretação de Texto
+--  SELECT topic_id FROM app.topic WHERE topic_name = 'Interpretação de Texto';
+--  \gset
+--  INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--    (:topic_id, 'Leitura Literal', 'Leitura Literal', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Leitura Inferencial', 'Leitura Inferencial', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Figuras de Linguagem', 'Figuras de Linguagem', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Gêneros Textuais', 'Generos Textuais', 1, NOW(), NULL, NULL);
+
+-- -- -- Ciências > Ecologia
+--  SELECT topic_id FROM app.topic WHERE topic_name = 'Ecologia';
+--  \gset
+--  INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--    (:topic_id, 'Cadeia Alimentar', 'Cadeia Alimentar', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Relações Ecológicas', 'Relacoes Ecologicas', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Ciclos Biogeoquímicos', 'Ciclos Biogeoquimicos', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Ecossistemas', 'Ecossistemas', 1, NOW(), NULL, NULL);
+
+-- -- -- História > História do Brasil
+--  SELECT topic_id FROM app.topic WHERE topic_name = 'História do Brasil';
+--  \gset
+--  INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--    (:topic_id, 'Período Colonial', 'Periodo Colonial', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Independência', 'Independencia', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Império', 'Imperio', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'República', 'Republica', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Ditadura Militar', 'Ditadura Militar', 1, NOW(), NULL, NULL),
+--    (:topic_id, 'Nova República', 'Nova Republica', 1, NOW(), NULL, NULL);
+
+-- -- Geografia > Geografia Física
+-- SELECT topic_id FROM app.topic WHERE topic_name = 'Geografia Física';
+-- \gset
+-- INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--   (:topic_id, 'Relevo', 'Relevo', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Clima', 'Clima', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Vegetação', 'Vegetacao', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Hidrografia', 'Hidrografia', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Solo', 'Solo', 1, NOW(), NULL, NULL);
+
+-- -- Biologia > Genética
+-- SELECT topic_id FROM app.topic WHERE topic_name = 'Genética';
+-- \gset
+-- INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--   (:topic_id, 'DNA e RNA', 'DNA e RNA', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Herança Genética', 'Heranca Genetica', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Mutação', 'Mutacao', 1, NOW(), NULL, NULL);
+
+-- -- Física > Mecânica
+-- SELECT topic_id FROM app.topic WHERE topic_name = 'Mecânica';
+-- \gset
+-- INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--   (:topic_id, 'Cinemática', 'Cinematica', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Dinâmica', 'Dinamica', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Estática', 'Estatica', 1, NOW(), NULL, NULL);
+
+-- -- Química > Química Orgânica
+-- SELECT topic_id FROM app.topic WHERE topic_name = 'Química Orgânica';
+-- \gset
+-- INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--   (:topic_id, 'Funções Orgânicas', 'Funcoes Organicas', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Isomeria', 'Isomeria', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Reações Orgânicas', 'Reacoes Organicas', 1, NOW(), NULL, NULL);
+
+-- -- Inglês > Gramática
+-- SELECT topic_id FROM app.topic WHERE topic_name = 'Gramática' AND subject_id = (SELECT subject_id FROM app.subject WHERE subject_name = 'Inglês');
+-- \gset
+-- INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--   (:topic_id, 'Verb Tenses', 'Verb Tenses', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Articles', 'Articles', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Pronouns', 'Pronouns', 1, NOW(), NULL, NULL);
+
+-- -- Sociologia > Cultura
+-- SELECT topic_id FROM app.topic WHERE topic_name = 'Cultura' AND subject_id = (SELECT subject_id FROM app.subject WHERE subject_name = 'Sociologia');
+-- \gset
+-- INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--   (:topic_id, 'Cultura Popular', 'Cultura Popular', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Indústria Cultural', 'Industria Cultural', 1, NOW(), NULL, NULL);
+
+-- -- Filosofia > Ética
+-- SELECT topic_id FROM app.topic WHERE topic_name = 'Ética' AND subject_id = (SELECT subject_id FROM app.subject WHERE subject_name = 'Filosofia');
+-- \gset
+-- INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+--   (:topic_id, 'Ética Aristotélica', 'Etica Aristotelica', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Ética Kantiana', 'Etica Kantiana', 1, NOW(), NULL, NULL),
+--   (:topic_id, 'Ética Utilitarista', 'Etica Utilitarista', 1, NOW(), NULL, NULL);
+
+
+
+
 
 -- -- INSERT INTO app.account (
 -- --     user_unique_id,  
