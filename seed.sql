@@ -157,6 +157,11 @@ INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, 
   (:subject_id, 'Literatura', 'Literatura', 1, NOW(), NULL, NULL),
   (:subject_id, 'Redação', 'Redacao', 1, NOW(), NULL, NULL);
 
+ INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Gêneros Textuais', 'Generos Textuais', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Variedades Linguísticas', 'Variedades Linguisticas', 1, NOW(), NULL, NULL);
+ 
+
 -- Ciências
 SELECT subject_id FROM app.subject WHERE subject_name = 'Ciências';
 \gset
@@ -167,6 +172,12 @@ INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, 
   (:subject_id, 'Astronomia', 'Astronomia', 1, NOW(), NULL, NULL),
   (:subject_id, 'Saúde e Doenças', 'Saude e Doencas', 1, NOW(), NULL, NULL);
 
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Seres Vivos', 'Seres Vivos', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Terra e Universo', 'Terra e Universo', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Tecnologia e Sociedade', 'Tecnologia e Sociedade', 1, NOW(), NULL, NULL);
+
+
 -- História
 SELECT subject_id FROM app.subject WHERE subject_name = 'História';
 \gset
@@ -174,7 +185,21 @@ INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, 
   (:subject_id, 'História do Brasil', 'Historia do Brasil', 1, NOW(), NULL, NULL),
   (:subject_id, 'História Geral', 'Historia Geral', 1, NOW(), NULL, NULL),
   (:subject_id, 'Cidadania', 'Cidadania', 1, NOW(), NULL, NULL),
-  (:subject_id, 'Antiguidade', 'Antiguidade', 1, NOW(), NULL, NULL);
+  (:subject_id, 'Antiguidade', 'Antiguidade', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Idade Média', 'Idade Media', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Idade Moderna', 'Idade Moderna', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Idade Contemporânea', 'Idade Contemporanea', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Movimentos Sociais e Políticos', 'Movimentos Sociais e Politicos', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Formação das Sociedades Brasileiras', 'Formacao das Sociedades Brasileiras', 1, NOW(), NULL, NULL),
+  (:subject_id, 'História das Américas', 'Historia das Americas', 1, NOW(), NULL, NULL);
+
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'História da África e Afro-brasileira', 'Historia da Africa e Afrobrasileira', 1, NOW(), NULL, NULL),
+  (:subject_id, 'História Indígena', 'Historia Indigena', 1, NOW(), NULL, NULL),
+  (:subject_id, 'História das Mulheres e Gênero', 'Historia das Mulheres e Genero', 1, NOW(), NULL, NULL),
+  (:subject_id, 'História da Ciência e Tecnologia', 'Historia da Ciencia e Tecnologia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Globalização', 'Globalizacao', 1, NOW(), NULL, NULL);
+
 
 -- Geografia
 SELECT subject_id FROM app.subject WHERE subject_name = 'Geografia';
@@ -184,7 +209,21 @@ INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, 
   (:subject_id, 'Geografia Humana', 'Geografia Humana', 1, NOW(), NULL, NULL),
   (:subject_id, 'Cartografia', 'Cartografia', 1, NOW(), NULL, NULL),
   (:subject_id, 'Economia', 'Economia', 1, NOW(), NULL, NULL),
-  (:subject_id, 'Demografia', 'Demografia', 1, NOW(), NULL, NULL);
+  (:subject_id, 'Demografia', 'Demografia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Meio Ambiente e Sustentabilidade', 'Meio Ambiente e Sustentabilidade', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Globalização', 'Globalizacao', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Urbanização', 'Urbanizacao', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Geopolítica', 'Geopolitica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Recursos Naturais', 'Recursos Naturais', 1, NOW(), NULL, NULL);
+
+  INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Climatologia e Meteorologia', 'Climatologia e Meteorologia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Agricultura e Pecuária', 'Agricultura e Pecuaria', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Saneamento Básico e Saúde Ambiental', 'Saneamento Basico e Saude Ambiental', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Populações Tradicionais', 'Populacoes Tradicionais', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Transportes e Logística', 'Transportes e Logistica', 1, NOW(), NULL, NULL);
+
+
 
 -- Arte
 SELECT subject_id FROM app.subject WHERE subject_name = 'Arte';
@@ -196,6 +235,24 @@ INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, 
   (:subject_id, 'Dança', 'Danca', 1, NOW(), NULL, NULL),
   (:subject_id, 'Artes Visuais', 'Artes Visuais', 1, NOW(), NULL, NULL);
 
+SELECT subject_id FROM app.subject WHERE subject_name = 'Arte';
+\gset
+
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Cinema', 'Cinema', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Design', 'Design', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Artes Plásticas', 'Artes Plasticas', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Fotografia', 'Fotografia', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Crítica de Arte', 'Critica de Arte', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Cultura Popular e Arte Contemporânea', 'Cultura Popular e Arte Contemporanea', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Arte Digital', 'Arte Digital', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Performance', 'Performance', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Arquitetura e Urbanismo', 'Arquitetura e Urbanismo', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Patrimônio Cultural', 'Patrimonio Cultural', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Movimentos e Estilos Artísticos', 'Movimentos e Estilos Artistico', 1, NOW(), NULL, NULL);
+
+
+
 -- Educação Física
 SELECT subject_id FROM app.subject WHERE subject_name = 'Educação Física';
 \gset
@@ -205,6 +262,22 @@ INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, 
   (:subject_id, 'Jogos e Brincadeiras', 'Jogos e Brincadeiras', 1, NOW(), NULL, NULL),
   (:subject_id, 'Cultura Corporal', 'Cultura Corporal', 1, NOW(), NULL, NULL);
 
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Condicionamento Físico', 'Condicionamento Fisico', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Dança e Expressão Corporal', 'Danca e Expressao Corporal', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Atividades Rítmicas e Recreativas', 'Atividades Ritmicas e Recreativas', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Prevenção de Lesões e Primeiros Socorros', 'Prevencao de Lesoes e Primeiros Socorros', 1, NOW(), NULL, NULL),
+  (:subject_id, 'História e Sociologia do Esporte', 'Historia e Sociologia do Esporte', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Nutrição e Saúde', 'Nutricao e Saude', 1, NOW(), NULL, NULL);
+
+INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, created_on, modified_by, modified_on) VALUES
+  (:subject_id, 'Psicologia do Esporte', 'Psicologia do Esporte', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Inclusão e Acessibilidade no Esporte', 'Inclusao e Acessibilidade no Esporte', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Atividades Aquáticas', 'Atividades Aquaticas', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Esportes Adaptados', 'Esportes Adaptados', 1, NOW(), NULL, NULL);
+
+
+
 -- Inglês
 SELECT subject_id FROM app.subject WHERE subject_name = 'Inglês';
 \gset
@@ -213,7 +286,19 @@ INSERT INTO app.topic (subject_id, topic_name, topic_name_friendly, created_by, 
   (:subject_id, 'Leitura e Interpretação', 'Leitura e Interpretacao', 1, NOW(), NULL, NULL),
   (:subject_id, 'Gramática', 'Gramatica', 1, NOW(), NULL, NULL),
   (:subject_id, 'Vocabulário', 'Vocabulario', 1, NOW(), NULL, NULL),
-  (:subject_id, 'Produção de Texto', 'Producao de Texto', 1, NOW(), NULL, NULL);
+  (:subject_id, 'Produção de Texto', 'Producao de Texto', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Pronúncia e Fonética', 'Pronuncia e Fonetica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Conversação e Expressão Oral', 'Conversacao e Expressao Oral', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Estratégias de Estudo e Compreensão', 'Estrategias de Estudo e Compreensao', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Cultura dos Países de Língua Inglesa', 'Cultura dos Paises de Lingua Inglesa', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Escrita Formal e Informal', 'Escrita Formal e Informal', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Expressões Idiomáticas e Phrasal Verbs', 'Expressoes Idiomaticas e Phrasal Verbs', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Compreensão Auditiva Avançada', 'Compreensao Auditiva Avancada', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Gramática Avançada', 'Gramatica Avancada', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Interpretação Crítica', 'Interpretacao Critica', 1, NOW(), NULL, NULL),
+  (:subject_id, 'Tecnologias e Mídias em Inglês', 'Tecnologias e Midias em Ingles', 1, NOW(), NULL, NULL);
+
+
 
 -- Espanhol
 SELECT subject_id FROM app.subject WHERE subject_name = 'Espanhol';
