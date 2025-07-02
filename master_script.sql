@@ -40,38 +40,65 @@
 
 --Add app tables
 
+-- User and basic reference
 \i './app/Tables/user_login.sql'
-\i './app/Tables/year.sql'
-\i './app/Tables/region.sql'
-\i './app/Tables/degree_level.sql'
-\i './app/Tables/degree.sql'
-\i './app/Tables/frequency.sql'
-\i './app/Tables/shift.sql'
-\i './app/Tables/quota_type.sql'
-\i './app/Tables/special_quota.sql'
-\i './app/Tables/university_category.sql'
-\i './app/Tables/state.sql'
-\i './app/Tables/academic_organization.sql'
-\i './app/Tables/university.sql'
-\i './app/Tables/university_campus.sql'
-\i './app/Tables/city.sql'
---\i './app/Tables/course.sql'               -- if exists
---\i './app/Tables/institution.sql'          -- if exists
-\i './app/Tables/booklet_color.sql'
-\i './app/Tables/booklet_mapping.sql'
 \i './app/Tables/user_auth_provider.sql'
 \i './app/Tables/user_role.sql'
 \i './app/Tables/email_verification.sql'
 \i './app/Tables/password_reset.sql'
 \i './app/Tables/terms_acceptance.sql'
-\i './app/Tables/exam_attempt.sql'
+
+-- Geographical/Institutional
+\i './app/Tables/region.sql'
+\i './app/Tables/state.sql'
+\i './app/Tables/city.sql'
+\i './app/Tables/academic_organization.sql'
+\i './app/Tables/university_category.sql'
+\i './app/Tables/university.sql'
+\i './app/Tables/university_campus.sql'
+
+-- Academic structure
+\i './app/Tables/year.sql'
+\i './app/Tables/degree_level.sql'
+\i './app/Tables/degree.sql'
+\i './app/Tables/frequency.sql'
+\i './app/Tables/shift.sql'
+
+-- Quotas & Affirmative Action
+\i './app/Tables/quota_type.sql'
+\i './app/Tables/special_quota.sql'
+
+-- Exam & Question Structure
+\i './app/Tables/area.sql'
+\i './app/Tables/exam_day.sql'
+\i './app/Tables/exam_year.sql'
+\i './app/Tables/subject.sql'
+\i './app/Tables/topic.sql'
+\i './app/Tables/subtopic.sql'
+\i './app/Tables/school_year.sql'
+\i './app/Tables/subtopic_school_year.sql'
+
+-- Booklet mapping/versioning
+\i './app/Tables/booklet_color.sql'
+\i './app/Tables/booklet_mapping.sql'
+
+-- Questions and Alternatives
 \i './app/Tables/question.sql'
 \i './app/Tables/alternative.sql'
+
+-- Exam attempts and answers
+\i './app/Tables/exam_attempt.sql'
 \i './app/Tables/answer_key.sql'
 \i './app/Tables/answer_submission.sql'
 \i './app/Tables/response.sql'
+
+-- Admission and Seats
 \i './app/Tables/approved_student.sql'
 \i './app/Tables/seats.sql'
+
+-- Optionally, these (uncomment if you have them)
+--\i './app/Tables/course.sql'
+--\i './app/Tables/institution.sql'
 
 
 

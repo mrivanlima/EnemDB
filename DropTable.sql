@@ -10,36 +10,85 @@
 -- drop table if exists imp.enem_cutoff_scores_2010_2018 cascade;
 -- drop table if exists imp.enem_cutoff_scores_2019_2024 cascade;
 
-drop table if exists app.academic_organization cascade;
-drop table if exists app.account cascade;
-drop table if exists app.address cascade;
-drop table if exists app.alternative cascade;
-drop table if exists app.answer_key cascade;
+-- DROP ORDER: child tables first, then parents (safe for FKs)
+
+-- M:N relationship tables and audit/auxiliary first if any (not in previous list, but if you use, drop here)
+drop table if exists app.subtopic_school_year cascade;
+
+-- Exam/response/submission chain
 drop table if exists app.answer_submission cascade;
-drop table if exists app.approved_student cascade;
-drop table if exists app.booklet_color cascade;
-drop table if exists app.booklet_mapping cascade;
-drop table if exists app.city cascade;
-drop table if exists app.degree_level cascade;
-drop table if exists app.degree cascade;
-drop table if exists app.error_log cascade;
-drop table if exists app.exam_attempt cascade;
-drop table if exists app.frequency cascade;
-drop table if exists app.item_statistics cascade;
-drop table if exists app.question cascade;
-drop table if exists app.quota_type cascade;
-drop table if exists app.region cascade;
+drop table if exists app.answer_key cascade;
 drop table if exists app.response cascade;
-drop table if exists app.seats cascade;
-drop table if exists app.shift cascade;
-drop table if exists app.special_quota cascade;
-drop table if exists app.state cascade;
-drop table if exists app.student_ability_estimation cascade;
-drop table if exists app.submission_deadline cascade;
+drop table if exists app.exam_attempt cascade;
+
+-- Question/alternative core
+drop table if exists app.alternative cascade;
+drop table if exists app.question cascade;
+
+-- ENEM structure and mappings
+drop table if exists app.exam_question cascade;
+drop table if exists app.booklet_mapping cascade;
+drop table if exists app.booklet_color cascade;
+drop table if exists app.exam_booklet_color cascade;
+drop table if exists app.exam_day cascade;
+drop table if exists app.exam_year cascade;
+
+-- Subjects, topics, subtopics
+drop table if exists app.subtopic cascade;
+drop table if exists app.topic cascade;
+drop table if exists app.subject cascade;
+
+-- Education structure
+drop table if exists app.school_year cascade;
+
+-- Reference tables for institution/education
 drop table if exists app.university_campus cascade;
 drop table if exists app.university_category cascade;
 drop table if exists app.university cascade;
+drop table if exists app.degree cascade;
+drop table if exists app.degree_level cascade;
+drop table if exists app.academic_organization cascade;
+
+-- Area, region, location
+drop table if exists app.area cascade;
+drop table if exists app.region cascade;
+drop table if exists app.state cascade;
+drop table if exists app.city cascade;
 drop table if exists app.year cascade;
+
+-- Quota/affirmative action
+drop table if exists app.special_quota cascade;
+drop table if exists app.quota_type cascade;
+
+-- Seats/admission
+drop table if exists app.seats cascade;
+drop table if exists app.approved_student cascade;
+
+-- Misc/other references
+drop table if exists app.frequency cascade;
+drop table if exists app.shift cascade;
+
+-- Student estimation/statistics/process
+drop table if exists app.student_ability_estimation cascade;
+drop table if exists app.item_statistics cascade;
+drop table if exists app.submission_deadline cascade;
+
+-- Error logging/accounting/audit trail
+drop table if exists app.error_log cascade;
+drop table if exists app.account cascade;
+drop table if exists app.address cascade;
+
+-- User and authentication tables
+drop table if exists app.user_role cascade;
+drop table if exists app.user_auth_provider cascade;
+drop table if exists app.user_login cascade;
+drop table if exists app.email_verification cascade;
+drop table if exists app.password_reset cascade;
+drop table if exists app.terms_acceptance cascade;
+
+-- If you have any views/materialized views/functions, drop those last.
+
+
 
 
 
