@@ -912,6 +912,31 @@ INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, creat
 
  INSERT INTO app.language (language_name, created_by)
 VALUES ('inglês', 1),('espanhol', 1);
+
+
+INSERT INTO app.year (year, year_name, year_name_friendly, created_by) VALUES
+    (2010, 'dois mil e dez', 'dois mil e dez', 1),
+    (2011, 'dois mil e onze', 'dois mil e onze', 1),
+    (2012, 'dois mil e doze', 'dois mil e doze', 1),
+    (2013, 'dois mil e treze', 'dois mil e treze', 1),
+    (2014, 'dois mil e quatorze', 'dois mil e quatorze', 1),
+    (2015, 'dois mil e quinze', 'dois mil e quinze', 1),
+    (2016, 'dois mil e dezesseis', 'dois mil e dezesseis', 1),
+    (2017, 'dois mil e dezessete', 'dois mil e dezessete', 1),
+    (2018, 'dois mil e dezoito', 'dois mil e dezoito', 1),
+    (2019, 'dois mil e dezenove', 'dois mil e dezenove', 1),
+    (2020, 'dois mil e vinte', 'dois mil e vinte', 1),
+    (2021, 'dois mil e vinte e um', 'dois mil e vinte e um', 1),
+    (2022, 'dois mil e vinte e dois', 'dois mil e vinte e dois', 1),
+    (2023, 'dois mil e vinte e três', 'dois mil e vinte e três', 1),
+    (2024, 'dois mil e vinte e quatro', 'dois mil e vinte e quatro', 1),
+    (2025, 'dois mil e vinte e cinco', 'dois mil e vinte e cinco', 1),
+    (2026, 'dois mil e vinte e seis', 'dois mil e vinte e seis', 1),
+    (2027, 'dois mil e vinte e sete', 'dois mil e vinte e sete', 1),
+    (2028, 'dois mil e vinte e oito', 'dois mil e vinte e oito', 1),
+    (2029, 'dois mil e vinte e nove', 'dois mil e vinte e nove', 1),
+    (2030, 'dois mil e trinta', 'dois mil e trinta', 1);
+
  
 
 
