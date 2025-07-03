@@ -43,7 +43,8 @@ VALUES
   ('Cinza', 'Caderno Cinza', FALSE, 4, TRUE, 1, NOW(), NULL, NULL),
   ('Branco', 'Caderno Branco (Acessível)', TRUE, 5, TRUE, 1, NOW(), NULL, NULL),
   ('Laranja', 'Caderno Laranja', FALSE, 6, TRUE, 1, NOW(), NULL, NULL),
-  ('Verde', 'Caderno Verde', FALSE, 7, TRUE, 1, NOW(), NULL, NULL);
+  ('Verde', 'Caderno Verde', FALSE, 7, TRUE, 1, NOW(), NULL, NULL),
+  ('Roxo', 'Caderno Roxo', FALSE, 8, TRUE, 1, NOW(), NULL, NULL);
 
   INSERT INTO app.area (
     area_name,
@@ -899,6 +900,19 @@ INSERT INTO app.subtopic (topic_id, subtopic_name, subtopic_name_friendly, creat
   (:topic_id, 'Gravimetria', 'Gravimetria', 1, NOW(), NULL, NULL),
   (:topic_id, 'Análise Qualitativa', 'Analise Qualitativa', 1, NOW(), NULL, NULL),
   (:topic_id, 'Análise Quantitativa', 'Analise Quantitativa', 1, NOW(), NULL, NULL);
+
+
+
+
+
+
+
+
+
+
+ INSERT INTO app.language (language_name, created_by)
+VALUES ('inglês', 1),('espanhol', 1);
+ 
 
 
 -- SELECT topic_id FROM app.topic WHERE topic_name = 'Ecologia';

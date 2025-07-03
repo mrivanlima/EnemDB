@@ -22,11 +22,16 @@
 \i './extensions.sql'
 \i './DropTable.sql'
 
+
+
 --Add types
 
 \i './app/Types/account_record.sql'
 
+
+
 --Add imp tables
+\i './app/Tables/error_log.sql'
 
 \i './imp/Tables/old_chamada_regular.sql'
 \i './imp/Tables/chamada_regular.sql'
@@ -47,6 +52,8 @@
 \i './app/Tables/email_verification.sql'
 \i './app/Tables/password_reset.sql'
 \i './app/Tables/terms_acceptance.sql'
+
+\i './app/Tables/language.sql'
 
 -- Geographical/Institutional
 \i './app/Tables/region.sql'
@@ -96,6 +103,10 @@
 \i './app/Tables/approved_student.sql'
 \i './app/Tables/seats.sql'
 
+\i './app/Tables/exam_question.sql'
+
+
+
 -- Optionally, these (uncomment if you have them)
 --\i './app/Tables/course.sql'
 --\i './app/Tables/institution.sql'
@@ -133,9 +144,47 @@
 \i './app/Functions/set_university_campus_name_friendly.sql'
 \i './app/Functions/set_university_category_name_friendly.sql'
 \i './app/Functions/set_university_name_friendly.sql'
+\i './app/Functions/set_language_name_friendly.sql'
+-- \i './app/Functions/set_year_name_friendly.sql'
+
+--\i './app/Functions/usp_api_account_read_by_id.sql'
 \i './app/Functions/usp_api_account_read_by_name.sql'
-
-
+--\i './app/Functions/usp_api_address_read_by_id.sql'
+--\i './app/Functions/usp_api_address_read_by_name.sql'
+--\i './app/Functions/usp_api_alternative_read_by_id.sql'
+--\i './app/Functions/usp_api_alternative_read_by_name.sql'
+--\i './app/Functions/usp_api_answer_key_read_by_id.sql'
+--\i './app/Functions/usp_api_answer_key_read_by_name.sql'
+-- \i './app/Functions/usp_api_answer_submission_read_by_id.sql'
+-- \i './app/Functions/usp_api_answer_submission_read_by_name.sql'
+-- \i './app/Functions/usp_api_approved_student_read_by_id.sql'
+-- \i './app/Functions/usp_api_approved_student_read_by_name.sql'
+-- \i './app/Functions/usp_api_booklet_color_read_by_id.sql'
+-- \i './app/Functions/usp_api_booklet_color_read_by_name.sql'
+-- \i './app/Functions/usp_api_booklet_mapping_read_by_name.sql'
+-- \i './app/Functions/usp_api_city_read_by_id.sql'
+-- \i './app/Functions/usp_api_city_read_by_name.sql'
+-- \i './app/Functions/usp_api_degree_level_read_by_id.sql'
+-- \i './app/Functions/usp_api_degree_level_read_by_name.sql'
+-- \i './app/Functions/usp_api_degree_read_by_name.sql'
+-- \i './app/Functions/usp_api_exam_attempt_read_by_id.sql'
+-- \i './app/Functions/usp_api_exam_attempt_read_by_name.sql'
+-- \i './app/Functions/usp_api_frequency_read_by_id.sql'
+-- \i './app/Functions/usp_api_frequency_read_by_name.sql'
+-- \i './app/Functions/usp_api_question_read_by_id.sql'
+-- \i './app/Functions/usp_api_question_read_by_name.sql'
+-- \i './app/Functions/usp_api_quota_type_read_by_name.sql'
+-- \i './app/Functions/usp_api_region_read_by_name.sql'
+-- \i './app/Functions/usp_api_response_read_by_name.sql'
+-- \i './app/Functions/usp_api_shift_read_by_name.sql'
+-- \i './app/Functions/usp_api_special_quota_read_by_name.sql'
+-- \i './app/Functions/usp_api_state_read_by_name.sql'
+-- \i './app/Functions/usp_api_submission_deadline_read_by_name.sql'
+-- \i './app/Functions/usp_api_university_campus_read_by_name.sql'
+-- \i './app/Functions/usp_api_university_category_read_by_name.sql'
+-- \i './app/Functions/usp_api_university_read_by_name.sql'
+-- \i './app/Functions/usp_api_year_read_by_name.sql'
+   
 
 
 --Add Stored Procedures
@@ -177,6 +226,9 @@
 \i './app/StoredProcedures/usp_api_university_category_create.sql'
 \i './app/StoredProcedures/usp_api_university_create.sql'
 \i './app/StoredProcedures/usp_api_year_create.sql'
+\i './app/StoredProcedures/usp_exam_questions_import.sql'
+
+
 
 
 --Add app triggers
@@ -188,6 +240,7 @@
 \i './app/Triggers/trg_set_degree_name_friendly.sql'
 \i './app/Triggers/trg_set_exam_attempt_friendly_fields.sql'
 \i './app/Triggers/trg_set_frequency_name_friendly.sql'
+\i './app/Triggers/trg_set_language_name_friendly.sql'
 \i './app/Triggers/trg_set_question_friendly_fields.sql'
 \i './app/Triggers/trg_set_region_name_friendly.sql'
 \i './app/Triggers/trg_set_response_friendly_fields.sql'
@@ -197,6 +250,7 @@
 \i './app/Triggers/trg_set_university_category_name_friendly.sql'
 \i './app/Triggers/trg_set_university_name_friendly.sql'
 \i './app/Triggers/trg_set_year_name_friendly.sql'
+
 
 
 --Add Views

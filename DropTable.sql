@@ -12,79 +12,60 @@
 
 -- DROP ORDER: child tables first, then parents (safe for FKs)
 
+DO $$
+BEGIN
+    RAISE NOTICE 'Process started...';
+    -- Your code here
+END;
+$$;
 -- M:N relationship tables and audit/auxiliary first if any (not in previous list, but if you use, drop here)
-drop table if exists app.subtopic_school_year cascade;
+DROP TABLE IF EXISTS app.academic_organization CASCADE;
+DROP TABLE IF EXISTS app.address CASCADE;
+DROP TABLE IF EXISTS app.alternative CASCADE;
+DROP TABLE IF EXISTS app.answer_key CASCADE;
+DROP TABLE IF EXISTS app.answer_submission CASCADE;
+DROP TABLE IF EXISTS app.approved_student CASCADE;
+DROP TABLE IF EXISTS app.area CASCADE;
+DROP TABLE IF EXISTS app.booklet_color CASCADE;
+DROP TABLE IF EXISTS app.booklet_mapping CASCADE;
+DROP TABLE IF EXISTS app.city CASCADE;
+DROP TABLE IF EXISTS app.degree_level CASCADE;
+DROP TABLE IF EXISTS app.degree CASCADE;
+DROP TABLE IF EXISTS app.email_verification CASCADE;
+DROP TABLE IF EXISTS app.error_log CASCADE;
+DROP TABLE IF EXISTS app.exam_attempt CASCADE;
+DROP TABLE IF EXISTS app.exam_day CASCADE;
+DROP TABLE IF EXISTS app.exam_question CASCADE;
+DROP TABLE IF EXISTS app.exam_year CASCADE;
+DROP TABLE IF EXISTS app.frequency CASCADE;
+DROP TABLE IF EXISTS app.item_statistics CASCADE;
+DROP TABLE IF EXISTS app.language CASCADE;
+DROP TABLE IF EXISTS app.password_reset CASCADE;
+DROP TABLE IF EXISTS app.question CASCADE;
+DROP TABLE IF EXISTS app.quota_type CASCADE;
+DROP TABLE IF EXISTS app.region CASCADE;
+DROP TABLE IF EXISTS app.response CASCADE;
+DROP TABLE IF EXISTS app.role CASCADE;
+DROP TABLE IF EXISTS app.school_year CASCADE;
+DROP TABLE IF EXISTS app.seats CASCADE;
+DROP TABLE IF EXISTS app.shift CASCADE;
+DROP TABLE IF EXISTS app.special_quota CASCADE;
+DROP TABLE IF EXISTS app.state CASCADE;
+DROP TABLE IF EXISTS app.student_ability_estimation CASCADE;
+DROP TABLE IF EXISTS app.subject CASCADE;
+DROP TABLE IF EXISTS app.submission_deadline CASCADE;
+DROP TABLE IF EXISTS app.subtopic_school_year CASCADE;
+DROP TABLE IF EXISTS app.subtopic CASCADE;
+DROP TABLE IF EXISTS app.terms_acceptance CASCADE;
+DROP TABLE IF EXISTS app.topic CASCADE;
+DROP TABLE IF EXISTS app.university_campus CASCADE;
+DROP TABLE IF EXISTS app.university_category CASCADE;
+DROP TABLE IF EXISTS app.university CASCADE;
+DROP TABLE IF EXISTS app.user_auth_provider CASCADE;
+DROP TABLE IF EXISTS app.user_login CASCADE;
+DROP TABLE IF EXISTS app.user_role CASCADE;
+DROP TABLE IF EXISTS app.year CASCADE;
 
--- Exam/response/submission chain
-drop table if exists app.answer_submission cascade;
-drop table if exists app.answer_key cascade;
-drop table if exists app.response cascade;
-drop table if exists app.exam_attempt cascade;
-
--- Question/alternative core
-drop table if exists app.alternative cascade;
-drop table if exists app.question cascade;
-
--- ENEM structure and mappings
-drop table if exists app.exam_question cascade;
-drop table if exists app.booklet_mapping cascade;
-drop table if exists app.booklet_color cascade;
-drop table if exists app.exam_booklet_color cascade;
-drop table if exists app.exam_day cascade;
-drop table if exists app.exam_year cascade;
-
--- Subjects, topics, subtopics
-drop table if exists app.subtopic cascade;
-drop table if exists app.topic cascade;
-drop table if exists app.subject cascade;
-
--- Education structure
-drop table if exists app.school_year cascade;
-
--- Reference tables for institution/education
-drop table if exists app.university_campus cascade;
-drop table if exists app.university_category cascade;
-drop table if exists app.university cascade;
-drop table if exists app.degree cascade;
-drop table if exists app.degree_level cascade;
-drop table if exists app.academic_organization cascade;
-
--- Area, region, location
-drop table if exists app.area cascade;
-drop table if exists app.region cascade;
-drop table if exists app.state cascade;
-drop table if exists app.city cascade;
-drop table if exists app.year cascade;
-
--- Quota/affirmative action
-drop table if exists app.special_quota cascade;
-drop table if exists app.quota_type cascade;
-
--- Seats/admission
-drop table if exists app.seats cascade;
-drop table if exists app.approved_student cascade;
-
--- Misc/other references
-drop table if exists app.frequency cascade;
-drop table if exists app.shift cascade;
-
--- Student estimation/statistics/process
-drop table if exists app.student_ability_estimation cascade;
-drop table if exists app.item_statistics cascade;
-drop table if exists app.submission_deadline cascade;
-
--- Error logging/accounting/audit trail
-drop table if exists app.error_log cascade;
-drop table if exists app.account cascade;
-drop table if exists app.address cascade;
-
--- User and authentication tables
-drop table if exists app.user_role cascade;
-drop table if exists app.user_auth_provider cascade;
-drop table if exists app.user_login cascade;
-drop table if exists app.email_verification cascade;
-drop table if exists app.password_reset cascade;
-drop table if exists app.terms_acceptance cascade;
 
 -- If you have any views/materialized views/functions, drop those last.
 
@@ -144,3 +125,13 @@ drop procedure if exists app.usp_api_year_create() cascade;
 
 DROP FUNCTION IF EXISTS app.usp_api_state_read_by_id;
 DROP FUNCTION IF EXISTS app.usp_api_state_read_all();
+
+
+
+
+DO $$
+BEGIN
+    RAISE NOTICE 'Process ended...';
+    -- Your code here
+END;
+$$;
