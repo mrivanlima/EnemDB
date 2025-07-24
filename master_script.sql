@@ -26,13 +26,13 @@
 
 --Add types
 
-\i './app/Types/account_record.sql'
+--\i './app/Types/account_record.sql'
 
 
 
 --Add imp tables
-\i './app/Tables/error_log.sql'
 
+/*
 \i './imp/Tables/old_chamada_regular.sql'
 \i './imp/Tables/chamada_regular.sql'
 \i './imp/Tables/chamada_regular_json.sql'
@@ -42,68 +42,109 @@
 \i './imp/Tables/sisu_offer_report.sql'
 \i './imp/Tables/enem_vagas_ofertadas_2010_2018.sql'
 \i './imp/Tables/enem_vagas_ofertadas_2019_2025.sql'
+*/
 
 --Add app tables
 
 -- User and basic reference
 \i './app/Tables/user_login.sql'
+\i './app/Tables/provider_type.sql'
+\i './app/Tables/auth_provider.sql'
 \i './app/Tables/user_auth_provider.sql'
+\i './app/Tables/role.sql'
 \i './app/Tables/user_role.sql'
-\i './app/Tables/email_verification.sql'
-\i './app/Tables/password_reset.sql'
-\i './app/Tables/terms_acceptance.sql'
-
-\i './app/Tables/language.sql'
-
--- Geographical/Institutional
 \i './app/Tables/region.sql'
 \i './app/Tables/state.sql'
 \i './app/Tables/city.sql'
-\i './app/Tables/academic_organization.sql'
-\i './app/Tables/university_category.sql'
-\i './app/Tables/university.sql'
-\i './app/Tables/university_campus.sql'
+\i './app/Tables/neighborhood.sql'
+\i './app/Tables/street.sql'
+\i './app/Tables/address.sql'
+\i './app/Tables/user_info.sql'
+\i './app/Tables/error_log.sql'
+
+
+
+
+-- Stored Procedures
+\i './app/StoredProcedures/usp_api_user_auth_provider_create.sql'
+\i './app/StoredProcedures/usp_api_user_email_verification_confirm_token.sql'
+\i './app/StoredProcedures/usp_api_user_email_verification_confirm.sql'
+\i './app/StoredProcedures/usp_api_user_email_verification_create.sql'
+\i './app/StoredProcedures/usp_api_user_email_verification_regenerate.sql'
+\i './app/StoredProcedures/usp_api_user_email_verification_validate_token.sql'
+\i './app/StoredProcedures/usp_api_user_login_add_password.sql'
+\i './app/StoredProcedures/usp_api_user_login_authenticate.sql'
+\i './app/StoredProcedures/usp_api_user_login_external_create.sql'
+\i './app/StoredProcedures/usp_api_user_login_lock_reset.sql'
+\i './app/StoredProcedures/usp_api_user_login_password_reset.sql'
+\i './app/StoredProcedures/usp_api_user_login_soft_delete.sql'
+\i './app/StoredProcedures/usp_api_user_register_create.sql'
+
+
+
+
+
+
+
+
+
+
+
+--\i './app/Tables/email_verification.sql'
+--\i './app/Tables/password_reset.sql'
+--\i './app/Tables/terms_acceptance.sql'
+
+--\i './app/Tables/language.sql'
+
+-- Geographical/Institutional
+--\i './app/Tables/region.sql'
+--\i './app/Tables/state.sql'
+--\i './app/Tables/city.sql'
+--\i './app/Tables/academic_organization.sql'
+--\i './app/Tables/university_category.sql'
+--\i './app/Tables/university.sql'
+--\i './app/Tables/university_campus.sql'
 
 -- Academic structure
-\i './app/Tables/year.sql'
-\i './app/Tables/degree_level.sql'
-\i './app/Tables/degree.sql'
-\i './app/Tables/frequency.sql'
-\i './app/Tables/shift.sql'
+--\i './app/Tables/year.sql'
+--\i './app/Tables/degree_level.sql'
+--\i './app/Tables/degree.sql'
+--\i './app/Tables/frequency.sql'
+--\i './app/Tables/shift.sql'
 
 -- Quotas & Affirmative Action
-\i './app/Tables/quota_type.sql'
-\i './app/Tables/special_quota.sql'
+--\i './app/Tables/quota_type.sql'
+--\i './app/Tables/special_quota.sql'
 
 -- Exam & Question Structure
-\i './app/Tables/area.sql'
-\i './app/Tables/exam_day.sql'
-\i './app/Tables/exam_year.sql'
-\i './app/Tables/subject.sql'
-\i './app/Tables/topic.sql'
-\i './app/Tables/subtopic.sql'
-\i './app/Tables/school_year.sql'
-\i './app/Tables/subtopic_school_year.sql'
+--\i './app/Tables/area.sql'
+--\i './app/Tables/exam_day.sql'
+--\i './app/Tables/exam_year.sql'
+--\i './app/Tables/subject.sql'
+--\i './app/Tables/topic.sql'
+--\i './app/Tables/subtopic.sql'
+--\i './app/Tables/school_year.sql'
+--\i './app/Tables/subtopic_school_year.sql'
 
 -- Booklet mapping/versioning
-\i './app/Tables/booklet_color.sql'
-\i './app/Tables/booklet_mapping.sql'
+--\i './app/Tables/booklet_color.sql'
+--\i './app/Tables/booklet_mapping.sql'
 
 -- Questions and Alternatives
-\i './app/Tables/question.sql'
-\i './app/Tables/alternative.sql'
+--\i './app/Tables/question.sql'
+--\i './app/Tables/alternative.sql'
 
 -- Exam attempts and answers
-\i './app/Tables/exam_attempt.sql'
-\i './app/Tables/answer_key.sql'
-\i './app/Tables/answer_submission.sql'
-\i './app/Tables/response.sql'
+--\i './app/Tables/exam_attempt.sql'
+--\i './app/Tables/answer_key.sql'
+--\i './app/Tables/answer_submission.sql'
+--\i './app/Tables/response.sql'
 
 -- Admission and Seats
-\i './app/Tables/approved_student.sql'
-\i './app/Tables/seats.sql'
+--\i './app/Tables/approved_student.sql'
+--\i './app/Tables/seats.sql'
 
-\i './app/Tables/exam_question.sql'
+--\i './app/Tables/exam_question.sql'
 
 
 
@@ -117,38 +158,38 @@
 
 
 --Add stg Table
-\i './stg/Tables/campus.sql'
-\i './stg/Tables/cutoff_score.sql'
-\i './stg/Tables/organization.sql'
-\i './stg/Tables/school.sql'
-\i './stg/Tables/category.sql'
-\i './stg/Tables/degree.sql'
-\i './stg/Tables/shift.sql'
-\i './stg/Tables/course.sql'
+--\i './stg/Tables/campus.sql'
+--\i './stg/Tables/cutoff_score.sql'
+--\i './stg/Tables/organization.sql'
+--\i './stg/Tables/school.sql'
+--\i './stg/Tables/category.sql'
+--\i './stg/Tables/degree.sql'
+--\i './stg/Tables/shift.sql'
+--\i './stg/Tables/course.sql'
 
 
 --Add app functions
-\i './app/Functions/set_academic_organization_name_friendly.sql'
-\i './app/Functions/set_alternative_friendly_fields.sql'
-\i './app/Functions/set_booklet_color_name_friendly.sql'
-\i './app/Functions/set_city_name_friendly.sql'
-\i './app/Functions/set_degree_level_name_friendly.sql'
-\i './app/Functions/set_degree_name_friendly.sql'
-\i './app/Functions/set_exam_attempt_friendly_fields.sql'
-\i './app/Functions/set_frequency_name_friendly.sql'
-\i './app/Functions/set_question_friendly_fields.sql'
-\i './app/Functions/set_region_name_friendly.sql'
-\i './app/Functions/set_response_friendly_fields.sql'
-\i './app/Functions/set_shift_name_friendly.sql'
-\i './app/Functions/set_state_name_friendly.sql'
-\i './app/Functions/set_university_campus_name_friendly.sql'
-\i './app/Functions/set_university_category_name_friendly.sql'
-\i './app/Functions/set_university_name_friendly.sql'
-\i './app/Functions/set_language_name_friendly.sql'
-\i './app/Functions/set_year_name_friendly.sql'
+--\i './app/Functions/set_academic_organization_name_friendly.sql'
+--\i './app/Functions/set_alternative_friendly_fields.sql'
+--\i './app/Functions/set_booklet_color_name_friendly.sql'
+--\i './app/Functions/set_city_name_friendly.sql'
+--\i './app/Functions/set_degree_level_name_friendly.sql'
+--\i './app/Functions/set_degree_name_friendly.sql'
+--\i './app/Functions/set_exam_attempt_friendly_fields.sql'
+--\i './app/Functions/set_frequency_name_friendly.sql'
+--\i './app/Functions/set_question_friendly_fields.sql'
+--\i './app/Functions/set_region_name_friendly.sql'
+--\i './app/Functions/set_response_friendly_fields.sql'
+--\i './app/Functions/set_shift_name_friendly.sql'
+--\i './app/Functions/set_state_name_friendly.sql'
+--\i './app/Functions/set_university_campus_name_friendly.sql'
+--\i './app/Functions/set_university_category_name_friendly.sql'
+--\i './app/Functions/set_university_name_friendly.sql'
+--\i './app/Functions/set_language_name_friendly.sql'
+--\i './app/Functions/set_year_name_friendly.sql'
 
 --\i './app/Functions/usp_api_account_read_by_id.sql'
-\i './app/Functions/usp_api_account_read_by_name.sql'
+--\i './app/Functions/usp_api_account_read_by_name.sql'
 --\i './app/Functions/usp_api_address_read_by_id.sql'
 --\i './app/Functions/usp_api_address_read_by_name.sql'
 --\i './app/Functions/usp_api_alternative_read_by_id.sql'
@@ -200,7 +241,8 @@
 -- \i './stg/StoredProcedures/usp_transform_shift.sql'
 -- \i './stg/StoredProcedures/usp_transform_course.sql'
 
-\i './app/StoredProcedures/sp_api_degree_create.sql'
+--\i './app/StoredProcedures/sp_api_degree_create.sql'
+/*
 \i './app/StoredProcedures/usp_api_academic_organization_create.sql'
 \i './app/StoredProcedures/usp_api_account_create.sql'
 \i './app/StoredProcedures/usp_api_address_create.sql'
@@ -250,7 +292,7 @@
 \i './app/Triggers/trg_set_university_category_name_friendly.sql'
 \i './app/Triggers/trg_set_university_name_friendly.sql'
 \i './app/Triggers/trg_set_year_name_friendly.sql'
-
+*/
 
 
 --Add Views
@@ -260,7 +302,7 @@
 --Add Indexes
 
 
-\i './seed.sql'
+--\i './seed.sql'
 
 -- \echo 'Table "my_table" created.'
 -- SELECT COUNT(*) FROM my_table;

@@ -65,6 +65,11 @@ DROP TABLE IF EXISTS app.user_auth_provider CASCADE;
 DROP TABLE IF EXISTS app.user_login CASCADE;
 DROP TABLE IF EXISTS app.user_role CASCADE;
 DROP TABLE IF EXISTS app.year CASCADE;
+DROP TABLE IF EXISTS app.neighborhood CASCADE;
+DROP TABLE IF EXISTS app.street CASCADE;
+DROP TABLE IF EXISTS app.user_info CASCADE;
+DROP TABLE IF EXISTS app.provider_type CASCADE;
+DROP TABLE IF EXISTS app.auth_provider CASCADE;
 
 
 -- If you have any views/materialized views/functions, drop those last.
@@ -72,7 +77,7 @@ DROP TABLE IF EXISTS app.year CASCADE;
 
 
 
-
+/*
 drop function if exists app.set_academic_organization_name_friendly() cascade;
 drop function if exists app.set_alternative_friendly_fields() cascade;
 drop function if exists app.set_booklet_color_name_friendly() cascade;
@@ -126,7 +131,7 @@ drop procedure if exists app.usp_api_year_create() cascade;
 DROP FUNCTION IF EXISTS app.usp_api_state_read_by_id;
 DROP FUNCTION IF EXISTS app.usp_api_state_read_all();
 
-
+*/
 
 
 DO $$

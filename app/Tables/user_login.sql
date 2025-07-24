@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS app.user_login (
     is_active             BOOLEAN NOT NULL,
     soft_deleted_at       TIMESTAMPTZ,
     last_login_at         TIMESTAMPTZ,
-    login_attempts        INTEGER DEFAULT 0
+    login_attempts        INTEGER DEFAULT 0,
+    email_verified_at     TIMESTAMPTZ,
     created_by            INTEGER NOT NULL,
     created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by           INTEGER,
