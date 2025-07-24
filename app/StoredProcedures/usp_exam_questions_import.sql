@@ -22,7 +22,7 @@ begin
                 else null
             end as language_name,
             case
-                when q->>'booklet' ilike '%blue%' then 'Azul'
+              when q->>'booklet' ilike '%blue%' then 'Azul'
               when q->>'booklet' ilike '%yellow%' then 'Amarelo'
               when q->>'booklet' ilike '%green%' then 'Verde'
               when q->>'booklet' ilike '%orange%' then 'Laranja'
