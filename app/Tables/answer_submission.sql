@@ -4,9 +4,9 @@ CREATE TABLE IF NOT EXISTS app.answer_submission (
     year_id                  INTEGER NOT NULL,
     exam_day                 SMALLINT NOT NULL,
     booklet_color_id         INTEGER NOT NULL,
-    foreign_language         TEXT NOT NULL,
-    raw_answers              TEXT NOT NULL,
-    mapped_answers           TEXT,           -- Now nullable!
+    foreign_language         VARCHAR(40) NOT NULL,
+    raw_answers              VARCHAR(40) NOT NULL,
+    mapped_answers           VARCHAR(40),           -- Now nullable!
     created_by               INTEGER NOT NULL,
     created_on               TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by              INTEGER,

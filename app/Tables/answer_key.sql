@@ -2,9 +2,9 @@ CREATE TABLE IF NOT EXISTS app.answer_key (
     answer_key_id   SERIAL,
     year_id         INTEGER NOT NULL,
     exam_day        SMALLINT NOT NULL,
-    key_type        TEXT NOT NULL,         -- e.g., 'official', 'unofficial'
-    key_source      TEXT NOT NULL,         -- e.g., 'INEP', 'Prof. Lima'
-    answers         TEXT NOT NULL,         -- Correct answers in base order (string of N letters)
+    key_type        VARCHAR(40) NOT NULL,         -- e.g., 'official', 'unofficial'
+    key_source      VARCHAR(40) NOT NULL,         -- e.g., 'INEP', 'Prof. Lima'
+    answers         VARCHAR(40) NOT NULL,         -- Correct answers in base order (string of N letters)
     created_by      INTEGER NOT NULL,
     created_on      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by     INTEGER,

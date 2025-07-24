@@ -145,7 +145,7 @@
 \i './app/Functions/set_university_category_name_friendly.sql'
 \i './app/Functions/set_university_name_friendly.sql'
 \i './app/Functions/set_language_name_friendly.sql'
--- \i './app/Functions/set_year_name_friendly.sql'
+\i './app/Functions/set_year_name_friendly.sql'
 
 --\i './app/Functions/usp_api_account_read_by_id.sql'
 \i './app/Functions/usp_api_account_read_by_name.sql'

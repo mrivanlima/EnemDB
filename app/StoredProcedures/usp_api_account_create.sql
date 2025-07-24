@@ -1,5 +1,5 @@
 CREATE OR REPLACE PROCEDURE app.usp_api_account_create (
-    IN  p_email             CITEXT,
+    IN  p_email             TEXT,
     IN  p_password_hash     TEXT,
     IN  p_created_by        TEXT,
     OUT out_message         TEXT

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS app.user_login (
     user_login_id         SERIAL,
-    email                 CITEXT NOT NULL,
+    email                 TEXT NOT NULL,
     password_hash         TEXT,
     is_email_verified     BOOLEAN NOT NULL DEFAULT FALSE,
     is_active             BOOLEAN NOT NULL DEFAULT TRUE,

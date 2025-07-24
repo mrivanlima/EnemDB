@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS app.year (
     year_id              SERIAL,
     year                 SMALLINT NOT NULL,
-    year_name            TEXT NOT NULL,
-    year_name_friendly   TEXT NOT NULL,
+    year_name            VARCHAR(40) NOT NULL,
+    year_name_friendly   VARCHAR(40) NOT NULL,
     created_by           INTEGER NOT NULL,
     created_on           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by          INTEGER,
