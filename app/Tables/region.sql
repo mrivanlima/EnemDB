@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.region (
     region_id               SERIAL,
-    region_name             TEXT NOT NULL,
-    region_name_friendly    TEXT NOT NULL,
+    region_name             VARCHAR(20) NOT NULL,
+    region_name_friendly    VARCHAR(20) NOT NULL,
     created_by              INTEGER NOT NULL,
     created_on              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by             INTEGER,

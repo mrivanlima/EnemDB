@@ -1,37 +1,32 @@
 CREATE TABLE IF NOT EXISTS app.user_auth_provider (
-    user_auth_provider_id SERIAL,
-    user_login_id         INTEGER NOT NULL,
-    provider_name         TEXT NOT NULL,   -- e.g., 'local', 'google'
-    provider_uid          TEXT NOT NULL,   -- For Google: their subject/ID; for local: email
-    linked_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    unlinked_on           TIMESTAMPTZ,
-    is_active             BOOLEAN NOT NULL DEFAULT TRUE,
+    user_auth_provider_id  SERIAL,
+    user_login_id          INTEGER NOT NULL,
+    auth_provider_id       INTEGER NOT NULL,
+    provider_uid           TEXT NOT NULL,
+    is_active              BOOLEAN NOT NULL DEFAULT TRUE,
+    created_by             INTEGER NOT NULL,
+    created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by            INTEGER,
+    modified_on            TIMESTAMPTZ,
 
-    created_by            INTEGER NOT NULL,
-    created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    modified_by           INTEGER,
-    modified_on           TIMESTAMPTZ,
-
-    -- Constraints (all named)
+    -- Constraints
     CONSTRAINT pk_user_auth_provider_id PRIMARY KEY (user_auth_provider_id),
-    CONSTRAINT fk_user_auth_provider_user_login_id FOREIGN KEY (user_login_id) REFERENCES app.user_login (user_login_id) ON DELETE CASCADE,
-    CONSTRAINT fk_user_auth_provider_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
-    CONSTRAINT fk_user_auth_provider_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
-    CONSTRAINT uq_user_auth_provider UNIQUE (provider_name, provider_uid, is_active)
+    CONSTRAINT fk_uap_user_login_id FOREIGN KEY (user_login_id) REFERENCES app.user_login(user_login_id) ON DELETE CASCADE,
+    CONSTRAINT fk_uap_auth_provider_id FOREIGN KEY (auth_provider_id) REFERENCES app.auth_provider(auth_provider_id) ON DELETE RESTRICT,
+    CONSTRAINT fk_uap_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_uap_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT uq_user_auth UNIQUE (user_login_id, auth_provider_id)
 );
 
--- Table comment
-COMMENT ON TABLE app.user_auth_provider IS 'Tracks which authentication providers (local, Google, etc.) are linked to each user_login. Supports multiple providers per user and future extensibility.';
+COMMENT ON TABLE app.user_auth_provider IS 'Links users to external or local authentication providers (e.g., Google, GitHub, local).';
 
--- Field comments (one-liners)
 COMMENT ON COLUMN app.user_auth_provider.user_auth_provider_id IS 'Primary key.';
 COMMENT ON COLUMN app.user_auth_provider.user_login_id IS 'FK to app.user_login.';
-COMMENT ON COLUMN app.user_auth_provider.provider_name IS 'Provider name, e.g., "local", "google".';
-COMMENT ON COLUMN app.user_auth_provider.provider_uid IS 'Unique ID from provider (Google subject, or user email for local).';
-COMMENT ON COLUMN app.user_auth_provider.linked_on IS 'Timestamp when provider was linked.';
-COMMENT ON COLUMN app.user_auth_provider.unlinked_on IS 'Timestamp when provider was unlinked (nullable).';
-COMMENT ON COLUMN app.user_auth_provider.is_active IS 'TRUE if provider is currently linked.';
-COMMENT ON COLUMN app.user_auth_provider.created_by IS 'FK to app.user_login; user who created this record.';
-COMMENT ON COLUMN app.user_auth_provider.created_on IS 'Creation timestamp.';
-COMMENT ON COLUMN app.user_auth_provider.modified_by IS 'FK to app.user_login; user who last modified this record.';
-COMMENT ON COLUMN app.user_auth_provider.modified_on IS 'Modification timestamp.';
+COMMENT ON COLUMN app.user_auth_provider.auth_provider_id IS 'FK to app.auth_provider.';
+COMMENT ON COLUMN app.user_auth_provider.provider_uid IS 'Unique ID provided by the authentication service (e.g., Google user ID).';
+COMMENT ON COLUMN app.user_auth_provider.is_active IS 'Indicates if this link is active.';
+COMMENT ON COLUMN app.user_auth_provider.created_by IS 'FK to user_login; creator of the record.';
+COMMENT ON COLUMN app.user_auth_provider.created_on IS 'Timestamp of creation.';
+COMMENT ON COLUMN app.user_auth_provider.modified_by IS 'FK to user_login; last modifier.';
+COMMENT ON COLUMN app.user_auth_provider.modified_on IS 'Timestamp of last modification.';
+

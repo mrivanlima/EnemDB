@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS app.quota_type (
     quota_type_id            SERIAL,
-    quota_type_code          TEXT NOT NULL,
-    quota_type_desc_pt       TEXT NOT NULL,
-    quota_type_desc_short_pt TEXT NOT NULL,
-    quota_explain            TEXT NOT NULL,
+    quota_type_code          VARCHAR(50) NOT NULL,
+    quota_type_desc_pt       VARCHAR(255) NOT NULL,
+    quota_type_desc_short_pt VARCHAR(100) NOT NULL,
+    quota_explain            VARCHAR(255) NOT NULL,
     created_by               INTEGER NOT NULL DEFAULT 1,  -- system user_login_id or assign as needed
     created_on               TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by              INTEGER,

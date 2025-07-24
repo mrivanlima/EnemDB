@@ -51,3 +51,4 @@ COMMENT ON COLUMN app.item_statistics.created_by IS 'FK to app.user_login; user 
 COMMENT ON COLUMN app.item_statistics.created_on IS 'Timestamp when this record was created.';
 COMMENT ON COLUMN app.item_statistics.modified_by IS 'FK to app.user_login; user who last modified this record.';
 COMMENT ON COLUMN app.item_statistics.modified_on IS 'Timestamp of last modification.';
+

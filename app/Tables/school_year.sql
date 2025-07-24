@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.school_year (
     school_year_id         SERIAL,
-    school_year_name       TEXT NOT NULL,
-    school_year_name_friendly TEXT NOT NULL,
+    school_year_name       VARCHAR(250) NOT NULL,
+    school_year_name_friendly VARCHAR(250) NOT NULL,
     created_by             INTEGER NOT NULL,
     created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by            INTEGER,

@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.university_category (
     university_category_id             SERIAL,
-    university_category_name           TEXT NOT NULL,
-    university_category_name_friendly  TEXT NOT NULL,
+    university_category_name           VARCHAR(255) NOT NULL,
+    university_category_name_friendly  VARCHAR(255) NOT NULL,
     created_by                         INTEGER NOT NULL,
     created_on                         TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by                        INTEGER,

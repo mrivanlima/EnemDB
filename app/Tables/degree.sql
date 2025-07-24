@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.degree (
     degree_id               SERIAL,
-    degree_name             TEXT NOT NULL,
-    degree_name_friendly    TEXT NOT NULL,
+    degree_name             VARCHAR(50) NOT NULL,
+    degree_name_friendly    VARCHAR(50) NOT NULL,
     created_by              INTEGER NOT NULL,
     created_on              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by             INTEGER,
@@ -26,3 +26,4 @@ COMMENT ON COLUMN app.degree.created_by IS 'FK to app.user_login; identifies the
 COMMENT ON COLUMN app.degree.created_on IS 'Timestamp when the degree record was created.';
 COMMENT ON COLUMN app.degree.modified_by IS 'FK to app.user_login; identifies the user who last modified this record.';
 COMMENT ON COLUMN app.degree.modified_on IS 'Timestamp of the most recent modification.';
+

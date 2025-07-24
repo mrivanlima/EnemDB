@@ -65,3 +65,4 @@ CREATE TABLE IF NOT EXISTS app.seats (
     CONSTRAINT fk_seats_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
     CONSTRAINT fk_seats_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
 );
+

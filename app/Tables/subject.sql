@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.subject (
     subject_id             SERIAL,
-    subject_name           TEXT NOT NULL,
-    subject_name_friendly  TEXT NOT NULL,
+    subject_name           VARCHAR(255) NOT NULL,
+    subject_name_friendly  VARCHAR(255) NOT NULL,
     created_by             INTEGER NOT NULL,
     created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by            INTEGER,

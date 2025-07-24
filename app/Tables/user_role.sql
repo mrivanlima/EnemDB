@@ -1,33 +1,28 @@
-CREATE TABLE IF NOT EXISTS app.user_login (
-    user_login_id         SERIAL,
-    email                 CITEXT NOT NULL,
-    password_hash         TEXT,
-    is_email_verified     BOOLEAN NOT NULL DEFAULT FALSE,
-    is_active             BOOLEAN NOT NULL DEFAULT TRUE,
-    soft_deleted_at       TIMESTAMPTZ,
-    created_by            INTEGER NOT NULL,
-    created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    modified_by           INTEGER,
-    modified_on           TIMESTAMPTZ,
+CREATE TABLE IF NOT EXISTS app.user_role (
+    user_role_id    SERIAL,
+    user_login_id   INTEGER NOT NULL,
+    role_id         INTEGER NOT NULL,
+    created_by      INTEGER NOT NULL,
+    created_on      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    modified_by     INTEGER,
+    modified_on     TIMESTAMPTZ,
 
     -- Constraints (all named)
-    CONSTRAINT pk_user_login_id PRIMARY KEY (user_login_id),
-    CONSTRAINT uq_user_login_email UNIQUE (email),
-    CONSTRAINT fk_user_login_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
-    CONSTRAINT fk_user_login_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+    CONSTRAINT pk_user_role_id PRIMARY KEY (user_role_id),
+    CONSTRAINT fk_user_role_user_login FOREIGN KEY (user_login_id) REFERENCES app.user_login(user_login_id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_role_role_id FOREIGN KEY (role_id) REFERENCES app.role(role_id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_role_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_user_role_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT uq_user_role UNIQUE (user_login_id, role_id)
 );
 
--- Table comment
-COMMENT ON TABLE app.user_login IS 'Stores primary authentication details for all users. Uses email as unique login.';
+COMMENT ON TABLE app.user_role IS 'Associates users with roles, including assignment and audit metadata.';
 
--- Field comments (one-liners)
-COMMENT ON COLUMN app.user_login.user_login_id IS 'Primary key.';
-COMMENT ON COLUMN app.user_login.email IS 'User email, unique, case-insensitive.';
-COMMENT ON COLUMN app.user_login.password_hash IS 'BCrypt (or similar) hash of password. NULL for Google-only accounts.';
-COMMENT ON COLUMN app.user_login.is_email_verified IS 'TRUE if the email was verified by user.';
-COMMENT ON COLUMN app.user_login.is_active IS 'FALSE for deactivated/soft-deleted accounts.';
-COMMENT ON COLUMN app.user_login.soft_deleted_at IS 'Timestamp of soft deletion, if any.';
-COMMENT ON COLUMN app.user_login.created_by IS 'FK to app.user_login; record creator (system or admin).';
-COMMENT ON COLUMN app.user_login.created_on IS 'Creation timestamp.';
-COMMENT ON COLUMN app.user_login.modified_by IS 'FK to app.user_login; last modifier (system or admin).';
-COMMENT ON COLUMN app.user_login.modified_on IS 'Modification timestamp.';
+COMMENT ON COLUMN app.user_role.user_role_id IS 'Primary key.';
+COMMENT ON COLUMN app.user_role.user_login_id IS 'FK to app.user_login (user receiving the role).';
+COMMENT ON COLUMN app.user_role.role_id IS 'FK to app.role (assigned role).';
+COMMENT ON COLUMN app.user_role.created_by IS 'FK to app.user_login (creator of this record).';
+COMMENT ON COLUMN app.user_role.created_on IS 'Timestamp when this record was created.';
+COMMENT ON COLUMN app.user_role.modified_by IS 'FK to app.user_login (last modifier).';
+COMMENT ON COLUMN app.user_role.modified_on IS 'Timestamp of last modification.';
+

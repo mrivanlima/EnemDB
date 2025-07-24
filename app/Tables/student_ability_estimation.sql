@@ -34,3 +34,4 @@ COMMENT ON COLUMN app.student_ability_estimation.created_by IS 'FK to app.user_l
 COMMENT ON COLUMN app.student_ability_estimation.created_on IS 'Timestamp when the record was created.';
 COMMENT ON COLUMN app.student_ability_estimation.modified_by IS 'FK to app.user_login; user who last modified this record.';
 COMMENT ON COLUMN app.student_ability_estimation.modified_on IS 'Timestamp of last modification.';
+

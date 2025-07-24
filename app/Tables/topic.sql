@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS app.topic (
     topic_id               SERIAL,
     subject_id             INTEGER NOT NULL,
-    topic_name             TEXT NOT NULL,
-    topic_name_friendly    TEXT NOT NULL,
+    topic_name             VARCHAR(50) NOT NULL,
+    topic_name_friendly    VARCHAR(50) NOT NULL,
     created_by             INTEGER NOT NULL,
     created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by            INTEGER,

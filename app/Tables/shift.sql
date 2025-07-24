@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.shift (
     shift_id                SERIAL,
-    shift_name              TEXT NOT NULL,
-    shift_name_friendly     TEXT NOT NULL,
+    shift_name              VARCHAR(255) NOT NULL,
+    shift_name_friendly     VARCHAR(255) NOT NULL,
     created_by              INTEGER NOT NULL,
     created_on              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by             INTEGER,
@@ -26,3 +26,5 @@ COMMENT ON COLUMN app.shift.created_by IS 'FK to app.user_login; user who create
 COMMENT ON COLUMN app.shift.created_on IS 'Timestamp when the record was created.';
 COMMENT ON COLUMN app.shift.modified_by IS 'FK to app.user_login; user who last modified this record.';
 COMMENT ON COLUMN app.shift.modified_on IS 'Timestamp of the most recent modification.';
+
+

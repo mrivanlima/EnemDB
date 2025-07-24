@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.terms_acceptance (
     terms_acceptance_id  SERIAL,
     user_login_id        INTEGER NOT NULL,
-    terms_version        TEXT NOT NULL,       -- E.g. "2024-06", "v1.0", etc.
+    terms_version        VARCHAR(50) NOT NULL,       -- E.g. "2024-06", "v1.0", etc.
     accepted_on          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     accepted_by          INTEGER NOT NULL,    -- FK to user_login who accepted
     is_active            BOOLEAN NOT NULL DEFAULT TRUE,

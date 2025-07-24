@@ -47,3 +47,5 @@ COMMENT ON COLUMN app.question.modified_on IS 'Timestamp of the last modificatio
 COMMENT ON COLUMN app.question.is_active IS 'Soft delete/archive flag.';
 COMMENT ON COLUMN app.question.source_pdf_page IS 'Original PDF page number from the ENEM booklet.';
 COMMENT ON COLUMN app.question.original_enem_code IS 'Official ENEM item code from microdados, if available.';
+
+

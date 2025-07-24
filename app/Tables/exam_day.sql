@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.exam_day (
     exam_day_id           SERIAL,
-    day_name              TEXT NOT NULL,
-    day_name_friendly     TEXT NOT NULL,
+    day_name              VARCHAR(20) NOT NULL,
+    day_name_friendly     VARCHAR(20) NOT NULL,
     created_by            INTEGER NOT NULL,
     created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by           INTEGER,

@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.degree_level (
     degree_level_id               SERIAL,
-    degree_level_name             TEXT NOT NULL,
-    degree_level_name_friendly    TEXT NOT NULL,
+    degree_level_name             VARCHAR(50) NOT NULL,
+    degree_level_name_friendly    VARCHAR(50) NOT NULL,
     created_by                    INTEGER NOT NULL,
     created_on                    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by                   INTEGER,
@@ -26,3 +26,4 @@ COMMENT ON COLUMN app.degree_level.created_by IS 'FK to app.user_login; identifi
 COMMENT ON COLUMN app.degree_level.created_on IS 'Timestamp when the degree level record was created.';
 COMMENT ON COLUMN app.degree_level.modified_by IS 'FK to app.user_login; identifies the user who last modified this record.';
 COMMENT ON COLUMN app.degree_level.modified_on IS 'Timestamp of the most recent modification.';
+

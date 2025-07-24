@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS app.exam_year (
     exam_year_id        SERIAL,
-    year_name          INTEGER NOT NULL,
-    year_name_friendly  TEXT NOT NULL,
+    exam_year           INTEGER NOT NULL,
+    year_name           VARCHAR(50) NOT NULL,
+    year_name_friendly  VARCHAR(50) NOT NULL,
     created_by          INTEGER NOT NULL,
     created_on          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by         INTEGER,
@@ -26,3 +27,4 @@ COMMENT ON COLUMN app.exam_year.created_by IS 'FK to app.user_login; user who cr
 COMMENT ON COLUMN app.exam_year.created_on IS 'Timestamp of record creation.';
 COMMENT ON COLUMN app.exam_year.modified_by IS 'FK to app.user_login; user who last modified this record.';
 COMMENT ON COLUMN app.exam_year.modified_on IS 'Timestamp of the most recent modification.';
+COMMENT ON COLUMN app.exam_year.exam_year IS 'The year of the ENEM exam represented by this record.';

@@ -23,3 +23,4 @@ COMMENT ON COLUMN app.academic_organization.created_by IS 'Identifier for the us
 COMMENT ON COLUMN app.academic_organization.created_on IS 'Timestamp when the record was created.';
 COMMENT ON COLUMN app.academic_organization.modified_by IS 'Identifier for the user or system that last modified this record.';
 COMMENT ON COLUMN app.academic_organization.modified_on IS 'Timestamp of the most recent modification.';
+

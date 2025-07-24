@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.area (
     area_id           SERIAL,
-    area_name         TEXT NOT NULL,
-    area_name_friendly TEXT NOT NULL,
+    area_name         VARCHAR(50) NOT NULL,
+    area_name_friendly VARCHAR(50) NOT NULL,
     created_by        INTEGER NOT NULL,
     created_on        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by       INTEGER,

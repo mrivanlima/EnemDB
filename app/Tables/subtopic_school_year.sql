@@ -24,3 +24,4 @@ COMMENT ON COLUMN app.subtopic_school_year.created_by IS 'FK to app.user_login; 
 COMMENT ON COLUMN app.subtopic_school_year.created_on IS 'Timestamp of record creation.';
 COMMENT ON COLUMN app.subtopic_school_year.modified_by IS 'FK to app.user_login; user who last modified this record.';
 COMMENT ON COLUMN app.subtopic_school_year.modified_on IS 'Timestamp of the most recent modification.';
+

@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.email_verification (
     email_verification_id  SERIAL,
     user_login_id          INTEGER NOT NULL,
-    verification_token     TEXT NOT NULL,
+    verification_token     VARCHAR(256) NOT NULL,
     requested_on           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     verified_on            TIMESTAMPTZ,
     is_verified            BOOLEAN NOT NULL DEFAULT FALSE,

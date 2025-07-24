@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.university_campus (
     university_campus_id              SERIAL,
-    university_campus_name            TEXT NOT NULL,
-    university_campus_name_friendly  TEXT NOT NULL,
+    university_campus_name            VARCHAR(50) NOT NULL,
+    university_campus_name_friendly  VARCHAR(50) NOT NULL,
     created_by                       INTEGER NOT NULL,
     created_on                       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by                      INTEGER,

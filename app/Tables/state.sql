@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS app.state (
     state_id               SERIAL,
     region_id              INT NOT NULL,
-    state_abbr             TEXT NOT NULL,
-    state_name             TEXT NOT NULL,
-    state_name_friendly    TEXT NOT NULL,
+    state_abbr             CHAR(2) NOT NULL,
+    state_name             VARCHAR(20) NOT NULL,
+    state_name_friendly    VARCHAR(20) NOT NULL,
     created_by             INTEGER NOT NULL,
     created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by            INTEGER,

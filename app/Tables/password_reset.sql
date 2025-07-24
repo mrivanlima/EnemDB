@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.password_reset (
     password_reset_id     SERIAL,
     user_login_id         INTEGER NOT NULL,
-    reset_token           TEXT NOT NULL,
+    reset_token           VARCHAR(255) NOT NULL,
     requested_on          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     used_on               TIMESTAMPTZ,
     is_used               BOOLEAN NOT NULL DEFAULT FALSE,

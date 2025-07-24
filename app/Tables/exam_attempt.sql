@@ -45,3 +45,5 @@ COMMENT ON COLUMN app.exam_attempt.created_on IS 'Creation timestamp.';
 COMMENT ON COLUMN app.exam_attempt.modified_by IS 'FK to app.user_login; user who last modified this record.';
 COMMENT ON COLUMN app.exam_attempt.modified_on IS 'Modification timestamp.';
 COMMENT ON COLUMN app.exam_attempt.is_active IS 'Active/archive flag.';
+
+

@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS app.subtopic (
     subtopic_id               SERIAL,
     topic_id                  INTEGER NOT NULL,
-    subtopic_name             TEXT NOT NULL,
-    subtopic_name_friendly    TEXT NOT NULL,
+    subtopic_name             VARCHAR(255) NOT NULL,
+    subtopic_name_friendly    VARCHAR(255) NOT NULL,
     created_by                INTEGER NOT NULL,
     created_on                TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by               INTEGER,

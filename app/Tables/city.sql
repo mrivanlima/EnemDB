@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS app.city (
     city_id               SERIAL,
     state_id              INT NOT NULL,
-    city_name             TEXT NOT NULL,
-    city_name_friendly    TEXT NOT NULL,
+    city_name             VARCHAR(40) NOT NULL,
+    city_name_friendly    VARCHAR(40) NOT NULL,
     created_by            INTEGER NOT NULL,
     created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by           INTEGER,

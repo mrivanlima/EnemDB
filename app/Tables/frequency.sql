@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS app.frequency (
     frequency_id               SERIAL,
-    frequency_name             TEXT NOT NULL,
-    frequency_name_friendly    TEXT NOT NULL,
+    frequency_name             VARCHAR(50) NOT NULL,
+    frequency_name_friendly    VARCHAR(50) NOT NULL,
     created_by                 INTEGER NOT NULL,
     created_on                 TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by                INTEGER,

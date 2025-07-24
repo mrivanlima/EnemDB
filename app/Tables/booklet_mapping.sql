@@ -36,3 +36,4 @@ COMMENT ON COLUMN app.booklet_mapping.created_by IS 'FK to app.user_login; who c
 COMMENT ON COLUMN app.booklet_mapping.created_on IS 'Timestamp when the booklet mapping record was created.';
 COMMENT ON COLUMN app.booklet_mapping.modified_by IS 'FK to app.user_login; who last modified this booklet mapping record.';
 COMMENT ON COLUMN app.booklet_mapping.modified_on IS 'Timestamp of the most recent modification.';
+

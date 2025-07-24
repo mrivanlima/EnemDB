@@ -29,3 +29,4 @@ COMMENT ON COLUMN app.year.created_by IS 'FK to app.user_login; user who created
 COMMENT ON COLUMN app.year.created_on IS 'Timestamp when the record was created.';
 COMMENT ON COLUMN app.year.modified_by IS 'FK to app.user_login; user who last modified this record.';
 COMMENT ON COLUMN app.year.modified_on IS 'Timestamp of the last modification.';
+

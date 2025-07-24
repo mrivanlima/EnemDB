@@ -28,3 +28,4 @@ COMMENT ON COLUMN app.submission_deadline.created_by IS 'FK to app.user_login; u
 COMMENT ON COLUMN app.submission_deadline.created_on IS 'Timestamp when the record was created.';
 COMMENT ON COLUMN app.submission_deadline.modified_by IS 'FK to app.user_login; user who last modified this record.';
 COMMENT ON COLUMN app.submission_deadline.modified_on IS 'Timestamp of last modification.';
+

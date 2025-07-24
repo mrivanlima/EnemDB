@@ -1,10 +1,12 @@
 CREATE TABLE IF NOT EXISTS app.user_login (
     user_login_id         SERIAL,
-    email                 TEXT NOT NULL,
-    password_hash         TEXT,
-    is_email_verified     BOOLEAN NOT NULL DEFAULT FALSE,
-    is_active             BOOLEAN NOT NULL DEFAULT TRUE,
+    email                 VARCHAR(255) NOT NULL,
+    password_hash         VARCHAR(255),  -- NULL for Google-only accounts
+    is_email_verified     BOOLEAN NOT NULL,
+    is_active             BOOLEAN NOT NULL,
     soft_deleted_at       TIMESTAMPTZ,
+    last_login_at         TIMESTAMPTZ,
+    login_attempts        INTEGER DEFAULT 0
     created_by            INTEGER NOT NULL,
     created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by           INTEGER,
@@ -29,3 +31,5 @@ COMMENT ON COLUMN app.user_login.created_by IS 'FK to app.user_login; record cre
 COMMENT ON COLUMN app.user_login.created_on IS 'Creation timestamp.';
 COMMENT ON COLUMN app.user_login.modified_by IS 'FK to app.user_login; last modifier (system or admin).';
 COMMENT ON COLUMN app.user_login.modified_on IS 'Modification timestamp.';
+COMMENT ON COLUMN app.user_login.last_login_at IS 'Timestamp of last successful login.';
+COMMENT ON COLUMN app.user_login.login_attempts IS 'Number of failed login attempts before account lockout.';

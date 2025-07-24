@@ -24,3 +24,4 @@ COMMENT ON COLUMN app.language.created_by IS 'FK to app.user_login; user who cre
 COMMENT ON COLUMN app.language.created_on IS 'Timestamp of record creation.';
 COMMENT ON COLUMN app.language.modified_by IS 'FK to app.user_login; user who last modified this record.';
 COMMENT ON COLUMN app.language.modified_on IS 'Timestamp of the most recent modification.';
+

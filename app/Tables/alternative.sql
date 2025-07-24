@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS app.alternative (
     created_on               TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by              INTEGER,
     modified_on              TIMESTAMPTZ,
-    is_active                BOOLEAN NOT NULL DEFAULT TRUE,
+    is_active                BOOLEAN NOT NULL,
 
     -- Constraints (all named)
     CONSTRAINT pk_alternative_id PRIMARY KEY (alternative_id),
