@@ -46,7 +46,7 @@ DO $$
 $$;
 */
 
-
+/*
 INSERT INTO app.booklet_color (
     booklet_color_name,
     booklet_color_name_friendly,
@@ -1749,5 +1749,8 @@ INSERT INTO app.year (year, year_name, year_name_friendly, created_by) VALUES
 --     ON sq.special_quota_desc_short = ivo.ds_mod_concorrencia
 -- ;
 
+*/
 
+
+CALL imp.batch_create_years();
 

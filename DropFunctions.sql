@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS app.fn_number_to_words_ptbr(integer)

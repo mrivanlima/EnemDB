@@ -21,6 +21,7 @@
 \i './schemas.sql'
 \i './extensions.sql'
 \i './DropTable.sql'
+\i './DropFunctions.sql'
 
 
 
@@ -62,7 +63,13 @@
 \i './app/Tables/user_info.sql'
 \i './app/Tables/error_log.sql'
 
+\i './app/Tables/year.sql'
 
+
+
+--Add imp tables
+\i './imp/Tables/sisu_data_dictionary.sql'
+\i './imp/Tables/sisu_spot_offer.sql'
 
 
 -- Stored Procedures
@@ -79,9 +86,14 @@
 \i './app/StoredProcedures/usp_api_user_login_password_reset.sql'
 \i './app/StoredProcedures/usp_api_user_login_soft_delete.sql'
 \i './app/StoredProcedures/usp_api_user_register_create.sql'
+\i './app/StoredProcedures/usp_api_year_create.sql'
+
+-- Stored Procedures from imp
+\i './imp/StoredProcedures/batch_create_years.sql'
 
 
-
+--Functions
+\i './app/Functions/fn_number_to_words_ptbr.sql'
 
 
 
@@ -186,7 +198,7 @@
 --\i './app/Functions/set_university_category_name_friendly.sql'
 --\i './app/Functions/set_university_name_friendly.sql'
 --\i './app/Functions/set_language_name_friendly.sql'
---\i './app/Functions/set_year_name_friendly.sql'
+\i './app/Functions/set_year_name_friendly.sql'
 
 --\i './app/Functions/usp_api_account_read_by_id.sql'
 --\i './app/Functions/usp_api_account_read_by_name.sql'
@@ -291,8 +303,9 @@
 \i './app/Triggers/trg_set_university_campus_name_friendly.sql'
 \i './app/Triggers/trg_set_university_category_name_friendly.sql'
 \i './app/Triggers/trg_set_university_name_friendly.sql'
-\i './app/Triggers/trg_set_year_name_friendly.sql'
 */
+\i './app/Triggers/trg_set_year_name_friendly.sql'
+
 
 
 --Add Views
@@ -302,7 +315,7 @@
 --Add Indexes
 
 
---\i './seed.sql'
+\i './seed.sql'
 
 -- \echo 'Table "my_table" created.'
 -- SELECT COUNT(*) FROM my_table;
