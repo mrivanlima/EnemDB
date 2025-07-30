@@ -17,6 +17,7 @@
 \i './app/Tables/year.sql'
 \i './app/Tables/university.sql'
 \i './app/Tables/academic_organization.sql'
+\i './app/Tables/university_category.sql'
 
 
 
@@ -36,6 +37,7 @@
 \i './app/StoredProcedures/usp_api_user_register_create.sql'
 \i './app/StoredProcedures/usp_api_year_create.sql'
 \i './app/StoredProcedures/usp_api_academic_organization_create.sql'
+\i './app/StoredProcedures/usp_api_university_category_create.sql'
 
 
 
@@ -44,8 +46,10 @@
 \i './app/Functions/set_year_name_friendly.sql'
 \i './app/Functions/set_university_name_friendly.sql'
 \i './app/Functions/set_academic_organization_name_friendly.sql'
+\i './app/Functions/set_university_category_name_friendly.sql'
 
 --Triggers
 \i './app/Triggers/trg_set_year_name_friendly.sql'
 \i './app/Triggers/trg_set_university_name_friendly.sql'
 \i './app/Triggers/trg_set_academic_organization_name_friendly.sql'
+\i './app/Triggers/trg_set_university_category_name_friendly.sql'
