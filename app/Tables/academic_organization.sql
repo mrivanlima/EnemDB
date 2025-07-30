@@ -1,10 +1,10 @@
-CREATE TABLE IF NOT EXISTS app.academic_organization (
+CREATE TABLE app.academic_organization (
     academic_organization_id            SERIAL,
-    academic_organization_name          VARCHAR(40) NOT NULL,
-    academic_organization_name_friendly VARCHAR(40) NOT NULL,
-    created_by                          VARCHAR(40) NOT NULL,
+    academic_organization_name          VARCHAR(70) NOT NULL,
+    academic_organization_name_friendly VARCHAR(70) NOT NULL,
+    created_by                          INT NOT NULL,
     created_on                          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    modified_by                         VARCHAR(40),
+    modified_by                         INT,
     modified_on                         TIMESTAMPTZ,
     -- Constraints
     CONSTRAINT pk_academic_organization_id PRIMARY KEY (academic_organization_id),

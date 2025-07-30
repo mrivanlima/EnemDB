@@ -23,6 +23,10 @@ VALUES (
     NULL                                                     -- modified_on (NULL at creation)
 );
 
+call imp.batch_create_universities();
+call imp.batch_create_years();
+call imp.usp_seed_academic_organization();
+
 /*
 DO $$
  DECLARE
@@ -1750,7 +1754,4 @@ INSERT INTO app.year (year, year_name, year_name_friendly, created_by) VALUES
 -- ;
 
 */
-
-
-CALL imp.batch_create_years();
 

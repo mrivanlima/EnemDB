@@ -1,6 +1,6 @@
 CREATE OR REPLACE PROCEDURE app.usp_api_academic_organization_create (
     IN p_academic_organization_name  TEXT,
-    IN p_created_by                  TEXT,
+    IN p_created_by                  INT,
     OUT out_message                  TEXT
 )
 LANGUAGE plpgsql
@@ -11,35 +11,38 @@ DECLARE
     v_error_message TEXT;
     v_error_code TEXT;
 BEGIN
-    -- VALIDATIONS
+    -- VALIDAÇÕES
     IF p_academic_organization_name IS NULL OR length(trim(p_academic_organization_name)) = 0 THEN
-        out_message := 'Validation failed: academic_organization_name cannot be empty.';
+        out_message := 'Validação falhou: o nome da organização acadêmica não pode estar em branco.';
         RETURN;
     END IF;
 
-    IF p_created_by IS NULL OR length(trim(p_created_by)) = 0 THEN
-        out_message := 'Validation failed: created_by cannot be empty.';
+    IF p_created_by IS NULL THEN
+        out_message := 'Validação falhou: o campo criado_por não pode ser nulo.';
         RETURN;
     END IF;
 
-    -- Uniqueness: academic_organization_name
-    SELECT 1 INTO v_exists FROM app.academic_organization WHERE academic_organization_name = p_academic_organization_name;
+    -- Verificação de unicidade
+    SELECT 1 INTO v_exists
+    FROM app.academic_organization
+    WHERE academic_organization_name = p_academic_organization_name;
+
     IF FOUND THEN
-        out_message := format('Validation failed: academic_organization_name "%s" already exists.', p_academic_organization_name);
+        out_message := format('Validação falhou: a organização acadêmica "%s" já existe.', p_academic_organization_name);
         RETURN;
     END IF;
 
-    -- DML & ERROR LOGGING
+    -- INSERÇÃO COM TRATAMENTO DE ERRO
     BEGIN
-        INSERT INTO app.academic_organization
-        (
+        INSERT INTO app.academic_organization (
             academic_organization_name,
+            academic_organization_name_friendly,
             created_by,
             created_on
         )
-        VALUES
-        (
+        VALUES (
             p_academic_organization_name,
+            p_academic_organization_name, -- pode customizar depois
             p_created_by,
             NOW()
         );
@@ -49,16 +52,16 @@ BEGIN
 
     EXCEPTION
         WHEN OTHERS THEN
-            -- Only build the command string here
             v_command := format(
-                'CALL app.usp_api_academic_organization_create(p_academic_organization_name => %L, p_created_by => %L)',
+                'CALL app.usp_api_academic_organization_create(p_academic_organization_name => %L, p_created_by => %s)',
                 COALESCE(p_academic_organization_name, 'NULL'),
-                COALESCE(p_created_by, 'NULL')
+                COALESCE(p_created_by::TEXT, 'NULL')
             );
+
             v_error_message := SQLERRM;
             v_error_code := SQLSTATE;
-            INSERT INTO app.error_log
-            (
+
+            INSERT INTO app.error_log (
                 table_name,
                 process,
                 operation,
@@ -67,17 +70,17 @@ BEGIN
                 error_code,
                 user_name
             )
-            VALUES
-            (
+            VALUES (
                 'academic_organization',
                 'app.usp_api_academic_organization_create',
                 'INSERT',
                 v_command,
                 v_error_message,
                 v_error_code,
-                p_created_by
+                p_created_by::TEXT
             );
-            out_message := format('Error during insert: %s', v_error_message);
+
+            out_message := format('Erro durante a inserção: %s', v_error_message);
             RETURN;
     END;
 END;

@@ -1,5 +1,5 @@
 -- 1) CREATE TABLE with SERIAL primary key
-CREATE TABLE imp.sisu_data_dictionary (
+CREATE TABLE IF NOT EXISTS imp.sisu_data_dictionary (
   sisu_data_dictionary_id SERIAL,
   data                  TEXT,
   meaning               TEXT,

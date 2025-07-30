@@ -74,8 +74,8 @@ DROP TABLE IF EXISTS app.auth_provider CASCADE;
 
 
 
-DROP TABLE IF EXISTS imp.sisu_data_dictionary CASCADE;
-DROP TABLE IF EXISTS imp.sisu_spot_offer CASCADE;
+--DROP TABLE IF EXISTS imp.sisu_data_dictionary CASCADE;
+--DROP TABLE IF EXISTS imp.sisu_spot_offer CASCADE;
 
 
 -- If you have any views/materialized views/functions, drop those last.

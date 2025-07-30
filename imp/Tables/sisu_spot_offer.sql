@@ -1,5 +1,5 @@
 -- Create table to store SISU spot offer data with TEXT instead of VARCHAR
-CREATE TABLE imp.sisu_spot_offer (
+CREATE TABLE IF NOT EXISTS imp.sisu_spot_offer (
   sisu_spot_offer_id        SERIAL,
   edicao                    TEXT,
   co_ies                    TEXT,
