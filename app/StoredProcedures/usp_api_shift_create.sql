@@ -1,63 +1,65 @@
 CREATE OR REPLACE PROCEDURE app.usp_api_shift_create (
-    IN p_shift_name   TEXT,
-    IN p_created_by   TEXT,
-    OUT out_message   TEXT
+    IN  p_shift_name    TEXT,
+    IN  p_created_by    INTEGER,
+    OUT out_message     TEXT,
+    OUT out_haserror    BOOLEAN
 )
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    v_exists INTEGER;
-    v_command TEXT;
-    v_error_message TEXT;
-    v_error_code TEXT;
+    v_exists         INTEGER;
+    v_command        TEXT;
+    v_error_message  TEXT;
+    v_error_code     TEXT;
 BEGIN
-    -- VALIDATIONS
+    -- Inicializa saída
+    out_haserror := FALSE;
+
+    -- VALIDAÇÕES
     IF p_shift_name IS NULL OR length(trim(p_shift_name)) = 0 THEN
-        out_message := 'Validation failed: shift_name cannot be empty.';
+        out_message := 'Validação: shift_name é obrigatório.';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
-    IF p_created_by IS NULL OR length(trim(p_created_by)) = 0 THEN
-        out_message := 'Validation failed: created_by cannot be empty.';
+    IF p_created_by IS NULL THEN
+        out_message := 'Validação: created_by é obrigatório.';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
-    -- Uniqueness: shift_name
+    -- Unicidade
     SELECT 1 INTO v_exists FROM app.shift WHERE shift_name = p_shift_name;
     IF FOUND THEN
-        out_message := format('Validation failed: shift_name "%s" already exists.', p_shift_name);
+        out_message := format('Validação: shift_name "%s" já existe.', p_shift_name);
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
-    -- DML & ERROR LOGGING
+    -- INSERÇÃO
     BEGIN
-        INSERT INTO app.shift
-        (
+        INSERT INTO app.shift (
             shift_name,
             created_by,
             created_on
-        )
-        VALUES
-        (
+        ) VALUES (
             p_shift_name,
             p_created_by,
             NOW()
         );
 
         out_message := 'OK';
-        RETURN;
-
     EXCEPTION
         WHEN OTHERS THEN
             v_command := format(
-                'CALL app.usp_api_shift_create(p_shift_name => %L, p_created_by => %L)',
+                'CALL app.usp_api_shift_create(p_shift_name => %L, p_created_by => %s)',
                 COALESCE(p_shift_name, 'NULL'),
-                COALESCE(p_created_by, 'NULL')
+                COALESCE(p_created_by::TEXT, 'NULL')
             );
             v_error_message := SQLERRM;
             v_error_code := SQLSTATE;
-            INSERT INTO app.error_log
-            (
+
+            INSERT INTO app.error_log (
                 table_name,
                 process,
                 operation,
@@ -65,9 +67,7 @@ BEGIN
                 error_message,
                 error_code,
                 user_name
-            )
-            VALUES
-            (
+            ) VALUES (
                 'shift',
                 'app.usp_api_shift_create',
                 'INSERT',
@@ -76,8 +76,9 @@ BEGIN
                 v_error_code,
                 p_created_by
             );
-            out_message := format('Error during insert: %s', v_error_message);
-            RETURN;
+
+            out_message := format('Erro ao inserir shift: %s', v_error_message);
+            out_haserror := TRUE;
     END;
 END;
 $$;

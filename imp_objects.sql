@@ -17,4 +17,6 @@
 \i './imp/StoredProcedures/batch_create_states.sql'
 \i './imp/StoredProcedures/batch_create_cities.sql'
 \i './imp/StoredProcedures/batch_create_degrees.sql'
+\i './imp/StoredProcedures/batch_create_degree_levels.sql'
+\i './imp/StoredProcedures/batch_create_shift.sql'
 
