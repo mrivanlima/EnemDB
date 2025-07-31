@@ -16,4 +16,5 @@
 \i './imp/StoredProcedures/batch_create_regions.sql'
 \i './imp/StoredProcedures/batch_create_states.sql'
 \i './imp/StoredProcedures/batch_create_cities.sql'
+\i './imp/StoredProcedures/batch_create_degrees.sql'
 
