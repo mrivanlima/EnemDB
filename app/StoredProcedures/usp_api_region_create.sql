@@ -1,83 +1,77 @@
 CREATE OR REPLACE PROCEDURE app.usp_api_region_create (
-    IN p_region_name   TEXT,
-    IN p_created_by    TEXT,
-    OUT out_message    TEXT
+  IN p_region_name TEXT,
+  IN p_created_by  INT,
+  OUT out_message  TEXT
 )
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    v_exists INTEGER;
-    v_command TEXT;
-    v_error_message TEXT;
-    v_error_code TEXT;
+  v_exists    INTEGER;
+  v_err_msg   TEXT;
+  v_err_code  TEXT;
+  v_command   TEXT;
 BEGIN
-    -- VALIDATIONS
-    IF p_region_name IS NULL OR length(trim(p_region_name)) = 0 THEN
-        out_message := 'Validation failed: region_name cannot be empty.';
-        RETURN;
-    END IF;
+  -- Verifica se já existe a região (ignorando acentuação e caixa)
+  SELECT 1
+  INTO v_exists
+  FROM app.region
+  WHERE unaccent(region_name) ILIKE unaccent(p_region_name);
 
-    IF p_created_by IS NULL OR length(trim(p_created_by)) = 0 THEN
-        out_message := 'Validation failed: created_by cannot be empty.';
-        RETURN;
-    END IF;
+  IF FOUND THEN
+    out_message := format('Validação falhou: a região "%s" já existe.', p_region_name);
+    RETURN;
+  END IF;
 
-    -- Uniqueness: region_name
-    SELECT 1 INTO v_exists FROM app.region WHERE region_name = p_region_name;
-    IF FOUND THEN
-        out_message := format('Validation failed: region_name "%s" already exists.', p_region_name);
-        RETURN;
-    END IF;
+  -- Tentativa de inserção com tratamento de erro
+  BEGIN
+    INSERT INTO app.region (
+      region_name,
+      created_by,
+      created_on,
+      modified_by,
+      modified_on
+    ) VALUES (
+      p_region_name,
+      p_created_by,
+      NOW(),
+      p_created_by,
+      NOW()
+    );
 
-    -- DML & ERROR LOGGING
-    BEGIN
-        INSERT INTO app.region
-        (
-            region_name,
-            created_by,
-            created_on
-        )
-        VALUES
-        (
-            p_region_name,
-            p_created_by,
-            NOW()
-        );
+    out_message := 'OK';
+    RETURN;
 
-        out_message := 'OK';
-        RETURN;
+  EXCEPTION WHEN OTHERS THEN
+    GET STACKED DIAGNOSTICS
+      v_err_msg = MESSAGE_TEXT,
+      v_err_code = RETURNED_SQLSTATE;
 
-    EXCEPTION
-        WHEN OTHERS THEN
-            v_command := format(
-                'CALL app.usp_api_region_create(p_region_name => %L, p_created_by => %L)',
-                COALESCE(p_region_name, 'NULL'),
-                COALESCE(p_created_by, 'NULL')
-            );
-            v_error_message := SQLERRM;
-            v_error_code := SQLSTATE;
-            INSERT INTO app.error_log
-            (
-                table_name,
-                process,
-                operation,
-                command,
-                error_message,
-                error_code,
-                user_name
-            )
-            VALUES
-            (
-                'region',
-                'app.usp_api_region_create',
-                'INSERT',
-                v_command,
-                v_error_message,
-                v_error_code,
-                p_created_by
-            );
-            out_message := format('Error during insert: %s', v_error_message);
-            RETURN;
-    END;
+    v_command := format(
+      'CALL app.usp_api_region_create(p_region_name => %L, p_created_by => %s)',
+      COALESCE(p_region_name, 'NULL'),
+      COALESCE(p_created_by::TEXT, 'NULL')
+    );
+
+    INSERT INTO app.error_log (
+      table_name, 
+      process, 
+      operation, 
+      command,
+      error_message, 
+      error_code, 
+      user_name
+    ) VALUES (
+      'region',
+      'app.usp_api_region_create',
+      'INSERT',
+      v_command,
+      v_err_msg,
+      v_err_code,
+      p_created_by
+    );
+
+    out_message := format('Erro ao inserir região: %s', v_err_msg);
+    RETURN;
+  END;
 END;
 $$;

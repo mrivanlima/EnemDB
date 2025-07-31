@@ -4,6 +4,7 @@
 \i './imp/Tables/region_state.sql'
 \i './imp/Tables/brazil_states.sql'
 \i './imp/Tables/city.sql'
+\i './imp/Tables/degree_mapping.sql'
 
 
 --A-- Stored Procedures from imp
@@ -12,6 +13,6 @@
 \i './imp/StoredProcedures/batch_create_academic_organization.sql'
 \i './imp/StoredProcedures/batch_create_university_category.sql'
 \i './imp/StoredProcedures/batch_create_campus.sql'
-
-
+\i './imp/StoredProcedures/batch_create_regions.sql'
+\i './imp/StoredProcedures/batch_create_states.sql'
 

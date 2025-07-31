@@ -33,6 +33,10 @@ CALL imp.batch_create_campus();
 \copy imp.region_state(region_name, state_name) FROM 'Region_mapping.csv' WITH CSV HEADER ENCODING 'LATIN1';
 \copy imp.brazil_states(ibge_code, name, uf) FROM 'estados.csv' WITH CSV HEADER ENCODING 'LATIN1';
 \copy imp.city(state_code, city_code, name) FROM 'municipios.csv' WITH CSV HEADER ENCODING 'LATIN1';
+\copy imp.degree_mapping(published_degree, area, context, similarity, equivalent) FROM 'degree_mapping_equivalents_filled.csv' WITH CSV HEADER ENCODING 'LATIN1';
+
+CALL imp.batch_create_regions();
+CALL imp.batch_create_states();
 
 
 /*
