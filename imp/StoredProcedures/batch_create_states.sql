@@ -9,7 +9,7 @@ BEGIN
     SELECT DISTINCT 
       r.region_id,
       bs.uf AS state_abbr,
-      rs.state_name
+      INITCAP(rs.state_name) AS state_name
     FROM imp.region_state rs
     JOIN app.region r
       ON r.region_name = rs.region_name
