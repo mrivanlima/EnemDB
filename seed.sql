@@ -27,6 +27,7 @@ call imp.batch_create_universities();
 call imp.batch_create_years();
 call imp.usp_seed_academic_organization();
 CALL imp.usp_seed_university_category();
+CALL imp.batch_create_campus();
 
 /*
 DO $$
