@@ -15,4 +15,5 @@
 \i './imp/StoredProcedures/batch_create_campus.sql'
 \i './imp/StoredProcedures/batch_create_regions.sql'
 \i './imp/StoredProcedures/batch_create_states.sql'
+\i './imp/StoredProcedures/batch_create_cities.sql'
 

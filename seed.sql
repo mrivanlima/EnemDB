@@ -37,6 +37,8 @@ CALL imp.batch_create_campus();
 
 CALL imp.batch_create_regions();
 CALL imp.batch_create_states();
+CALL imp.batch_create_cities();
+
 
 
 /*

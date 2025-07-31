@@ -6,7 +6,7 @@ DECLARE
   result_msg  TEXT;
 BEGIN
   FOR rec IN
-    SELECT DISTINCT TRIM(region_name) AS region_name
+    SELECT DISTINCT TRIM(INITCAP(region_name)) AS region_name
     FROM imp.region_state
     WHERE region_name IS NOT NULL
   LOOP
