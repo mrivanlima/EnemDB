@@ -29,6 +29,12 @@ call imp.usp_seed_academic_organization();
 CALL imp.usp_seed_university_category();
 CALL imp.batch_create_campus();
 
+
+\copy imp.region_state(region_name, state_name) FROM 'Region_mapping.csv' WITH CSV HEADER ENCODING 'LATIN1';
+\copy imp.brazil_states(ibge_code, name, uf) FROM 'estados.csv' WITH CSV HEADER ENCODING 'LATIN1';
+\copy imp.city(state_code, city_code, name) FROM 'municipios.csv' WITH CSV HEADER ENCODING 'LATIN1';
+
+
 /*
 DO $$
  DECLARE

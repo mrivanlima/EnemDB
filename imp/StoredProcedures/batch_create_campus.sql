@@ -6,7 +6,7 @@ DECLARE
   result_msg  TEXT;
 BEGIN
   FOR rec IN
-    SELECT DISTINCT TRIM(no_campus)
+    SELECT DISTINCT no_campus
     FROM imp.sisu_spot_offer
     WHERE no_campus IS NOT NULL
   LOOP
