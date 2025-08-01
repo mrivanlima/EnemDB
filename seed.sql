@@ -44,7 +44,9 @@ CALL imp.batch_create_states();
 --CALL imp.batch_create_cities();
 CALL imp.batch_create_frequency();
 CALL imp.batch_create_quota_type();
-CALL app.usp_quote_type_flags_update()
+CALL app.usp_quote_type_flags_update();
+CALL imp.batch_create_special_quota();
+CALL app.usp_special_quota_flags_update();
 
 
 

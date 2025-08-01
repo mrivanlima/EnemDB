@@ -1,81 +1,72 @@
-CREATE OR REPLACE PROCEDURE app.usp_api_quota_type_create (
-    OUT out_message               TEXT,
-    IN p_quota_type_code          TEXT,
-    IN p_quota_type_desc_pt       TEXT,
-    IN p_created_by               INTEGER,
-    IN p_quota_type_desc_short_pt TEXT DEFAULT NULL,
-    IN p_quota_explain            TEXT DEFAULT NULL
+CREATE OR REPLACE PROCEDURE app.usp_api_special_quota_create (
+    IN p_quota_type_id         INTEGER,
+    IN p_special_quota_desc_pt TEXT,
+    IN p_created_by            INTEGER,
+    OUT out_message            TEXT
 )
 LANGUAGE plpgsql
 AS $$
 DECLARE
-  v_exists INTEGER;
+    v_exists        INTEGER;
+    v_command       TEXT;
+    v_error_message TEXT;
+    v_error_code    TEXT;
 BEGIN
-  -- validações obrigatórias
-  IF p_quota_type_code IS NULL OR length(trim(p_quota_type_code)) = 0 THEN
-    out_message := 'Falha: “quota_type_code” não pode ficar em branco.';
-    RETURN;
-  END IF;
+    -- validações obrigatórias
+    IF p_quota_type_id IS NULL THEN
+        out_message := 'Falha de validação: quota_type_id não pode ser nulo.';
+        RETURN;
+    END IF;
+    IF p_special_quota_desc_pt IS NULL OR length(trim(p_special_quota_desc_pt)) = 0 THEN
+        out_message := 'Falha de validação: descrição completa não pode estar vazia.';
+        RETURN;
+    END IF;
+    IF p_created_by IS NULL THEN
+        out_message := 'Falha de validação: created_by não pode ser nulo.';
+        RETURN;
+    END IF;
 
-  IF p_quota_type_desc_pt IS NULL OR length(trim(p_quota_type_desc_pt)) = 0 THEN
-    out_message := 'Falha: “quota_type_desc_pt” não pode ficar em branco.';
-    RETURN;
-  END IF;
+    -- insere registro (não verificando especial_curta nem quota_explain)
+    BEGIN
+        INSERT INTO app.special_quota (
+            quota_type_id,
+            special_quota_desc_pt,
+            created_by,
+            created_on
+        ) VALUES (
+            p_quota_type_id,
+            p_special_quota_desc_pt,
+            p_created_by,
+            NOW()
+        );
 
-  IF p_created_by IS NULL THEN
-    out_message := 'Falha: “created_by” não pode ser nulo.';
-    RETURN;
-  END IF;
+        out_message := 'OK';
+        RETURN;
+    EXCEPTION WHEN OTHERS THEN
+        v_error_message := SQLERRM;
+        v_error_code := SQLSTATE;
+        v_command := format(
+            'CALL app.usp_api_special_quota_create(%s, %L, %s, out_message)',
+            p_quota_type_id::TEXT,
+            COALESCE(p_special_quota_desc_pt, 'NULL'),
+            p_created_by::TEXT
+        );
 
-  -- verifica duplicação
-  SELECT 1 INTO v_exists FROM app.quota_type
-   WHERE quota_type_code = p_quota_type_code;
-  IF FOUND THEN
-    out_message := format('Falha: quota_type_code "%" já existe.', p_quota_type_code);
-    RETURN;
-  END IF;
+        INSERT INTO app.error_log (
+            table_name, process, operation,
+            command, error_message, error_code, user_name
+        ) VALUES (
+            'special_quota',
+            'app.usp_api_special_quota_create',
+            'INSERT',
+            v_command,
+            v_error_message,
+            v_error_code,
+            p_created_by::TEXT
+        );
 
-  -- tentativa de inserir
-  BEGIN
-    INSERT INTO app.quota_type (
-      quota_type_code,
-      quota_type_desc_pt,
-      quota_type_desc_short_pt,
-      quota_explain,
-      created_by,
-      created_on
-    ) VALUES (
-      p_quota_type_code,
-      p_quota_type_desc_pt,
-      p_quota_type_desc_short_pt,
-      p_quota_explain,
-      p_created_by,
-      NOW()
-    );
-
-    out_message := 'OK';
-    RETURN;
-
-  EXCEPTION WHEN OTHERS THEN
-    INSERT INTO app.error_log (
-      table_name, process, operation,
-      command, error_message, error_code, user_name
-    ) VALUES (
-      'quota_type',
-      'usp_api_quota_type_create',
-      'INSERT',
-      format('CALL ... create(%L, %L, %L, %L, %s)',
-        p_quota_type_code, p_quota_type_desc_pt,
-        COALESCE(p_quota_type_desc_short_pt,'NULL'),
-        COALESCE(p_quota_explain,'NULL'),
-        p_created_by::TEXT
-      ),
-      SQLERRM,
-      SQLSTATE,
-      p_created_by::TEXT
-    );
-    out_message := format('Erro na inserção: %', SQLERRM);
-    RETURN;
-  END;
+        out_message := format('Erro na inserção: %s', v_error_message);
+        RETURN;
+    END;
 END;
 $$;

@@ -21,4 +21,5 @@
 \i './imp/StoredProcedures/batch_create_shift.sql'
 \i './imp/StoredProcedures/batch_create_frequency.sql'
 \i './imp/StoredProcedures/batch_create_quota_type.sql'
+\i './imp/StoredProcedures/batch_create_special_quota.sql'
 

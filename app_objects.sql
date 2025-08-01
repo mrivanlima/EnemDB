@@ -25,6 +25,7 @@
 \i './app/Tables/shift.sql'
 \i './app/Tables/frequency.sql'
 \i './app/Tables/quota_type.sql'
+\i './app/Tables/special_quota.sql'
 
 
 
@@ -53,6 +54,8 @@
 \i './app/StoredProcedures/usp_api_frequency_create.sql'
 \i './app/StoredProcedures/usp_api_quota_type_create.sql'
 \i './app/StoredProcedures/usp_quote_type_flags_update.sql'
+\i './app/StoredProcedures/usp_api_special_quota_create.sql'
+\i './app/StoredProcedures/usp_special_quota_flags_update.sql'
 
 
 --Functions
