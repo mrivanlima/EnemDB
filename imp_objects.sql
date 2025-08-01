@@ -19,4 +19,6 @@
 \i './imp/StoredProcedures/batch_create_degrees.sql'
 \i './imp/StoredProcedures/batch_create_degree_levels.sql'
 \i './imp/StoredProcedures/batch_create_shift.sql'
+\i './imp/StoredProcedures/batch_create_frequency.sql'
+\i './imp/StoredProcedures/batch_create_quota_type.sql'
 

@@ -23,6 +23,8 @@
 \i './app/Tables/degree.sql'
 \i './app/Tables/degree_level.sql'
 \i './app/Tables/shift.sql'
+\i './app/Tables/frequency.sql'
+\i './app/Tables/quota_type.sql'
 
 
 
@@ -48,6 +50,9 @@
 \i './app/StoredProcedures/usp_api_degree_create.sql'
 \i './app/StoredProcedures/usp_api_degree_level_create.sql'
 \i './app/StoredProcedures/usp_api_shift_create.sql'
+\i './app/StoredProcedures/usp_api_frequency_create.sql'
+\i './app/StoredProcedures/usp_api_quota_type_create.sql'
+\i './app/StoredProcedures/usp_quote_type_flags_update.sql'
 
 
 --Functions
@@ -63,6 +68,7 @@
 \i './app/Functions/set_degree_name_friendly.sql'
 \i './app/Functions/set_degree_level_name_friendly.sql'
 \i './app/Functions/set_shift_name_friendly.sql'
+\i './app/Functions/set_frequency_name_friendly.sql'
 
 --Triggers
 \i './app/Triggers/trg_set_year_name_friendly.sql'
@@ -76,3 +82,4 @@
 \i './app/Triggers/trg_set_degree_name_friendly.sql'
 \i './app/Triggers/trg_set_degree_level_name_friendly.sql'
 \i './app/Triggers/trg_set_shift_name_friendly.sql'
+\i './app/Triggers/trg_set_frequency_name_friendly.sql'

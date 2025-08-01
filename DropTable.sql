@@ -71,6 +71,7 @@ DROP TABLE IF EXISTS app.user_info CASCADE;
 DROP TABLE IF EXISTS app.provider_type CASCADE;
 DROP TABLE IF EXISTS app.auth_provider CASCADE;
 DROP TABLE IF EXISTS app.campus CASCADE;
+DROP TABLE IF EXISTS app.quota_type CASCADE;
 
 
 

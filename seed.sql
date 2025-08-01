@@ -28,6 +28,10 @@ call imp.batch_create_years();
 call imp.usp_seed_academic_organization();
 CALL imp.usp_seed_university_category();
 CALL imp.batch_create_campus();
+CALL imp.batch_create_degrees();
+CALL imp.batch_create_degree_levels();
+CALL imp.batch_create_shift();
+
 
 
 \copy imp.region_state(region_name, state_name) FROM 'Region_mapping.csv' WITH CSV HEADER ENCODING 'LATIN1';
@@ -38,9 +42,10 @@ CALL imp.batch_create_campus();
 CALL imp.batch_create_regions();
 CALL imp.batch_create_states();
 --CALL imp.batch_create_cities();
-CALL imp.batch_create_degrees();
-CALL imp.batch_create_degree_levels();
-CALL imp.batch_create_shift();
+CALL imp.batch_create_frequency();
+CALL imp.batch_create_quota_type();
+CALL app.usp_quote_type_flags_update()
+
 
 
 
