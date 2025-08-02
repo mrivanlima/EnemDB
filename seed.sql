@@ -28,9 +28,7 @@ call imp.batch_create_years();
 call imp.usp_seed_academic_organization();
 CALL imp.usp_seed_university_category();
 CALL imp.batch_create_campus();
-CALL imp.batch_create_degrees();
-CALL imp.batch_create_degree_levels();
-CALL imp.batch_create_shift();
+
 
 
 
@@ -39,18 +37,18 @@ CALL imp.batch_create_shift();
 \copy imp.city(state_code, city_code, name) FROM 'municipios.csv' WITH CSV HEADER ENCODING 'LATIN1';
 \copy imp.degree_mapping(published_degree, area, context, similarity, equivalent) FROM 'degree_mapping_equivalents_filled.csv' WITH CSV HEADER ENCODING 'LATIN1';
 
+CALL imp.batch_create_degrees();
+CALL imp.batch_create_degree_levels();
+CALL imp.batch_create_shift();
 CALL imp.batch_create_regions();
 CALL imp.batch_create_states();
---CALL imp.batch_create_cities();
+CALL imp.batch_create_cities();
 CALL imp.batch_create_frequency();
 CALL imp.batch_create_quota_type();
 CALL app.usp_quote_type_flags_update();
 CALL imp.batch_create_special_quota();
 CALL app.usp_special_quota_flags_update();
-
-
-
-
+CALL imp.batch_create_university_mapping();
 
 /*
 DO $$

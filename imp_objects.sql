@@ -5,6 +5,7 @@
 \i './imp/Tables/brazil_states.sql'
 \i './imp/Tables/city.sql'
 \i './imp/Tables/degree_mapping.sql'
+\i './imp/Tables/university_mapping.sql'
 
 
 --A-- Stored Procedures from imp
@@ -22,4 +23,5 @@
 \i './imp/StoredProcedures/batch_create_frequency.sql'
 \i './imp/StoredProcedures/batch_create_quota_type.sql'
 \i './imp/StoredProcedures/batch_create_special_quota.sql'
+\i './imp/StoredProcedures/batch_create_university_mapping.sql'
 

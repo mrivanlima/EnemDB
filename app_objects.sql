@@ -26,6 +26,7 @@
 \i './app/Tables/frequency.sql'
 \i './app/Tables/quota_type.sql'
 \i './app/Tables/special_quota.sql'
+\i './app/Tables/seats.sql'
 
 
 
