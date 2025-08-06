@@ -1,7 +1,7 @@
-CREATE TABLE IF NOT EXISTS app.degree (
+CREATE TABLE app.degree (
     degree_id               SERIAL,
-    degree_name             VARCHAR(50) NOT NULL,
-    degree_name_friendly    VARCHAR(50) NOT NULL,
+    degree_name             VARCHAR(100) NOT NULL,
+    degree_name_friendly    VARCHAR(100) NOT NULL,
     created_by              INTEGER NOT NULL,
     created_on              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by             INTEGER,

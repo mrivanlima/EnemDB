@@ -6,7 +6,7 @@ DECLARE
   result_msg  TEXT;
 BEGIN
   FOR rec IN
-    SELECT DISTINCT TRIM(similarity) AS degree_name
+    SELECT DISTINCT TRIM(upper(similarity)) AS degree_name
     FROM imp.degree_mapping
     WHERE similarity IS NOT NULL AND TRIM(similarity) <> ''
   LOOP

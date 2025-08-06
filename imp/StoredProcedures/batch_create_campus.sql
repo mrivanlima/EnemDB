@@ -1,18 +1,16 @@
 CREATE OR REPLACE PROCEDURE imp.batch_create_campus()
-LANGUAGE plpgsql
-AS $$
+LANGUAGE plpgsql AS $$
 DECLARE
-  rec         RECORD;
-  result_msg  TEXT;
+  rec RECORD;
+  result_msg TEXT;
 BEGIN
   FOR rec IN
-    SELECT DISTINCT no_campus
+    SELECT DISTINCT UPPER(TRIM(no_campus)) COLLATE "C" AS no_campus
     FROM imp.sisu_spot_offer
-    WHERE no_campus IS NOT NULL
   LOOP
     CALL app.usp_api_campus_create(
       rec.no_campus,
-      1,                -- created_by (ajustar conforme necessário)
+      1, -- created_by
       result_msg
     );
     RAISE NOTICE 'Campus "%": %', rec.no_campus, result_msg;

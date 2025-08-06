@@ -24,4 +24,10 @@
 \i './imp/StoredProcedures/batch_create_quota_type.sql'
 \i './imp/StoredProcedures/batch_create_special_quota.sql'
 \i './imp/StoredProcedures/batch_create_university_mapping.sql'
+\i './imp/StoredProcedures/batch_create_seats.sql'
 
+-- Add functions
+\i './imp/Functions/fix_campus_prefix.sql'
+
+-- Add triggers
+\i './imp/Triggers/trg_fix_campus_prefix.sql'

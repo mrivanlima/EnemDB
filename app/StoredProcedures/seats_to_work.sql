@@ -1,4 +1,4 @@
-select distinct
+select --distinct
 	y.year_id,
 	u.university_id,
 	ao.academic_organization_id,
@@ -15,7 +15,7 @@ select distinct
 	sso.qt_vagas_ofertadas as seats_offered,
 	sso.nu_percentual_bonus as score_bonus_percent,
 	qt.quota_type_id,
-	sq.special_quota_id,
+	--sq.special_quota_id,
 	sso.peso_redacao,
 	sso.nota_minima_redacao,
 	sso.peso_linguagens,
@@ -69,12 +69,7 @@ from  imp.sisu_spot_offer sso
 		on trim(upper(sh.shift_name)) = trim(upper(sso.ds_turno))
 	join app.frequency f
 		on trim(upper(f.frequency_name)) = trim(upper(sso.ds_periodicidade))
-	left join app.quota_type qt
+	join app.quota_type qt
 		on trim(upper(qt.quota_type_code)) = trim(upper(sso.tp_cota))
-	left join app.special_quota sq
-		on sq.quota_type_id = qt.quota_type_id
-		and (
-				trim(upper(qt.quota_type_desc_pt)) = trim(upper(sso.ds_mod_concorrencia))
-					or 
-				trim(upper(sq.special_quota_desc_pt)) = trim(upper(sso.ds_mod_concorrencia))
-			)
+	
+	

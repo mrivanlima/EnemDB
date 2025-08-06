@@ -49,6 +49,7 @@ CALL app.usp_quote_type_flags_update();
 CALL imp.batch_create_special_quota();
 CALL app.usp_special_quota_flags_update();
 CALL imp.batch_create_university_mapping();
+CALL imp.batch_create_seats(1);
 
 /*
 DO $$

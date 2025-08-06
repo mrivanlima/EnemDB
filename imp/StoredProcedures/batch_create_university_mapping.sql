@@ -9,8 +9,8 @@ BEGIN
       TRIM(UPPER(no_ies)) AS university_original_name,
       TRIM(
         CASE
-          WHEN no_ies ILIKE '%AFRO‑BRASILEIRA%' THEN UPPER(no_ies)
-          WHEN no_ies ILIKE '%SEMI‑ÁRIDO%'       THEN UPPER(no_ies)
+          WHEN no_ies ILIKE '%AFRO-BRASILEIRA%' THEN UPPER(no_ies)
+          WHEN no_ies ILIKE '%SEMI-ÁRIDO%'       THEN UPPER(no_ies)
           ELSE UPPER(regexp_replace(no_ies, '\s*-\s*.*$', '', 'g'))
         END
       ) AS university_mapped_name

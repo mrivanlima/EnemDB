@@ -1,7 +1,7 @@
 CREATE TABLE app.campus (
     campus_id            SERIAL,
-    campus_name          VARCHAR(250) NOT NULL,
-    campus_name_friendly VARCHAR(250) NOT NULL,
+    campus_name          VARCHAR(500) NOT NULL,
+    campus_name_friendly VARCHAR(500) NOT NULL,
     created_by           INTEGER NOT NULL,
     created_on           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by          INTEGER,
