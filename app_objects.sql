@@ -14,6 +14,7 @@
 \i './app/Tables/user_info.sql'
 \i './app/Tables/error_log.sql'
 
+
 \i './app/Tables/year.sql'
 \i './app/Tables/university.sql'
 \i './app/Tables/academic_organization.sql'
@@ -27,6 +28,7 @@
 \i './app/Tables/quota_type.sql'
 \i './app/Tables/special_quota.sql'
 \i './app/Tables/seats.sql'
+\i './app/Tables/booklet_color.sql'
 
 
 
@@ -58,6 +60,7 @@
 \i './app/StoredProcedures/usp_api_special_quota_create.sql'
 \i './app/StoredProcedures/usp_special_quota_flags_update.sql'
 \i './app/StoredProcedures/usp_seats_cutoff_update.sql'
+\i './app/StoredProcedures/usp_api_booklet_color_create.sql'
 
 
 --Functions
@@ -74,6 +77,7 @@
 \i './app/Functions/set_degree_level_name_friendly.sql'
 \i './app/Functions/set_shift_name_friendly.sql'
 \i './app/Functions/set_frequency_name_friendly.sql'
+\i './app/Functions/set_booklet_color_name_friendly.sql'
 
 --Triggers
 \i './app/Triggers/trg_set_year_name_friendly.sql'
@@ -88,6 +92,7 @@
 \i './app/Triggers/trg_set_degree_level_name_friendly.sql'
 \i './app/Triggers/trg_set_shift_name_friendly.sql'
 \i './app/Triggers/trg_set_frequency_name_friendly.sql'
+\i './app/Triggers/trg_set_booklet_color_name_friendly.sql'
 
 
 --Add views

@@ -37,6 +37,11 @@ CALL imp.batch_create_campus();
 \copy imp.city(state_code, city_code, name) FROM 'municipios.csv' WITH CSV HEADER ENCODING 'LATIN1';
 \copy imp.degree_mapping(published_degree, area, context, similarity, equivalent) FROM 'degree_mapping_equivalents_filled.csv' WITH CSV HEADER ENCODING 'LATIN1';
 
+
+\copy imp.enem_question_parameter(question_position,subject_area,question_code,answer_key,skill_code,is_abandoned,abandonment_reason,param_a,param_b,param_c,exam_color,exam_code,language_type,is_adapted_question) FROM 'itens_prova_2024.csv' WITH (FORMAT csv, HEADER, DELIMITER ';', NULL '', ENCODING 'LATIN1');
+
+
+
 CALL imp.batch_create_degrees();
 CALL imp.batch_create_degree_levels();
 CALL imp.batch_create_shift();
@@ -51,6 +56,41 @@ CALL app.usp_special_quota_flags_update();
 CALL imp.batch_create_university_mapping();
 CALL imp.batch_create_seats(1);
 CALL app.usp_seats_cutoff_update();
+
+DO $$
+DECLARE
+    v_message TEXT;
+BEGIN
+    -- AZUL
+    CALL app.usp_api_booklet_color_create('AZUL'::TEXT, FALSE::BOOLEAN, 1::SMALLINT, TRUE::BOOLEAN, 1::INTEGER, v_message);
+    RAISE NOTICE 'AZUL: %', v_message;
+
+    -- AMARELO
+    CALL app.usp_api_booklet_color_create('AMARELO'::TEXT, FALSE::BOOLEAN, 2::SMALLINT, TRUE::BOOLEAN, 1::INTEGER, v_message);
+    RAISE NOTICE 'AMARELO: %', v_message;
+
+    -- BRANCO
+    CALL app.usp_api_booklet_color_create('BRANCO'::TEXT, FALSE::BOOLEAN, 3::SMALLINT, TRUE::BOOLEAN, 1::INTEGER, v_message);
+    RAISE NOTICE 'BRANCO: %', v_message;
+
+    -- VERDE
+    CALL app.usp_api_booklet_color_create('VERDE'::TEXT, FALSE::BOOLEAN, 4::SMALLINT, TRUE::BOOLEAN, 1::INTEGER, v_message);
+    RAISE NOTICE 'VERDE: %', v_message;
+
+    -- CINZA
+    CALL app.usp_api_booklet_color_create('CINZA'::TEXT, FALSE::BOOLEAN, 5::SMALLINT, TRUE::BOOLEAN, 1::INTEGER, v_message);
+    RAISE NOTICE 'CINZA: %', v_message;
+
+    -- LARANJA
+    CALL app.usp_api_booklet_color_create('LARANJA'::TEXT, FALSE::BOOLEAN, 6::SMALLINT, TRUE::BOOLEAN, 1::INTEGER, v_message);
+    RAISE NOTICE 'LARANJA: %', v_message;
+
+    -- ROXO
+    CALL app.usp_api_booklet_color_create('ROXO'::TEXT, FALSE::BOOLEAN, 7::SMALLINT, TRUE::BOOLEAN, 1::INTEGER, v_message);
+    RAISE NOTICE 'ROXO: %', v_message;
+
+END;
+$$;
 
 /*
 DO $$

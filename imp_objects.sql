@@ -7,6 +7,7 @@
 \i './imp/Tables/degree_mapping.sql'
 \i './imp/Tables/university_mapping.sql'
 \i './imp/Tables/sisu_spot_cutoff_score.sql'
+\i './imp/Tables/enem_question_parameter.sql'
 
 
 --A-- Stored Procedures from imp
