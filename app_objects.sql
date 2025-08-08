@@ -29,6 +29,9 @@
 \i './app/Tables/special_quota.sql'
 \i './app/Tables/seats.sql'
 \i './app/Tables/booklet_color.sql'
+\i './app/Tables/area.sql'
+\i './app/Tables/exam_day.sql'
+\i './app/Tables/booklet.sql'
 
 
 
@@ -61,6 +64,10 @@
 \i './app/StoredProcedures/usp_special_quota_flags_update.sql'
 \i './app/StoredProcedures/usp_seats_cutoff_update.sql'
 \i './app/StoredProcedures/usp_api_booklet_color_create.sql'
+\i './app/StoredProcedures/usp_api_area_create.sql'
+\i './app/StoredProcedures/usp_api_exam_day_create.sql'
+\i './app/StoredProcedures/usp_api_booklet_create.sql'
+\i './app/StoredProcedures/usp_batch_booklets_create.sql'
 
 
 --Functions
@@ -78,6 +85,7 @@
 \i './app/Functions/set_shift_name_friendly.sql'
 \i './app/Functions/set_frequency_name_friendly.sql'
 \i './app/Functions/set_booklet_color_name_friendly.sql'
+\i './app/Functions/set_area_name_friendly.sql'
 
 --Triggers
 \i './app/Triggers/trg_set_year_name_friendly.sql'
@@ -93,6 +101,7 @@
 \i './app/Triggers/trg_set_shift_name_friendly.sql'
 \i './app/Triggers/trg_set_frequency_name_friendly.sql'
 \i './app/Triggers/trg_set_booklet_color_name_friendly.sql'
+\i './app/Triggers/trg_set_area_name_friendly.sql'
 
 
 --Add views

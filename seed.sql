@@ -25,6 +25,20 @@ VALUES (
 
 call imp.batch_create_universities();
 call imp.batch_create_years();
+
+DO $$
+DECLARE
+    v_message TEXT;
+BEGIN
+    CALL app.usp_api_year_create(
+        2024::SMALLINT,  -- p_year
+        1::INTEGER,      -- p_created_by
+        v_message        -- OUT out_message
+    );
+    RAISE NOTICE 'Resultado: %', v_message;
+END $$;
+
+
 call imp.usp_seed_academic_organization();
 CALL imp.usp_seed_university_category();
 CALL imp.batch_create_campus();
@@ -89,8 +103,76 @@ BEGIN
     CALL app.usp_api_booklet_color_create('ROXO'::TEXT, FALSE::BOOLEAN, 7::SMALLINT, TRUE::BOOLEAN, 1::INTEGER, v_message);
     RAISE NOTICE 'ROXO: %', v_message;
 
+    -- LEITOR TELA
+    CALL app.usp_api_booklet_color_create('LEITOR TELA'::TEXT, FALSE::BOOLEAN, 7::SMALLINT, TRUE::BOOLEAN, 1::INTEGER, v_message);
+    RAISE NOTICE 'LEITOR TELA: %', v_message;
+
 END;
 $$;
+
+
+DO $$
+DECLARE
+    v_message TEXT;
+BEGIN
+    CALL app.usp_api_area_create('Linguagens, Códigos e suas Tecnologias', 'LC', 1, v_message);
+    RAISE NOTICE 'LC: %', v_message;
+
+    CALL app.usp_api_area_create('Matemática e suas Tecnologias', 'MT', 1, v_message);
+    RAISE NOTICE 'MT: %', v_message;
+
+    CALL app.usp_api_area_create('Ciências da Natureza e suas Tecnologias', 'CN', 1, v_message);
+    RAISE NOTICE 'CN: %', v_message;
+
+    CALL app.usp_api_area_create('Ciências Humanas e suas Tecnologias', 'CH', 1, v_message);
+    RAISE NOTICE 'CH: %', v_message;
+END;
+$$;
+
+-- Insert Day 1
+DO $$
+DECLARE
+    v_message TEXT;
+BEGIN
+    CALL app.usp_api_exam_day_create(
+        p_day_name   => '1',
+        p_created_by => 1,
+        out_message  => v_message
+    );
+    RAISE NOTICE 'Resultado: %', v_message;
+END;
+$$;
+
+-- Insert Day 2
+DO $$
+DECLARE
+    v_message TEXT;
+BEGIN
+    CALL app.usp_api_exam_day_create(
+        p_day_name   => '2',
+        p_created_by => 1,
+        out_message  => v_message
+    );
+    RAISE NOTICE 'Resultado: %', v_message;
+END;
+$$;
+
+DO $$
+DECLARE
+    v_out_message TEXT;
+BEGIN
+    CALL app.usp_batch_booklets_create(
+        p_year        := '2024',
+        p_prova       := 'P1',         -- ou 'P2' para a segunda prova
+        p_caderno     := '01',         -- número do caderno (ex: '01', '02')
+        p_cor         := 'AZUL',       -- cor do caderno (AZUL, ROSA, etc)
+        p_created_by  := 1,            -- ID do usuário que está executando
+        out_message   := v_out_message
+    );
+
+    RAISE NOTICE 'Resultado: %', v_out_message;
+END $$;
+
 
 /*
 DO $$

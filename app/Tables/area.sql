@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS app.area (
     area_id           SERIAL,
     area_name         VARCHAR(50) NOT NULL,
     area_name_friendly VARCHAR(50) NOT NULL,
+    area_code          VARCHAR(10) NOT NULL, -- Unique code for the area (e.g., 'LC', 'CN', 'CH', 'MT')
     created_by        INTEGER NOT NULL,
     created_on        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by       INTEGER,
