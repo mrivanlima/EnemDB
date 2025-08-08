@@ -6,6 +6,7 @@
 \i './imp/Tables/city.sql'
 \i './imp/Tables/degree_mapping.sql'
 \i './imp/Tables/university_mapping.sql'
+\i './imp/Tables/sisu_spot_cutoff_score.sql'
 
 
 --A-- Stored Procedures from imp
@@ -31,3 +32,4 @@
 
 -- Add triggers
 \i './imp/Triggers/trg_fix_campus_prefix.sql'
+\i './imp/Triggers/trg_fix_campus_prefix_cutoff.sql'

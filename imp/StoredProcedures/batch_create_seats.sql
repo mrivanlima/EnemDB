@@ -15,6 +15,7 @@ BEGIN
         s.state_id,
         ci.city_id,
         r.region_id,
+        sso.co_ies_curso::integer AS course_no,
         d.degree_id,
         dl.degree_level_id,
         sh.shift_id,
@@ -88,7 +89,8 @@ BEGIN
         SELECT 
             sso.sisu_spot_offer_id,
             sq.quota_type_id,
-            sq.special_quota_id
+            sq.special_quota_id,
+            sso.CO_IES_CURSO::INTEGER AS course_no
         FROM imp.sisu_spot_offer sso
         JOIN app.special_quota sq
           ON trim(upper(sq.special_quota_desc_pt)) = trim(upper(sso.ds_mod_concorrencia))
@@ -97,7 +99,8 @@ BEGIN
         WHERE trim(upper(sso.tp_cota)) IN ('V', 'B')
     ) sub
     WHERE ot.sisu_spot_offer_id = sub.sisu_spot_offer_id
-      AND ot.quota_type_id = sub.quota_type_id;
+      AND ot.quota_type_id = sub.quota_type_id
+      AND ot.course_no = sub.course_no;
 
     -- Step 3: Insert only if it doesn't already exist
     INSERT INTO app.seats (
@@ -109,6 +112,7 @@ BEGIN
         state_id,
         city_id,
         region_id,
+        course_no,
         degree_id,
         degree_level_id,
         shift_id,
@@ -152,6 +156,7 @@ BEGIN
         t.state_id,
         t.city_id,
         t.region_id,
+        t.course_no,
         t.degree_id,
         t.degree_level_id,
         t.shift_id,
@@ -195,6 +200,7 @@ BEGIN
           AND s.university_category_id = t.university_category_id
           AND s.campus_id = t.campus_id
           AND s.degree_id = t.degree_id
+          and s.course_no = t.course_no
           AND s.degree_level_id = t.degree_level_id
           AND s.shift_id = t.shift_id
           AND s.frequency_id = t.frequency_id

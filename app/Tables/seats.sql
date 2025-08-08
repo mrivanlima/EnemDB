@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS app.seats (
+CREATE TABLE app.seats (
     seats_id                     SERIAL,
     year_id                     INTEGER,
     university_id               INTEGER,
@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS app.seats (
     state_id                    INTEGER,
     city_id                     INTEGER,
     region_id                   INTEGER,
+    course_no                   INTEGER,
     degree_id                   INTEGER,
     degree_level_id             INTEGER,
     shift_id                    INTEGER,
@@ -42,6 +43,8 @@ CREATE TABLE IF NOT EXISTS app.seats (
     pct_quota_indigenous        NUMERIC(5,2),
     pct_quota_quilombola        NUMERIC(5,2),
     pct_quota_pcd               NUMERIC(5,2),
+    cutoff_score                NUMERIC(8,2),
+    num_students                INTEGER,
     created_by                  INTEGER,
     created_on                  TIMESTAMPTZ DEFAULT NOW(),
     modified_by                 INTEGER,

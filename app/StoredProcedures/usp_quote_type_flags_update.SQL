@@ -107,7 +107,7 @@ BEGIN
     ),
 
     is_agriculture_school = (
-      UPPER(TRIM(quota_type_desc_pt)) ILIKE '%AMPLA CONCORRÊNCIA%'
+      UPPER(TRIM(quota_type_desc_pt)) ILIKE '%Agricultura%'
     ),
 
     is_agro_reform = (

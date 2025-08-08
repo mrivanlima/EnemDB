@@ -57,6 +57,7 @@
 \i './app/StoredProcedures/usp_quote_type_flags_update.sql'
 \i './app/StoredProcedures/usp_api_special_quota_create.sql'
 \i './app/StoredProcedures/usp_special_quota_flags_update.sql'
+\i './app/StoredProcedures/usp_seats_cutoff_update.sql'
 
 
 --Functions
@@ -87,3 +88,7 @@
 \i './app/Triggers/trg_set_degree_level_name_friendly.sql'
 \i './app/Triggers/trg_set_shift_name_friendly.sql'
 \i './app/Triggers/trg_set_frequency_name_friendly.sql'
+
+
+--Add views
+\i './app/Views/v_seats_scores.sql'
