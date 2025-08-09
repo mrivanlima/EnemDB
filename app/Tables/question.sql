@@ -1,51 +1,55 @@
 CREATE TABLE app.question (
-    question_id            SERIAL,
-    exam_year              INTEGER NOT NULL,
-    booklet_color          TEXT NOT NULL,
-    question_position      INTEGER NOT NULL,
-    subject_area           TEXT NOT NULL,
-    skill_code             TEXT NOT NULL,
-    difficulty_tri         NUMERIC,
-    thematic_area          TEXT,
-    question_text          TEXT NOT NULL,
-    image_url              TEXT,
-    notes                  TEXT,
-    created_by             INTEGER NOT NULL,
-    created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    modified_by            INTEGER,
-    modified_on            TIMESTAMPTZ,
-    is_active              BOOLEAN NOT NULL DEFAULT TRUE,
-    source_pdf_page        INTEGER,
-    original_enem_code     TEXT,
+    question_id         SERIAL,
+    booklet_id          INTEGER         NOT NULL,
+    language_id         SMALLINT NULL,
+    question_position   SMALLINT, -- position within the booklet
+    question_text       TEXT,
+    alternative_text_a  TEXT,
+    alternative_text_b  TEXT,
+    alternative_text_c  TEXT,
+    alternative_text_d  TEXT,
+    alternative_text_e  TEXT,
+    correct_answer      CHAR(1), -- should be A, B, C, D, E or x
+    param_a             NUMERIC(10,5),
+    param_b             NUMERIC(10,5),
+    param_c             NUMERIC(10,5),
+    notes               TEXT,
+    created_by          INTEGER         NOT NULL,
+    created_on          TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
+    modified_by         INTEGER,
+    modified_on         TIMESTAMPTZ,
 
     -- Constraints (all named)
-    CONSTRAINT pk_question_id PRIMARY KEY (question_id),
-    CONSTRAINT uq_question_per_booklet UNIQUE (exam_year, booklet_color, question_position),
-    CONSTRAINT fk_question_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
-    CONSTRAINT fk_question_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+    CONSTRAINT pk_question_id               PRIMARY KEY (question_id),
+    CONSTRAINT uq_question_per_booklet      UNIQUE (booklet_id, question_position, language_id),
+
+    -- Foreign keys
+    CONSTRAINT fk_question_booklet          FOREIGN KEY (booklet_id)  REFERENCES app.booklet(booklet_id),
+    CONSTRAINT fk_question_language         FOREIGN KEY (language_id) REFERENCES app.language(language_id),
+    CONSTRAINT fk_question_created_by       FOREIGN KEY (created_by)  REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_question_modified_by      FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
 );
 
 -- Table comment
 COMMENT ON TABLE app.question IS 'Stores ENEM questions, their metadata, and position within each exam/booklet.';
 
--- Field comments (one-liners)
-COMMENT ON COLUMN app.question.question_id IS 'Primary key.';
-COMMENT ON COLUMN app.question.exam_year IS 'Year the exam was administered (e.g., 2024).';
-COMMENT ON COLUMN app.question.booklet_color IS 'Booklet color version (e.g., Azul, Amarelo).';
-COMMENT ON COLUMN app.question.question_position IS 'Order/position of the question in the test booklet.';
-COMMENT ON COLUMN app.question.subject_area IS 'Subject area (e.g., Linguagens, Matemática, etc.).';
-COMMENT ON COLUMN app.question.skill_code IS 'Skill code or competency reference as published by ENEM.';
-COMMENT ON COLUMN app.question.difficulty_tri IS 'TRI-based difficulty score for the question.';
-COMMENT ON COLUMN app.question.thematic_area IS 'Theme or subtopic of the question.';
-COMMENT ON COLUMN app.question.question_text IS 'The full text of the question as presented on the exam.';
-COMMENT ON COLUMN app.question.image_url IS 'URL to an associated image, if applicable.';
-COMMENT ON COLUMN app.question.notes IS 'Free-form notes, comments, or tags.';
-COMMENT ON COLUMN app.question.created_by IS 'FK to app.user_login; user who created the record.';
-COMMENT ON COLUMN app.question.created_on IS 'Timestamp when the record was created.';
-COMMENT ON COLUMN app.question.modified_by IS 'FK to app.user_login; user who last modified the record.';
-COMMENT ON COLUMN app.question.modified_on IS 'Timestamp of the last modification.';
-COMMENT ON COLUMN app.question.is_active IS 'Soft delete/archive flag.';
-COMMENT ON COLUMN app.question.source_pdf_page IS 'Original PDF page number from the ENEM booklet.';
-COMMENT ON COLUMN app.question.original_enem_code IS 'Official ENEM item code from microdados, if available.';
-
-
+-- Column comments
+COMMENT ON COLUMN app.question.question_id        IS 'Primary key.';
+COMMENT ON COLUMN app.question.booklet_id         IS 'FK to app.booklet; the booklet/version this question belongs to.';
+COMMENT ON COLUMN app.question.language_id        IS 'FK to app.language; language of the question text.';
+COMMENT ON COLUMN app.question.question_position  IS 'Order/position of the question within the booklet (starting at 1).';
+COMMENT ON COLUMN app.question.question_text      IS 'Full text of the question as presented in the exam.';
+COMMENT ON COLUMN app.question.alternative_text_a IS 'Text for option A.';
+COMMENT ON COLUMN app.question.alternative_text_b IS 'Text for option B.';
+COMMENT ON COLUMN app.question.alternative_text_c IS 'Text for option C.';
+COMMENT ON COLUMN app.question.alternative_text_d IS 'Text for option D.';
+COMMENT ON COLUMN app.question.alternative_text_e IS 'Text for option E.';
+COMMENT ON COLUMN app.question.correct_answer     IS 'Correct option (A–E).';
+COMMENT ON COLUMN app.question.param_a            IS 'TRI parameter a (discrimination).';
+COMMENT ON COLUMN app.question.param_b            IS 'TRI parameter b (difficulty).';
+COMMENT ON COLUMN app.question.param_c            IS 'TRI parameter c (guessing).';
+COMMENT ON COLUMN app.question.notes              IS 'Free-form notes, comments, or tags.';
+COMMENT ON COLUMN app.question.created_by         IS 'FK to app.user_login; user who created the record.';
+COMMENT ON COLUMN app.question.created_on         IS 'Timestamp when the record was created.';
+COMMENT ON COLUMN app.question.modified_by        IS 'FK to app.user_login; user who last modified the record.';
+COMMENT ON COLUMN app.question.modified_on        IS 'Timestamp of the last modification.';

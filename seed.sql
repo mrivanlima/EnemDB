@@ -173,6 +173,25 @@ BEGIN
     RAISE NOTICE 'Resultado: %', v_out_message;
 END $$;
 
+-- Inserir idioma Inglês
+CALL app.usp_api_language_create(
+    'Inglês',   -- p_language_name
+    1,          -- p_created_by (exemplo: user_login_id = 1)
+    NULL        -- out_message (será preenchido pela procedure)
+);
+
+-- Inserir idioma Espanhol
+CALL app.usp_api_language_create(
+    'Espanhol', -- p_language_name
+    1,          -- p_created_by (exemplo: user_login_id = 1)
+    NULL        -- out_message
+);
+
+DO $$
+BEGIN
+  CALL app.usp_batch_question_create(1::integer);
+END $$;
+
 
 /*
 DO $$

@@ -32,6 +32,10 @@
 \i './app/Tables/area.sql'
 \i './app/Tables/exam_day.sql'
 \i './app/Tables/booklet.sql'
+\i './app/Tables/language.sql'
+\i './app/Tables/subject.sql'
+\i './app/Tables/topic.sql'
+\i './app/Tables/question.sql'
 
 
 
@@ -68,6 +72,9 @@
 \i './app/StoredProcedures/usp_api_exam_day_create.sql'
 \i './app/StoredProcedures/usp_api_booklet_create.sql'
 \i './app/StoredProcedures/usp_batch_booklets_create.sql'
+\i './app/StoredProcedures/usp_api_language_create.sql'
+\i './app/StoredProcedures/usp_api_question_create.sql'
+\i './app/StoredProcedures/usp_batch_question_create.sql'
 
 
 --Functions
@@ -86,6 +93,7 @@
 \i './app/Functions/set_frequency_name_friendly.sql'
 \i './app/Functions/set_booklet_color_name_friendly.sql'
 \i './app/Functions/set_area_name_friendly.sql'
+\i './app/Functions/set_language_name_friendly.sql'
 
 --Triggers
 \i './app/Triggers/trg_set_year_name_friendly.sql'
@@ -102,6 +110,7 @@
 \i './app/Triggers/trg_set_frequency_name_friendly.sql'
 \i './app/Triggers/trg_set_booklet_color_name_friendly.sql'
 \i './app/Triggers/trg_set_area_name_friendly.sql'
+\i './app/Triggers/trg_set_language_name_friendly.sql'
 
 
 --Add views
