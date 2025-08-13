@@ -36,6 +36,10 @@
 \i './app/Tables/subject.sql'
 \i './app/Tables/topic.sql'
 \i './app/Tables/question.sql'
+\i './app/Tables/test_version.sql'
+\i './app/Tables/question_map.sql'
+\i './app/Tables/student_answer.sql'
+\i './app/Tables/question_current.sql'
 
 
 
@@ -75,6 +79,11 @@
 \i './app/StoredProcedures/usp_api_language_create.sql'
 \i './app/StoredProcedures/usp_api_question_create.sql'
 \i './app/StoredProcedures/usp_batch_question_create.sql'
+\i './app/StoredProcedures/usp_batch_question_update.sql'
+\i './app/StoredProcedures/usp_api_test_version_create.sql'
+\i './app/StoredProcedures/usp_api_question_map_create.sql'
+\i './app/StoredProcedures/usp_batch_create_question_map.sql'
+\i './app/StoredProcedures/usp_api_student_answer_create.sql'
 
 
 --Functions

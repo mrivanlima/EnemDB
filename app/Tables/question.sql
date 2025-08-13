@@ -9,6 +9,12 @@ CREATE TABLE app.question (
     alternative_text_c  TEXT,
     alternative_text_d  TEXT,
     alternative_text_e  TEXT,
+    question_text_image  TEXT,
+    alternative_text_a_image  VARCHAR(550),
+    alternative_text_b_image  VARCHAR(550),
+    alternative_text_c_image  VARCHAR(550),
+    alternative_text_d_image  VARCHAR(550),
+    alternative_text_e_image  VARCHAR(550),
     correct_answer      CHAR(1), -- should be A, B, C, D, E or x
     param_a             NUMERIC(10,5),
     param_b             NUMERIC(10,5),

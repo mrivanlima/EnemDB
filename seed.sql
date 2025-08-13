@@ -1,27 +1,54 @@
 
 
+-- INSERT INTO app.user_login (
+--     email,
+--     password_hash,
+--     is_email_verified,
+--     is_active,
+--     soft_deleted_at,
+--     created_by,
+--     created_on,
+--     modified_by,
+--     modified_on
+-- )
+-- VALUES (
+--     'admin@yourdomain.com',                                  -- email
+--     '$2a$12$EixZaYVK1fsbw1Zfbx3OXePaWxn96p36O8aCw/1hZ/8AXY9PQwztC', -- example hash for 'Admin123!'
+--     TRUE,                                                    -- is_email_verified
+--     TRUE,                                                    -- is_active
+--     NULL,                                                    -- soft_deleted_at (NULL for active accounts)
+--     1,                                                       -- created_by (usually another admin user or 1 for system)
+--     NOW(),                                                   -- created_on
+--     NULL,                                                    -- modified_by (NULL at creation)
+--     NULL                                                     -- modified_on (NULL at creation)
+-- );
+
+
 INSERT INTO app.user_login (
-    email,
-    password_hash,
-    is_email_verified,
-    is_active,
-    soft_deleted_at,
-    created_by,
-    created_on,
-    modified_by,
-    modified_on
+  email, 
+  password_hash, 
+  is_email_verified, 
+  is_active,
+  soft_deleted_at, 
+  created_by, 
+  created_on, 
+  modified_by, 
+  modified_on
 )
-VALUES (
-    'admin@yourdomain.com',                                  -- email
-    '$2a$12$EixZaYVK1fsbw1Zfbx3OXePaWxn96p36O8aCw/1hZ/8AXY9PQwztC', -- example hash for 'Admin123!'
-    TRUE,                                                    -- is_email_verified
-    TRUE,                                                    -- is_active
-    NULL,                                                    -- soft_deleted_at (NULL for active accounts)
-    1,                                                       -- created_by (usually another admin user or 1 for system)
-    NOW(),                                                   -- created_on
-    NULL,                                                    -- modified_by (NULL at creation)
-    NULL                                                     -- modified_on (NULL at creation)
-);
+SELECT
+  gs::text || '@yourdomain.com' AS email,
+  '$2a$12$EixZaYVK1fsbw1Zfbx3OXePaWxn96p36O8aCw/1hZ/8AXY9PQwztC' AS password_hash,
+  TRUE, 
+  TRUE,
+  NULL,
+  1,
+  NOW(),
+  NULL,
+  NULL
+FROM generate_series(1, 1000) AS gs;
+
+
+
 
 call imp.batch_create_universities();
 call imp.batch_create_years();
@@ -191,6 +218,123 @@ DO $$
 BEGIN
   CALL app.usp_batch_question_create(1::integer);
 END $$;
+
+CALL app.usp_batch_question_update(2024::integer);
+
+
+DO $$
+DECLARE
+  v_msg TEXT;
+BEGIN
+  CALL app.usp_api_test_version_create('P1', 1, v_msg);
+  RAISE NOTICE 'P1 -> %', v_msg;
+
+  CALL app.usp_api_test_version_create('P2', 1, v_msg);
+  RAISE NOTICE 'P2 -> %', v_msg;
+END $$;
+
+
+DO $$
+DECLARE v_msg text;
+BEGIN
+  CALL app.usp_batch_create_question_map(
+    p_exam_year  => 2024::smallint,
+    p_test_code  => 'P1'::text,
+    p_created_by => 1::int,
+    out_message  => v_msg
+  );
+  RAISE NOTICE '%', v_msg;
+END $$;
+
+DO $$
+DECLARE v_msg text;
+BEGIN
+  CALL app.usp_batch_create_question_map(
+    p_exam_year  => 2024::smallint,
+    p_test_code  => 'P2'::text,
+    p_created_by => 1::int,
+    out_message  => v_msg
+  );
+  RAISE NOTICE '%', v_msg;
+END $$;
+
+
+
+DO $$
+DECLARE
+  s INT; i INT;
+  v_msg TEXT;
+  v_opt CHAR(1);
+  v_ms  INT;
+  v_ok  BIGINT := 0;
+  v_fail BIGINT := 0;
+
+  -- constants for 2024 P1
+  v_year_id          CONSTANT INT := 2;     -- app.year: 2024
+  v_exam_year        CONSTANT INT := 2024;
+  v_test_version_id  CONSTANT INT := 1;     -- P1
+
+  -- Allowed colors
+  v_d1_colors INT[] := ARRAY[1,2,4,3];  -- Day 1: AZUL(1), AMARELO(2), VERDE(4), BRANCO(3)
+  v_d2_colors INT[] := ARRAY[1,2,4,5];    -- Day 2 (P1-only): AZUL(1), AMARELO(2), VERDE(4)  (CINZA excluída)
+  color_d1 INT;
+  color_d2 INT;
+BEGIN
+  FOR s IN 1..10 LOOP
+    -- Random color per day (per student)
+    color_d1 := v_d1_colors[1 + floor(random()*array_length(v_d1_colors,1))::INT];
+    color_d2 := v_d2_colors[1 + floor(random()*array_length(v_d2_colors,1))::INT];
+
+    -- Day 1 (Q1..90) with language_id=1 for Q1..Q5
+    FOR i IN 1..90 LOOP
+      v_opt := (ARRAY['A','B','C','D','E'])[1 + floor(random()*5)::INT];
+      v_ms  := 20000 + floor(random()*60001)::INT;  -- 20s..80s
+
+      CALL app.usp_api_student_answer_create(
+        p_student_id        => s::INT,
+        p_year_id           => v_year_id,
+        p_exam_year         => v_exam_year,
+        p_test_version_id   => v_test_version_id,    -- P1
+        p_booklet_color_id  => color_d1::INT,
+        p_language_id       => (CASE WHEN i <= 5 THEN 1 ELSE NULL END)::SMALLINT,
+        p_question_number   => i::SMALLINT,
+        p_selected_option   => v_opt,
+        p_answered_at       => NOW(),
+        p_response_time_ms  => v_ms,
+        p_created_by        => 1::INT,
+        out_message         => v_msg
+      );
+      IF v_msg = 'OK' THEN v_ok := v_ok + 1; ELSE v_fail := v_fail + 1; END IF;
+    END LOOP;
+
+    -- Day 2 (Q1..90) language NULL
+    FOR i IN 91..180 LOOP
+      v_opt := (ARRAY['A','B','C','D','E'])[1 + floor(random()*5)::INT];
+      v_ms  := 20000 + floor(random()*60001)::INT;
+
+      CALL app.usp_api_student_answer_create(
+        p_student_id        => s::INT,
+        p_year_id           => v_year_id,
+        p_exam_year         => v_exam_year,
+        p_test_version_id   => v_test_version_id,    -- P1
+        p_booklet_color_id  => color_d2::INT,
+        p_language_id       => NULL::SMALLINT,
+        p_question_number   => i::SMALLINT,
+        p_selected_option   => v_opt,
+        p_answered_at       => NOW(),
+        p_response_time_ms  => v_ms,
+        p_created_by        => 1::INT,
+        out_message         => v_msg
+      );
+      IF v_msg = 'OK' THEN v_ok := v_ok + 1; ELSE v_fail := v_fail + 1; END IF;
+    END LOOP;
+  END LOOP;
+
+  RAISE NOTICE 'Finished: % OK, % failed.', v_ok, v_fail;
+END $$;
+
+
+
 
 
 /*

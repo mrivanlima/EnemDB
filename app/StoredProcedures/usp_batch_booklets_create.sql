@@ -106,6 +106,8 @@ BEGIN
             CONTINUE;
         END IF;
 
+       
+
         -- Monta o nome do caderno
         v_booklet_name := format(
             'ENEM_%s_%s_CAD_%s_DIA_%s_%s',
@@ -127,6 +129,10 @@ BEGIN
         RAISE NOTICE 'Caderno inserido: %, Código: %, Área: %, Dia: %, Mensagem: %',
             v_booklet_name, v_exam_code, v_area_code, v_dia, out_message;
     END LOOP;
+
+    UPDATE app.booklet
+        SET booklet_name = REPLACE(booklet_name, 'CAD_01', 'CAD_07')
+    WHERE booklet_name ILIKE '%DIA_2%';
 
     DROP TABLE IF EXISTS temp_odd_answer_questions;
 END;

@@ -72,6 +72,10 @@ DROP TABLE IF EXISTS app.provider_type CASCADE;
 DROP TABLE IF EXISTS app.auth_provider CASCADE;
 DROP TABLE IF EXISTS app.campus CASCADE;
 DROP TABLE IF EXISTS app.quota_type CASCADE;
+DROP TABLE IF EXISTS app.test_version CASCADE;
+DROP TABLE IF EXISTS app.question_map CASCADE;
+DROP TABLE IF EXISTS app.student_answer CASCADE;
+DROP TABLE IF EXISTS app.question_current CASCADE;
 
 
 
