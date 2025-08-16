@@ -85,6 +85,7 @@
 \i './app/StoredProcedures/usp_batch_create_question_map.sql'
 \i './app/StoredProcedures/usp_api_student_answer_create.sql'
 \i './app/StoredProcedures/usp_api_question_current_create.sql'
+\i './app/StoredProcedures/usp_question_params_by_id_update.sql'
 
 
 --Functions
