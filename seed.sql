@@ -45,7 +45,7 @@ SELECT
   NOW(),
   NULL,
   NULL
-FROM generate_series(1, 10000) AS gs;
+FROM generate_series(1, 100) AS gs;
 
 
 
@@ -280,7 +280,7 @@ DECLARE
   color_d1 INT;
   color_d2 INT;
 BEGIN
-  FOR s IN 1..10000 LOOP
+  FOR s IN 1..100 LOOP
     -- Random color per day (per student)
     color_d1 := v_d1_colors[1 + floor(random()*array_length(v_d1_colors,1))::INT];
     color_d2 := v_d2_colors[1 + floor(random()*array_length(v_d2_colors,1))::INT];
