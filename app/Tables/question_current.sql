@@ -3,6 +3,7 @@ CREATE TABLE app.question_current (
     language_id         SMALLINT NULL,
     booklet_color_id    INT         NOT NULL,  -- FK to app.booklet_color
     test_version_id     INT         NOT NULL,  -- FK to app.test_version
+    area_id             SMALLINT,      -- FK to app.area
     question_position   SMALLINT, 
     correct_answer      CHAR(1), -- should be A, B, C, D, E
     param_a             NUMERIC(10,5),
@@ -23,7 +24,8 @@ CREATE TABLE app.question_current (
     CONSTRAINT fk_question_current_test_version FOREIGN KEY (test_version_id)  REFERENCES app.test_version(test_version_id),
     CONSTRAINT fk_question_language              FOREIGN KEY (language_id) REFERENCES app.language(language_id),
     CONSTRAINT fk_question_created_by            FOREIGN KEY (created_by)  REFERENCES app.user_login(user_login_id),
-    CONSTRAINT fk_question_modified_by           FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
+    CONSTRAINT fk_question_modified_by           FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id),
+    CONSTRAINT fk_question_area                  FOREIGN KEY (area_id) REFERENCES app.area(area_id)
 );
 
 -- Table comment

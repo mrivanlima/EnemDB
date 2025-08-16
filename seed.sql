@@ -336,6 +336,110 @@ END $$;
 
 
 
+DO $$
+DECLARE
+  v_msg      TEXT;
+  v_ok       INT := 0;
+  v_fail     INT := 0;
+  v_color_id INT;
+  v_tv_id    INT;
+  v_lang_en  SMALLINT;
+  v_lang_es  SMALLINT;
+  i          INT;
+  v_ans      CHAR(1);
+BEGIN
+  -- Lookups: AZUL and P1
+  SELECT booklet_color_id INTO v_color_id
+  FROM app.booklet_color
+  WHERE upper(booklet_color_name) = 'AZUL';
+  IF v_color_id IS NULL THEN RAISE EXCEPTION 'booklet_color AZUL not found.'; END IF;
+
+  SELECT test_version_id INTO v_tv_id
+  FROM app.test_version
+  WHERE upper(test_code) = 'P1';
+  IF v_tv_id IS NULL THEN RAISE EXCEPTION 'test_version P1 not found.'; END IF;
+
+  -- Lookups: English and Spanish language_id
+  SELECT language_id INTO v_lang_en
+  FROM app.language
+  WHERE upper(language_name) IN ('INGLÊS','INGLES','ENGLISH')
+     OR upper(language_name_friendly) IN ('INGLÊS','INGLES','ENGLISH')
+  ORDER BY language_id LIMIT 1;
+  IF v_lang_en IS NULL THEN RAISE EXCEPTION 'Language ENGLISH/INGLÊS not found.'; END IF;
+
+  SELECT language_id INTO v_lang_es
+  FROM app.language
+  WHERE upper(language_name) IN ('ESPANHOL','ESPANOL','SPANISH')
+     OR upper(language_name_friendly) IN ('ESPANHOL','ESPANOL','SPANISH')
+  ORDER BY language_id LIMIT 1;
+  IF v_lang_es IS NULL THEN RAISE EXCEPTION 'Language SPANISH/ESPANHOL not found.'; END IF;
+
+  -- First 1..5 → English
+  FOR i IN 1..5 LOOP
+    v_ans := (ARRAY['A','B','C','D','E'])[1 + floor(random()*5)::INT];
+    CALL app.usp_api_question_current_create(
+      p_language_id        => v_lang_en,
+      p_booklet_color_id   => v_color_id,
+      p_test_version_id    => v_tv_id,
+      p_question_position  => i::SMALLINT,
+      p_correct_answer     => v_ans,
+      p_param_a            => 0::NUMERIC,
+      p_param_b            => 0::NUMERIC,
+      p_param_c            => 0::NUMERIC,
+      p_notes              => 'Idioma: Inglês'::TEXT,
+      p_created_by         => 1::INT,
+      out_message          => v_msg
+    );
+    IF v_msg = 'OK' THEN v_ok := v_ok + 1; ELSE v_fail := v_fail + 1; END IF;
+  END LOOP;
+
+  -- Second 1..5 → Spanish (same positions, different language_id)
+  FOR i IN 1..5 LOOP
+    v_ans := (ARRAY['A','B','C','D','E'])[1 + floor(random()*5)::INT];
+    CALL app.usp_api_question_current_create(
+      p_language_id        => v_lang_es,
+      p_booklet_color_id   => v_color_id,
+      p_test_version_id    => v_tv_id,
+      p_question_position  => i::SMALLINT,
+      p_correct_answer     => v_ans,
+      p_param_a            => 0::NUMERIC,
+      p_param_b            => 0::NUMERIC,
+      p_param_c            => 0::NUMERIC,
+      p_notes              => 'Idioma: Espanhol'::TEXT,
+      p_created_by         => 1::INT,
+      out_message          => v_msg
+    );
+    IF v_msg = 'OK' THEN v_ok := v_ok + 1; ELSE v_fail := v_fail + 1; END IF;
+  END LOOP;
+
+  -- Remaining 6..180 → NULL language
+  FOR i IN 6..180 LOOP
+    v_ans := (ARRAY['A','B','C','D','E'])[1 + floor(random()*5)::INT];
+    CALL app.usp_api_question_current_create(
+      p_language_id        => NULL::SMALLINT,
+      p_booklet_color_id   => v_color_id,
+      p_test_version_id    => v_tv_id,
+      p_question_position  => i::SMALLINT,
+      p_correct_answer     => v_ans,
+      p_param_a            => 0::NUMERIC,
+      p_param_b            => 0::NUMERIC,
+      p_param_c            => 0::NUMERIC,
+      p_notes              => NULL::TEXT,
+      p_created_by         => 1::INT,
+      out_message          => v_msg
+    );
+    IF v_msg = 'OK' THEN v_ok := v_ok + 1; ELSE v_fail := v_fail + 1; END IF;
+  END LOOP;
+
+  RAISE NOTICE 'question_current inserts: OK=%, Failed=% (Total attempted=%).',
+               v_ok, v_fail, v_ok+v_fail;  -- expected total = 185
+END $$;
+
+
+
+
+
+
 
 /*
 DO $$

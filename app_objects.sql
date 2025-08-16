@@ -84,6 +84,7 @@
 \i './app/StoredProcedures/usp_api_question_map_create.sql'
 \i './app/StoredProcedures/usp_batch_create_question_map.sql'
 \i './app/StoredProcedures/usp_api_student_answer_create.sql'
+\i './app/StoredProcedures/usp_api_question_current_create.sql'
 
 
 --Functions
@@ -103,6 +104,7 @@
 \i './app/Functions/set_booklet_color_name_friendly.sql'
 \i './app/Functions/set_area_name_friendly.sql'
 \i './app/Functions/set_language_name_friendly.sql'
+\i './app/Functions/fn_set_area_by_position_for_azul.sql'
 
 --Triggers
 \i './app/Triggers/trg_set_year_name_friendly.sql'
@@ -120,7 +122,10 @@
 \i './app/Triggers/trg_set_booklet_color_name_friendly.sql'
 \i './app/Triggers/trg_set_area_name_friendly.sql'
 \i './app/Triggers/trg_set_language_name_friendly.sql'
+\i './app/Triggers/trg_set_area_by_position_for_azul.sql'
 
 
 --Add views
 \i './app/Views/v_seats_scores.sql'
+\i './app/Views/v_question_current_map_answers.sql'
+\i './app/Views/v_question_current_map_answers_tri.sql'
