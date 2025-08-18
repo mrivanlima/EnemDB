@@ -9,6 +9,9 @@
 \i './imp/Tables/sisu_spot_cutoff_score.sql'
 \i './imp/Tables/enem_question_parameter.sql'
 \i './imp/Tables/exam_source.sql'
+\i './imp/Tables/sisu_results.sql'
+\i './imp/Tables/sisu_past_waitlist.sql'
+\i './imp/Tables/sisu_past_results.sql'
 
 
 --A-- Stored Procedures from imp
@@ -28,6 +31,7 @@
 \i './imp/StoredProcedures/batch_create_special_quota.sql'
 \i './imp/StoredProcedures/batch_create_university_mapping.sql'
 \i './imp/StoredProcedures/batch_create_seats.sql'
+\i './imp/StoredProcedures/batch_create_student_result.sql'
 
 -- Add functions
 \i './imp/Functions/fix_campus_prefix.sql'

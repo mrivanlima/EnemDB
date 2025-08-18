@@ -3,8 +3,6 @@ CREATE OR REPLACE PROCEDURE app.usp_api_student_theta_create(
     p_year_id            INT,
     p_test_version_id    INT,
     p_area_id            SMALLINT,
-    p_language_group_id  SMALLINT DEFAULT 0,
-    p_attempt_no         SMALLINT DEFAULT 1,
 
     p_n_responses        INT,
     p_n_valid            INT,
@@ -12,16 +10,18 @@ CREATE OR REPLACE PROCEDURE app.usp_api_student_theta_create(
     p_theta              NUMERIC(10,5),
     p_se_theta           NUMERIC(10,5),
 
+    p_user_id            INT,
     p_score              NUMERIC(10,2)  DEFAULT NULL,
     p_scale_mean         NUMERIC(10,5)  DEFAULT 500.0,
     p_scale_sd           NUMERIC(10,5)  DEFAULT 100.0,
 
+    p_language_group_id  SMALLINT DEFAULT 0,
+    p_attempt_no         SMALLINT DEFAULT 1,
+
     p_method             VARCHAR(8)     DEFAULT 'EAP',
     p_model              VARCHAR(8)     DEFAULT '3PL',
     p_c_mode             VARCHAR(10)    DEFAULT 'fixed',
-    p_q_nodes            SMALLINT       DEFAULT 41,
-
-    p_user_id            INT
+    p_q_nodes            SMALLINT       DEFAULT 41
 )
 LANGUAGE plpgsql
 AS $$

@@ -77,6 +77,7 @@ DROP TABLE IF EXISTS app.question_map CASCADE;
 DROP TABLE IF EXISTS app.student_answer CASCADE;
 DROP TABLE IF EXISTS app.question_current CASCADE;
 DROP TABLE IF EXISTS app.student_theta CASCADE;
+DROP TABLE IF EXISTS app.student_result CASCADE;
 
 
 

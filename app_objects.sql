@@ -41,6 +41,7 @@
 \i './app/Tables/student_answer.sql'
 \i './app/Tables/question_current.sql'
 \i './app/Tables/student_theta.sql'
+\i './app/Tables/student_result.sql'
 
 
 
@@ -132,3 +133,7 @@
 \i './app/Views/v_seats_scores.sql'
 \i './app/Views/v_question_current_map_answers.sql'
 \i './app/Views/v_question_current_map_answers_tri.sql'
+
+
+--Add Materialized Views
+\i './app/Materialized/vw_student_result.sql'

@@ -11,9 +11,7 @@ CREATE TABLE app.university (
 
     -- Constraints (all named)
     CONSTRAINT pk_university_id PRIMARY KEY (university_id),
-    CONSTRAINT uq_university_code UNIQUE (university_code),
-    CONSTRAINT uq_university_name UNIQUE (university_name),
-    CONSTRAINT uq_university_name_friendly UNIQUE (university_name_friendly),
+    CONSTRAINT uq_university_name UNIQUE (university_name, university_code),
     CONSTRAINT fk_university_created_by FOREIGN KEY (created_by) REFERENCES app.user_login(user_login_id),
     CONSTRAINT fk_university_modified_by FOREIGN KEY (modified_by) REFERENCES app.user_login(user_login_id)
 );

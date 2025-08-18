@@ -77,12 +77,44 @@ CALL imp.batch_create_campus();
 \copy imp.brazil_states(ibge_code, name, uf) FROM 'estados.csv' WITH CSV HEADER ENCODING 'LATIN1';
 \copy imp.city(state_code, city_code, name) FROM 'municipios.csv' WITH CSV HEADER ENCODING 'LATIN1';
 \copy imp.degree_mapping(published_degree, area, context, similarity, equivalent) FROM 'degree_mapping_equivalents_filled.csv' WITH CSV HEADER ENCODING 'LATIN1';
-
-
 \copy imp.enem_question_parameter(question_position,subject_area,question_code,answer_key,skill_code,is_abandoned,abandonment_reason,param_a,param_b,param_c,exam_color,exam_code,language_type,is_adapted_question) FROM 'itens_prova_2024.csv' WITH (FORMAT csv, HEADER, DELIMITER ';', NULL '', ENCODING 'LATIN1');
 
 
 
+
+
+
+
+
+--\copy imp.sisu_results (co_ies, no_ies, sg_ies, sg_uf_ies, no_campus, co_ies_curso, no_curso, ds_turno, ds_formacao, qt_vagas_concorrencia, co_inscricao_enem, no_inscrito, no_modalidade_concorrencia, st_bonus_perc, qt_bonus_perc, no_acao_afirmativa_bonus, nu_nota_candidato_raw, nu_notacorte_concorrida_raw, nu_classificacao, ensino_medio, quilombola, deficiente, tipo_concorrencia) FROM PROGRAM 'curl -L -s https://sisu.mec.gov.br/static/pdf/282/portal/chamada_regular/584/listagem-alunos-aprovados-ies-584-10167.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';', QUOTE '"');
+--\copy imp.sisu_results (co_ies, no_ies, sg_ies, sg_uf_ies, no_campus, co_ies_curso, no_curso, ds_turno, ds_formacao, qt_vagas_concorrencia, co_inscricao_enem, no_inscrito, no_modalidade_concorrencia, st_bonus_perc, qt_bonus_perc, no_acao_afirmativa_bonus, nu_nota_candidato_raw, nu_notacorte_concorrida_raw, nu_classificacao, ensino_medio, quilombola, deficiente, tipo_concorrencia) FROM PROGRAM 'curl -L -s https://sisu.mec.gov.br/static/pdf/282/portal/chamada_regular/25282/listagem-alunos-aprovados-ies-25282-10106.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';', QUOTE '"');
+
+
+--\copy imp.sisu_past_waitlist (ano, edicao, etapa, ds_etapa, codigo_ies, nome_ies, sigla_ies, uf_ies, codigo_campus, nome_campus, uf_campus, municipio_campus, codigo_curso, nome_curso, grau, turno, ds_periodicidade, tp_cota, tipo_mod_concorrencia, mod_concorrencia, qt_vagas_concorrencia, percentual_bonus, peso_l, peso_ch, peso_cn, peso_m, peso_r, nota_minima_l_raw, nota_minima_ch_raw, nota_minima_cn_raw, nota_minima_m_raw, nota_minima_r_raw, media_minima_raw, cpf, inscricao_enem, inscrito, sexo, dt_nascimento, uf_candidato, municipio_candidato, opcao, nota_l_raw, nota_ch_raw, nota_cn_raw, nota_m_raw, nota_r_raw, nota_l_com_peso_raw, nota_ch_com_peso_raw, nota_cn_com_peso_raw, nota_m_com_peso_raw, nota_r_com_peso_raw, nota_candidato_raw, nota_corte_raw, classificacao, aprovado, matricula) FROM PROGRAM 'curl -L -s https://dadosabertos.mec.gov.br/images/conteudo/sisu/2023/lista_de_espera_sisu_2023_1.csv' WITH (FORMAT csv, HEADER true, ENCODING 'LATIN1', DELIMITER '|', QUOTE '"');
+--\copy imp.sisu_past_results (ano,edicao,etapa,ds_etapa,codigo_ies,nome_ies,sigla_ies,uf_ies,codigo_campus,nome_campus,uf_campus,municipio_campus,codigo_curso,nome_curso,grau,turno,ds_periodicidade,tp_cota,tipo_mod_concorrencia,mod_concorrencia,qt_vagas_concorrencia,percentual_bonus,peso_l,peso_ch,peso_cn,peso_m,peso_r,nota_minima_l,nota_minima_ch,nota_minima_cn,nota_minima_m,nota_minima_r,media_minima,cpf,inscricao_enem,inscrito,sexo,dt_nascimento,uf_candidato,municipio_candidato,opcao,nota_l,nota_ch,nota_cn,nota_m,nota_r,nota_l_com_peso,nota_ch_com_peso,nota_cn_com_peso,nota_m_com_peso,nota_r_com_peso,nota_candidato,nota_corte,classificacao,aprovado,matricula) FROM PROGRAM 'curl -L -s https://dadosabertos.mec.gov.br/images/conteudo/sisu/2023/chamada_regular_sisu_2023_1.csv' WITH (FORMAT csv, HEADER true, ENCODING 'LATIN1', DELIMITER '|', QUOTE '"');
+
+--\copy imp.sisu_past_results (ano,edicao,etapa,ds_etapa,codigo_ies,nome_ies,sigla_ies,uf_ies,codigo_campus,nome_campus,uf_campus,municipio_campus,codigo_curso,nome_curso,grau,turno,ds_periodicidade,tp_cota,tipo_mod_concorrencia,mod_concorrencia,qt_vagas_concorrencia,percentual_bonus,peso_l,peso_ch,peso_cn,peso_m,peso_r,nota_minima_l,nota_minima_ch,nota_minima_cn,nota_minima_m,nota_minima_r,media_minima,cpf,inscricao_enem,inscrito,sexo,dt_nascimento,uf_candidato,municipio_candidato,opcao,nota_l,nota_ch,nota_cn,nota_m,nota_r,nota_l_com_peso,nota_ch_com_peso,nota_cn_com_peso,nota_m_com_peso,nota_r_com_peso,nota_candidato,nota_corte,classificacao,aprovado,matricula) FROM PROGRAM 'curl -L -s https://dadosabertos.mec.gov.br/images/conteudo/sisu/2023/chamada_regular_sisu_2023_2.csv' WITH (FORMAT csv, HEADER true, ENCODING 'LATIN1', DELIMITER '|', QUOTE '"');
+
+--\copy imp.sisu_past_results (ano,edicao,etapa,ds_etapa,codigo_ies,nome_ies,sigla_ies,uf_ies,codigo_campus,nome_campus,uf_campus,municipio_campus,codigo_curso,nome_curso,grau,turno,ds_periodicidade,tp_cota,tipo_mod_concorrencia,mod_concorrencia,qt_vagas_concorrencia,percentual_bonus,peso_l,peso_ch,peso_cn,peso_m,peso_r,nota_minima_l,nota_minima_ch,nota_minima_cn,nota_minima_m,nota_minima_r,media_minima,cpf,inscricao_enem,inscrito,sexo,dt_nascimento,uf_candidato,municipio_candidato,opcao,nota_l,nota_ch,nota_cn,nota_m,nota_r,nota_l_com_peso,nota_ch_com_peso,nota_cn_com_peso,nota_m_com_peso,nota_r_com_peso,nota_candidato,nota_corte,classificacao,aprovado,matricula) FROM PROGRAM 'curl -L -s https://dadosabertos.mec.gov.br/images/conteudo/sisu/2022/chamada_regular_sisu_2022_1.csv' WITH (FORMAT csv, HEADER true, ENCODING 'LATIN1', DELIMITER '|', QUOTE '"');
+
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2023/lista_de_espera_sisu_2023_2.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2023/chamada_regular_sisu_2023_2.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2022/chamada_regular_sisu_2022_1.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2022/lista_de_espera_sisu_2022_1.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2022/lista_de_espera_sisu_2022_2.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2022/chamada_regular_sisu_2022_2.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2021/ListagemListaEspera_2021-2.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2021/ListagemChamadaRegular_2021-2.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2021/ListagemListaEspera_2021-1.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2021/ListagemChamadaRegular_2021-1.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2020/ListagemListaEspera_2020-2.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2020/ListagemChamadaRegular_2020-2.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2020/ListagemListaEspera_2020-1.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2020/ListagemChamadaRegular_2020-1.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2019/ListagemChamadaRegular_2019-2.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2019/ListagemChamadaRegular_2019-1.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2019/ListagemListaEspera_2019-1.csv
+--https://dadosabertos.mec.gov.br/images/conteudo/sisu/2019/ListagemListaEspera_2019-2.csv
 CALL imp.batch_create_degrees();
 CALL imp.batch_create_degree_levels();
 CALL imp.batch_create_shift();
@@ -436,7 +468,9 @@ BEGIN
 END $$;
 
 
+CALL imp.batch_create_student_result(2025, 1);
 
+refresh materialized view app.vw_student_result;
 
 
 
@@ -2168,4 +2202,10 @@ INSERT INTO app.year (year, year_name, year_name_friendly, created_by) VALUES
 -- ;
 
 */
+
+
+
+
+
+
 

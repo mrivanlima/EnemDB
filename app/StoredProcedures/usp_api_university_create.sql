@@ -43,7 +43,8 @@ BEGIN
     -- Verificação de unicidade: sigla (case-insensitive)
     SELECT 1 INTO v_exists
     FROM app.university
-    WHERE UPPER(university_abbr) = UPPER(p_university_abbr);
+    WHERE UPPER(university_abbr) = UPPER(p_university_abbr)
+    AND university_code = p_university_code;
     
     IF FOUND THEN
         out_message := format('Validação falhou: a sigla "%s" já está cadastrada.', p_university_abbr);
@@ -53,7 +54,8 @@ BEGIN
     -- Verificação de unicidade: nome
     SELECT 1 INTO v_exists
     FROM app.university
-    WHERE university_name = p_university_name;
+    WHERE university_name = p_university_name
+    AND university_code = p_university_code;  -- permite atualização do mesmo nome
 
     IF FOUND THEN
         out_message := format('Validação falhou: o nome "%s" já está cadastrado.', p_university_name);
