@@ -48,10 +48,6 @@ SELECT
 FROM generate_series(1, 100) AS gs;
 
 
-
-
-call imp.batch_create_years();
-
 DO $$
 DECLARE
     v_message TEXT;
@@ -79,6 +75,7 @@ CALL imp.batch_create_campus();
 \copy imp.university_mapping(university_original_name, university_mapped_name) FROM 'university_mapping.csv' WITH CSV HEADER ENCODING 'LATIN1';
 \copy imp.enem_question_parameter(question_position,subject_area,question_code,answer_key,skill_code,is_abandoned,abandonment_reason,param_a,param_b,param_c,exam_color,exam_code,language_type,is_adapted_question) FROM 'itens_prova_2024.csv' WITH (FORMAT csv, HEADER, DELIMITER ';', NULL '', ENCODING 'LATIN1');
 
+call imp.batch_create_years();
 call imp.batch_create_universities();
 
 
