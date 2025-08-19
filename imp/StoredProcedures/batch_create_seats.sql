@@ -20,42 +20,43 @@ BEGIN
         dl.degree_level_id,
         sh.shift_id,
         f.frequency_id,
-        sso.qt_semestre AS semester_number,
-        sso.nu_vagas_autorizadas AS seats_authorized,
-        sso.qt_vagas_ofertadas AS seats_offered,
-        sso.nu_percentual_bonus AS score_bonus_percent,
+        sso.qt_semestre::numeric AS semester_number,
+        sso.nu_vagas_autorizadas::integer AS seats_authorized,
+        sso.qt_vagas_ofertadas::integer AS seats_offered,
+        sso.nu_percentual_bonus::numeric AS score_bonus_percent,
         qt.quota_type_id,
         NULL::INTEGER AS special_quota_id,
-        sso.peso_redacao,
-        sso.nota_minima_redacao,
-        sso.peso_linguagens,
-        sso.nota_minima_linguagens,
-        sso.peso_matematica,
-        sso.nota_minima_matematica,
-        sso.peso_ciencias_humanas,
-        sso.nota_minima_ciencias_humanas,
-        sso.peso_ciencias_natureza,
-        sso.nota_minima_ciencias_natureza,
-        sso.nu_media_minima_enem,
-        sso.perc_uf_ibge_ppi,
-        sso.perc_uf_ibge_pp,
-        sso.perc_uf_ibge_i,
-        sso.perc_uf_ibge_q,
-        sso.perc_uf_ibge_pcd,
-        sso.nu_perc_lei,
-        sso.nu_perc_ppi,
-        sso.nu_perc_pp,
-        sso.nu_perc_i,
-        sso.nu_perc_q,
-        sso.nu_perc_pcd,
-        sso.sisu_spot_offer_id
+        REPLACE(sso.peso_redacao, '%', '')::NUMERIC AS peso_redacao,
+		REPLACE(sso.nota_minima_redacao, '%', '')::NUMERIC AS nota_minima_redacao,
+		REPLACE(sso.peso_linguagens, '%', '')::NUMERIC AS peso_linguagens,
+		REPLACE(sso.nota_minima_linguagens, '%', '')::NUMERIC AS nota_minima_linguagens,
+		REPLACE(sso.peso_matematica, '%', '')::NUMERIC AS peso_matematica,
+		REPLACE(sso.nota_minima_matematica, '%', '')::NUMERIC AS nota_minima_matematica,
+		REPLACE(sso.peso_ciencias_humanas, '%', '')::NUMERIC AS peso_ciencias_humanas,
+		REPLACE(sso.nota_minima_ciencias_humanas, '%', '')::NUMERIC AS nota_minima_ciencias_humanas,
+		REPLACE(sso.peso_ciencias_natureza, '%', '')::NUMERIC AS peso_ciencias_natureza,
+		REPLACE(sso.nota_minima_ciencias_natureza, '%', '')::NUMERIC AS nota_minima_ciencias_natureza,
+		REPLACE(sso.nu_media_minima_enem, '%', '')::NUMERIC AS nu_media_minima_enem,
+		REPLACE(sso.perc_uf_ibge_ppi, '%', '')::NUMERIC AS perc_uf_ibge_ppi,
+		REPLACE(sso.perc_uf_ibge_pp, '%', '')::NUMERIC AS perc_uf_ibge_pp,
+		REPLACE(sso.perc_uf_ibge_i, '%', '')::NUMERIC AS perc_uf_ibge_i,
+		REPLACE(sso.perc_uf_ibge_q, '%', '')::NUMERIC AS perc_uf_ibge_q,
+		REPLACE(sso.perc_uf_ibge_pcd, '%', '')::NUMERIC AS perc_uf_ibge_pcd,
+		REPLACE(sso.nu_perc_lei, '%', '')::NUMERIC AS nu_perc_lei,
+		REPLACE(sso.nu_perc_ppi, '%', '')::NUMERIC AS nu_perc_ppi,
+		REPLACE(sso.nu_perc_pp, '%', '')::NUMERIC AS nu_perc_pp,
+		REPLACE(sso.nu_perc_i, '%', '')::NUMERIC AS nu_perc_i,
+		REPLACE(sso.nu_perc_q, '%', '')::NUMERIC AS nu_perc_q,
+		REPLACE(sso.nu_perc_pcd, '%', '')::NUMERIC AS nu_perc_pcd,
+
+        sso.sisu_spot_offer_id		
     FROM imp.sisu_spot_offer sso
     JOIN app.year y 
 		ON y.year = sso.edicao::SMALLINT
     JOIN imp.university_mapping um 
 		ON trim(upper(um.university_original_name)) = trim(upper(sso.no_ies))
     JOIN app.university u 
-		ON trim(upper(u.university_name)) = trim(upper(um.university_mapped_name))
+		ON  u.university_code = sso.co_ies::int
     JOIN app.academic_organization ao 
 		ON trim(upper(ao.academic_organization_name)) = trim(upper(sso.ds_organizacao_academica))
     JOIN app.university_category uc 
@@ -208,8 +209,6 @@ BEGIN
           AND s.quota_type_id = t.quota_type_id
           AND s.special_quota_id IS NOT DISTINCT FROM t.special_quota_id::INTEGER
     );
-
-    -- Step 4: Clean up
     DROP TABLE IF EXISTS offer_temp;
 
 END;
