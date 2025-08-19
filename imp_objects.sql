@@ -12,6 +12,7 @@
 \i './imp/Tables/sisu_results.sql'
 \i './imp/Tables/sisu_past_waitlist.sql'
 \i './imp/Tables/sisu_past_results.sql'
+\i './imp/Tables/university_mapping.sql'
 
 
 --A-- Stored Procedures from imp

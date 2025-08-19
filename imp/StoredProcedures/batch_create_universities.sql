@@ -2,40 +2,37 @@ CREATE OR REPLACE PROCEDURE imp.batch_create_universities()
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    rec RECORD;
-    v_message TEXT;
+    v_inserted INT;
+    v_created_by INT := 1;
 BEGIN
-    FOR rec IN
-        SELECT DISTINCT
-            CAST(trim(co_ies) AS INTEGER) AS university_code,
-            trim(upper(sg_ies)) AS university_abbr,
-            trim(
-                CASE
-                    WHEN no_ies ILIKE '%AFRO-BRASILEIRA%' THEN upper(no_ies)
-                    WHEN no_ies ILIKE '%SEMI-ÁRIDO%' THEN upper(no_ies)
-                    ELSE upper(regexp_replace(no_ies, '\s*-\s*.*$', '', 'g'))
-                END
-            ) AS university_name,
-            1 AS created_by,
-            1 AS modified_by
-        FROM imp.sisu_spot_offer
-        WHERE co_ies IS NOT NULL
-        ORDER BY CAST(trim(co_ies) AS INTEGER)
-    LOOP
-        CALL app.usp_api_university_create(
-            p_university_code   => rec.university_code,
-            p_university_name   => rec.university_name,
-            p_university_abbr   => rec.university_abbr,
-            p_created_by        => rec.created_by::TEXT,
-            p_modified_by       => rec.modified_by::TEXT,
-            out_message         => v_message
-        );
+    INSERT INTO app.university (
+        university_code,
+        university_name,
+        university_abbr,
+        created_by,
+        created_on,
+        modified_by,
+        modified_on
+    )
+    SELECT DISTINCT
+        TRIM(UPPER(sso.co_ies))::INT,
+        TRIM(UPPER(um.university_mapped_name)),
+        TRIM(UPPER(sso.sg_ies)),
+        v_created_by,
+        NOW(),
+        v_created_by,
+        NOW()
+    FROM imp.sisu_spot_offer sso
+    JOIN imp.university_mapping um
+      ON TRIM(UPPER(um.university_original_name)) = TRIM(UPPER(sso.no_ies))
+    WHERE sso.co_ies ~ '^\s*\d+\s*$'
+      AND NOT EXISTS (
+        SELECT 1
+        FROM app.university u
+        WHERE u.university_code = TRIM(UPPER(sso.co_ies))::INT
+          AND u.university_name = TRIM(UPPER(um.university_mapped_name))
+    );
 
-        RAISE NOTICE 'Inserção: código %, sigla %, nome %, mensagem: %',
-            rec.university_code,
-            rec.university_abbr,
-            rec.university_name,
-            v_message;
-    END LOOP;
-END;
-$$;
+    GET DIAGNOSTICS v_inserted = ROW_COUNT;
+    RAISE NOTICE 'Inserted % universities.', v_inserted;
+END $$;
