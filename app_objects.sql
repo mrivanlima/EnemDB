@@ -42,6 +42,7 @@
 \i './app/Tables/question_current.sql'
 \i './app/Tables/student_theta.sql'
 \i './app/Tables/student_result.sql'
+\i './app/Tables/user_email_verification.sql'
 
 
 
