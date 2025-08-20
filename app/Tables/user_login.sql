@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS app.user_login (
     user_login_id         SERIAL,
+    user_login_unique      UUID,
     email                 VARCHAR(255) NOT NULL,
     password_hash         VARCHAR(255),  -- NULL for Google-only accounts
     is_email_verified     BOOLEAN NOT NULL,
@@ -12,7 +13,7 @@ CREATE TABLE IF NOT EXISTS app.user_login (
     created_on            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     modified_by           INTEGER,
     modified_on           TIMESTAMPTZ,
-
+    
     -- Constraints (all named)
     CONSTRAINT pk_user_login_id PRIMARY KEY (user_login_id),
     CONSTRAINT uq_user_login_email UNIQUE (email)

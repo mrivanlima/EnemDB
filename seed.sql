@@ -25,6 +25,7 @@
 
 
 INSERT INTO app.user_login (
+  user_login_unique,
   email, 
   password_hash, 
   is_email_verified, 
@@ -36,6 +37,7 @@ INSERT INTO app.user_login (
   modified_on
 )
 SELECT
+  gen_random_uuid(),
   gs::text || '@yourdomain.com' AS email,
   '$2a$12$EixZaYVK1fsbw1Zfbx3OXePaWxn96p36O8aCw/1hZ/8AXY9PQwztC' AS password_hash,
   TRUE, 

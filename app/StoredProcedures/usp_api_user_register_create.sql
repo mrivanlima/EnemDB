@@ -1,6 +1,7 @@
 CREATE OR REPLACE PROCEDURE app.usp_api_user_register_create (
     IN  p_email           VARCHAR(255),
     IN  p_password_hash   VARCHAR(255),
+    IN  p_user_login_unique UUID,
     IN  p_created_by      INTEGER,
     OUT out_message       VARCHAR(100),
     OUT out_haserror      BOOLEAN
@@ -52,6 +53,7 @@ BEGIN
     -- INSERÇÃO E TRATAMENTO DE ERRO
     BEGIN
         INSERT INTO app.user_login (
+            user_login_unique,
             email,
             password_hash,
             is_email_verified,
@@ -61,6 +63,7 @@ BEGIN
             created_on
         )
         VALUES (
+            p_user_login_unique,
             LOWER(p_email),
             p_password_hash,
             is_email_verified,
