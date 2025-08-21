@@ -5,7 +5,7 @@ CREATE OR REPLACE PROCEDURE app.usp_api_user_login_external_create (
     IN  p_created_by         INTEGER,
     OUT out_user_login_id    INTEGER,
     OUT out_message          VARCHAR(255),
-    OUT out_haserror         BIT
+    OUT out_haserror         BOOLEAN
 )
 LANGUAGE plpgsql
 AS $$
@@ -19,31 +19,31 @@ DECLARE
     v_login_attempts INTEGER := 0;
     v_created_on TIMESTAMPTZ := NOW();
 BEGIN
-    out_haserror := 0;
+    out_haserror := false;
     out_user_login_id := NULL;
 
     -- VALIDAÇÕES
     IF p_email IS NULL OR length(trim(p_email)) = 0 THEN
         out_message := 'Validação falhou: e-mail não pode ser vazio.';
-        out_haserror := 1;
+        out_haserror := true;
         RETURN;
     END IF;
 
     IF p_provider_type_id IS NULL THEN
         out_message := 'Validação falhou: tipo de provedor não pode ser nulo.';
-        out_haserror := 1;
+        out_haserror := true;
         RETURN;
     END IF;
 
     IF p_provider_user_id IS NULL OR length(trim(p_provider_user_id)) = 0 THEN
         out_message := 'Validação falhou: ID do usuário do provedor não pode ser vazio.';
-        out_haserror := 1;
+        out_haserror := true;
         RETURN;
     END IF;
 
     IF p_created_by IS NULL THEN
         out_message := 'Validação falhou: created_by não pode ser nulo.';
-        out_haserror := 1;
+        out_haserror := true;
         RETURN;
     END IF;
 
@@ -92,7 +92,7 @@ BEGIN
             out_haserror        => out_haserror
         );
 
-        IF out_haserror = 1 THEN
+        IF out_haserror = true THEN
             RETURN;
         END IF;
 
@@ -128,7 +128,7 @@ BEGIN
             );
 
             out_message := format('Erro ao criar usuário: %s', v_error_message);
-            out_haserror := 1;
+            out_haserror := true;
             RETURN;
     END;
 END;
