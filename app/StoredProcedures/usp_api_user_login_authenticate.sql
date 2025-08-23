@@ -11,21 +11,32 @@ CREATE OR REPLACE PROCEDURE app.usp_api_user_login_authenticate (
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    v_login_attempts       INTEGER;
-    v_command              TEXT;
-    v_error_message        TEXT;
-    v_error_code           TEXT;
+    v_login_attempts  INTEGER;
+    v_command         TEXT;
+    v_error_message   TEXT;
+    v_error_code      TEXT;
 BEGIN
     out_haserror := FALSE;
 
-    -- Validação
+    -- =========================
+    -- Validação (entrada)
+    -- =========================
     IF p_email IS NULL OR length(trim(p_email)) = 0 THEN
         out_message := 'Validação falhou: email não pode ser vazio.';
         out_haserror := TRUE;
         RETURN;
     END IF;
 
+    -- (Opcional) validar formato básico de email
+    -- IF NOT (p_email ~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$') THEN
+    --     out_message := 'Validação falhou: formato de email inválido.';
+    --     out_haserror := TRUE;
+    --     RETURN;
+    -- END IF;
+
+    -- =========================
     -- Buscar dados do usuário
+    -- =========================
     SELECT 
         user_login_id,
         password_hash,
@@ -39,7 +50,7 @@ BEGIN
         out_is_active,
         v_login_attempts
     FROM app.user_login
-    WHERE LOWER(email) = LOWER(p_email);
+    WHERE LOWER(email) = LOWER(trim(p_email));
 
     IF NOT FOUND THEN
         out_message := 'Usuário não encontrado.';
@@ -47,7 +58,36 @@ BEGIN
         RETURN;
     END IF;
 
-    out_is_locked := v_login_attempts >= 5;
+    -- =========================
+    -- Validação (estado da conta)
+    -- =========================
+
+    -- Ativo?
+    IF out_is_active IS DISTINCT FROM TRUE THEN
+        out_is_locked := FALSE; -- por clareza
+        out_message := 'Conta inativa.';
+        out_haserror := TRUE;
+        RETURN;
+    END IF;
+
+    -- Bloqueado por tentativas?
+    IF v_login_attempts >= 5 THEN
+        out_is_locked := TRUE;
+        out_message := 'Conta bloqueada por excesso de tentativas. Redefina sua senha para desbloquear.';
+        out_haserror := TRUE;
+        RETURN;
+    ELSE
+        out_is_locked := FALSE;
+    END IF;
+
+    -- Email verificado?
+    IF out_is_verified IS DISTINCT FROM TRUE THEN
+        out_message := 'E-mail não verificado. Verifique seu e-mail para concluir o cadastro.';
+        out_haserror := TRUE;
+        RETURN;
+    END IF;
+
+    -- Se chegou aqui, dados OK (comparação de senha é feita na aplicação)
     out_message := 'Dados do login carregados com sucesso.';
     RETURN;
 
