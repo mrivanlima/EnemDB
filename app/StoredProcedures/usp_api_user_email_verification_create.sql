@@ -1,33 +1,33 @@
 CREATE OR REPLACE PROCEDURE app.usp_api_user_email_verification_create (
-    IN p_email                             TEXT,
-    IN p_created_by                        INTEGER,
-    OUT out_user_email_verification_id     INTEGER,
-    OUT out_token                          TEXT,
-    OUT out_message                        TEXT,
-    OUT out_haserror                       BIT
+    IN  p_email   TEXT,
+    IN  p_created_by INTEGER,
+    OUT out_user_email_verification_id INTEGER,
+    OUT out_token TEXT,
+    OUT out_message TEXT,
+    OUT out_haserror BOOLEAN
 )
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    v_user_login_id       INTEGER;
-    v_exists              INTEGER;
-    v_command             TEXT;
-    v_error_message       TEXT;
-    v_error_code          TEXT;
-    v_now                 TIMESTAMPTZ := NOW();
+    v_user_login_id INTEGER;
+    v_exists INTEGER;
+    v_command TEXT;
+    v_error_message TEXT;
+    v_error_code TEXT;
+    v_now TIMESTAMPTZ := NOW();
 BEGIN
-    out_haserror := B'0';
+    out_haserror := FALSE;
 
     -- Validations
     IF p_email IS NULL OR length(trim(p_email)) = 0 THEN
         out_message := 'O e-mail é obrigatório.';
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
     IF p_created_by IS NULL THEN
         out_message := 'O campo created_by é obrigatório.';
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
@@ -35,15 +35,15 @@ BEGIN
     SELECT user_login_id INTO v_user_login_id
     FROM app.user_login
     WHERE email = p_email
-    AND soft_deleted_at IS NULL;
+      AND soft_deleted_at IS NULL;
 
     IF NOT FOUND THEN
         out_message := format('Usuário com e-mail "%s" não encontrado.', p_email);
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
-    -- Generate token (using MD5 for example – you can replace with something stronger if needed)
+    -- Generate token
     out_token := encode(digest(gen_random_uuid()::text, 'sha256'), 'hex');
 
     -- Ensure uniqueness
@@ -53,7 +53,7 @@ BEGIN
 
     IF FOUND THEN
         out_message := 'Token de verificação já gerado. Tente novamente.';
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
@@ -108,7 +108,7 @@ BEGIN
             );
 
             out_message := format('Erro ao criar token: %s', v_error_message);
-            out_haserror := B'1';
+            out_haserror := TRUE;
             RETURN;
     END;
 END;

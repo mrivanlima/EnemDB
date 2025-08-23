@@ -1,6 +1,7 @@
 CREATE OR REPLACE PROCEDURE app.usp_api_user_login_authenticate (
     IN  p_email            VARCHAR(255),
     OUT out_user_login_id  INTEGER,
+    OUT out_user_login_unique UUID,
     OUT out_password_hash  VARCHAR(255),
     OUT out_is_verified    BOOLEAN,
     OUT out_is_active      BOOLEAN,
@@ -39,12 +40,14 @@ BEGIN
     -- =========================
     SELECT 
         user_login_id,
+        user_login_unique,
         password_hash,
         is_email_verified,
         is_active,
         login_attempts
     INTO 
         out_user_login_id,
+        out_user_login_unique,
         out_password_hash,
         out_is_verified,
         out_is_active,
