@@ -1,10 +1,10 @@
 CREATE OR REPLACE PROCEDURE app.usp_api_user_login_attempts_update (
     IN  p_user_login_id    INTEGER,
-    IN  p_max_attempts     INTEGER DEFAULT 5,   -- limite de tentativas
     OUT out_login_attempts INTEGER,
     OUT out_is_locked      BOOLEAN,
     OUT out_message        TEXT,
-    OUT out_haserror       BOOLEAN
+    OUT out_haserror       BOOLEAN,
+    IN  p_max_attempts     INTEGER DEFAULT 5   -- must be last
 )
 LANGUAGE plpgsql
 AS $$

@@ -54,6 +54,7 @@
 \i './app/StoredProcedures/usp_api_user_email_verification_regenerate.sql'
 \i './app/StoredProcedures/usp_api_user_email_verification_validate_token.sql'
 \i './app/StoredProcedures/usp_api_user_login_add_password.sql'
+\i './app/StoredProcedures/usp_api_user_login_attempts_update.sql'
 \i './app/StoredProcedures/usp_api_user_login_authenticate.sql'
 \i './app/StoredProcedures/usp_api_user_login_external_create.sql'
 \i './app/StoredProcedures/usp_api_user_login_lock_reset.sql'
@@ -93,6 +94,8 @@
 
 
 --Functions
+\i './app/Functions/fn_get_user_login_by_email.sql'
+\i './app/Functions/fn_get_user_by_id.sql'
 \i './app/Functions/fn_number_to_words_ptbr.sql'
 \i './app/Functions/set_year_name_friendly.sql'
 \i './app/Functions/set_university_name_friendly.sql'

@@ -3,6 +3,7 @@ CREATE OR REPLACE PROCEDURE app.usp_api_user_register_create (
     IN  p_password_hash   VARCHAR(255),
     IN  p_user_login_unique UUID,
     IN  p_created_by      INTEGER,
+    OUT out_user_login_id INTEGER,
     OUT out_message       VARCHAR(100),
     OUT out_haserror      BOOLEAN
 )
@@ -20,6 +21,9 @@ DECLARE
     login_attempts     INTEGER := 0;
     created_on         TIMESTAMPTZ := NOW();
 BEGIN
+    -- Inicializa out_user_login_id
+    out_user_login_id := NULL;
+
     -- VALIDAÇÕES
     IF p_email IS NULL OR length(trim(p_email)) = 0 THEN
         out_message := 'Validação falhou: o campo e-mail não pode ser vazio.';
@@ -50,7 +54,7 @@ BEGIN
         RETURN;
     END IF;
 
-    -- INSERÇÃO E TRATAMENTO DE ERRO
+    -- INSERÇÃO E RETORNO DO ID
     BEGIN
         INSERT INTO app.user_login (
             user_login_unique,
@@ -71,7 +75,8 @@ BEGIN
             login_attempts,
             p_created_by,
             created_on
-        );
+        )
+        RETURNING user_login_id INTO out_user_login_id;
 
         out_message := 'OK';
         out_haserror := FALSE;
@@ -107,6 +112,7 @@ BEGIN
 
             out_message := format('Erro durante o cadastro: %s', v_error_message);
             out_haserror := TRUE;
+            out_user_login_id := NULL;
             RETURN;
     END;
 END;

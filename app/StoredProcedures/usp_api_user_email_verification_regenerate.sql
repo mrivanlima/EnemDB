@@ -3,7 +3,7 @@ CREATE OR REPLACE PROCEDURE app.usp_api_user_email_verification_regenerate (
     IN p_created_by    INTEGER,
     OUT out_token      TEXT,
     OUT out_message    TEXT,
-    OUT out_haserror   BIT
+    OUT out_haserror   BOOLEAN
 )
 LANGUAGE plpgsql
 AS $$
@@ -14,25 +14,25 @@ DECLARE
     v_token          TEXT;
     v_expires_at     TIMESTAMPTZ := NOW() + INTERVAL '24 hours';
 BEGIN
-    out_haserror := B'0';
+    out_haserror := FALSE;
 
     -- Validações
     IF p_user_login_id IS NULL THEN
         out_message := 'O ID do usuário é obrigatório.';
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
     IF p_created_by IS NULL THEN
         out_message := 'O campo created_by é obrigatório.';
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
     -- Verifica se o user_login existe
     IF NOT EXISTS (SELECT 1 FROM app.user_login WHERE user_login_id = p_user_login_id) THEN
         out_message := format('Usuário com ID %s não encontrado.', p_user_login_id);
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
@@ -40,7 +40,7 @@ BEGIN
     UPDATE app.user_email_verification
     SET expires_at = NOW()
     WHERE user_login_id = p_user_login_id
-      AND confirmed_at IS NULL
+      AND used_on IS NULL
       AND expires_at > NOW();
 
     -- Geração de novo token (UUIDv4 + segurança extra)
@@ -95,7 +95,7 @@ EXCEPTION
         );
 
         out_message := format('Erro ao gerar novo token: %s', v_error_message);
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
 END;
 $$;
