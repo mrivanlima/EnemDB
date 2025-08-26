@@ -19,31 +19,31 @@ DECLARE
     v_login_attempts INTEGER := 0;
     v_created_on TIMESTAMPTZ := NOW();
 BEGIN
-    out_haserror := false;
+    out_haserror := FALSE;
     out_user_login_id := NULL;
 
     -- VALIDAÇÕES
     IF p_email IS NULL OR length(trim(p_email)) = 0 THEN
         out_message := 'Validação falhou: e-mail não pode ser vazio.';
-        out_haserror := true;
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
     IF p_provider_type_id IS NULL THEN
         out_message := 'Validação falhou: tipo de provedor não pode ser nulo.';
-        out_haserror := true;
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
     IF p_provider_user_id IS NULL OR length(trim(p_provider_user_id)) = 0 THEN
         out_message := 'Validação falhou: ID do usuário do provedor não pode ser vazio.';
-        out_haserror := true;
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
     IF p_created_by IS NULL THEN
         out_message := 'Validação falhou: created_by não pode ser nulo.';
-        out_haserror := true;
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
@@ -54,7 +54,6 @@ BEGIN
     LIMIT 1;
 
     IF FOUND THEN
-        -- USUÁRIO EXISTENTE — retorna ID
         out_user_login_id := v_exists_user_login_id;
         out_message := 'Usuário já existente.';
         RETURN;
@@ -92,7 +91,7 @@ BEGIN
             out_haserror        => out_haserror
         );
 
-        IF out_haserror = true THEN
+        IF out_haserror = TRUE THEN
             RETURN;
         END IF;
 
@@ -109,13 +108,7 @@ BEGIN
             v_error_code := SQLSTATE;
 
             INSERT INTO app.error_log (
-                table_name,
-                process,
-                operation,
-                command,
-                error_message,
-                error_code,
-                user_name
+                table_name, process, operation, command, error_message, error_code, user_name
             )
             VALUES (
                 'user_login',
@@ -128,7 +121,7 @@ BEGIN
             );
 
             out_message := format('Erro ao criar usuário: %s', v_error_message);
-            out_haserror := true;
+            out_haserror := TRUE;
             RETURN;
     END;
 END;

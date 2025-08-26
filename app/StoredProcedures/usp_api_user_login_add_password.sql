@@ -3,7 +3,7 @@ CREATE OR REPLACE PROCEDURE app.usp_api_user_login_add_password (
     IN p_password_hash   TEXT,
     IN p_modified_by     INTEGER,
     OUT out_message      TEXT,
-    OUT out_haserror     BIT
+    OUT out_haserror     BOOLEAN
 )
 LANGUAGE plpgsql
 AS $$
@@ -14,23 +14,21 @@ DECLARE
     v_error_message     TEXT;
     v_error_code        TEXT;
 BEGIN
-    -- Inicialização
-    out_haserror := B'0';
+    out_haserror := FALSE;
 
     -- Validação de entrada
     IF p_email IS NULL OR length(trim(p_email)) = 0 THEN
         out_message := 'O e-mail não pode estar vazio.';
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
     IF p_password_hash IS NULL OR length(trim(p_password_hash)) = 0 THEN
         out_message := 'A senha não pode estar vazia.';
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
-    -- Verificar se o usuário existe e obter ID
     SELECT user_login_id
     INTO v_user_login_id
     FROM app.user_login
@@ -38,11 +36,10 @@ BEGIN
 
     IF NOT FOUND THEN
         out_message := format('Usuário com e-mail "%s" não encontrado.', p_email);
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
-    -- Verificar se já possui senha
     SELECT 1
     INTO v_exists
     FROM app.user_login
@@ -51,11 +48,10 @@ BEGIN
 
     IF FOUND THEN
         out_message := 'Este usuário já possui senha.';
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
-    -- Verificar se o usuário está ativo e com e-mail verificado
     SELECT 1
     INTO v_exists
     FROM app.user_login
@@ -65,11 +61,10 @@ BEGIN
 
     IF NOT FOUND THEN
         out_message := 'Usuário inativo ou com e-mail não verificado.';
-        out_haserror := B'1';
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
-    -- Atualizar a senha
     BEGIN
         UPDATE app.user_login
         SET
@@ -94,13 +89,7 @@ BEGIN
             v_error_code := SQLSTATE;
 
             INSERT INTO app.error_log (
-                table_name,
-                process,
-                operation,
-                command,
-                error_message,
-                error_code,
-                user_name
+                table_name, process, operation, command, error_message, error_code, user_name
             ) VALUES (
                 'user_login',
                 'app.usp_api_user_login_add_password',
@@ -112,7 +101,7 @@ BEGIN
             );
 
             out_message := format('Erro ao adicionar senha: %s', v_error_message);
-            out_haserror := B'1';
+            out_haserror := TRUE;
             RETURN;
     END;
 END;

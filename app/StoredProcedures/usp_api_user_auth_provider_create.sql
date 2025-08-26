@@ -4,7 +4,7 @@ CREATE OR REPLACE PROCEDURE app.usp_api_user_auth_provider_create (
     IN  p_provider_user_id  VARCHAR(100),
     IN  p_created_by        INTEGER,
     OUT out_message         TEXT,
-    OUT out_haserror        BIT
+    OUT out_haserror        BOOLEAN
 )
 LANGUAGE plpgsql
 AS $$
@@ -15,34 +15,32 @@ DECLARE
     v_error_code TEXT;
     v_created_on TIMESTAMPTZ := NOW();
 BEGIN
-    out_haserror := 0;
+    out_haserror := FALSE;
 
-    -- VALIDAÇÕES
     IF p_user_login_id IS NULL THEN
         out_message := 'Validação falhou: user_login_id não pode ser nulo.';
-        out_haserror := 1;
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
     IF p_provider_type_id IS NULL THEN
         out_message := 'Validação falhou: provider_type_id não pode ser nulo.';
-        out_haserror := 1;
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
     IF p_provider_user_id IS NULL OR length(trim(p_provider_user_id)) = 0 THEN
         out_message := 'Validação falhou: provider_user_id não pode ser vazio.';
-        out_haserror := 1;
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
     IF p_created_by IS NULL THEN
         out_message := 'Validação falhou: created_by não pode ser nulo.';
-        out_haserror := 1;
+        out_haserror := TRUE;
         RETURN;
     END IF;
 
-    -- VERIFICA DUPLICIDADE
     SELECT 1 INTO v_exists
     FROM app.user_auth_provider
     WHERE user_login_id = p_user_login_id
@@ -54,7 +52,6 @@ BEGIN
         RETURN;
     END IF;
 
-    -- INSERÇÃO
     BEGIN
         INSERT INTO app.user_auth_provider (
             user_login_id,
@@ -87,13 +84,7 @@ BEGIN
             v_error_code := SQLSTATE;
 
             INSERT INTO app.error_log (
-                table_name,
-                process,
-                operation,
-                command,
-                error_message,
-                error_code,
-                user_name
+                table_name, process, operation, command, error_message, error_code, user_name
             )
             VALUES (
                 'user_auth_provider',
@@ -106,7 +97,7 @@ BEGIN
             );
 
             out_message := format('Erro ao inserir provedor: %s', v_error_message);
-            out_haserror := 1;
+            out_haserror := TRUE;
             RETURN;
     END;
 END;
