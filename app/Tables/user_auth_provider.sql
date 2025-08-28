@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS app.user_auth_provider (
     user_auth_provider_id  SERIAL,
-    user_login_id          INTEGER NOT NULL,
-    auth_provider_id       INTEGER NOT NULL,
-    is_active              BOOLEAN NOT NULL DEFAULT TRUE,
-    created_by             INTEGER NOT NULL,
-    created_on             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    user_login_id          INTEGER,
+    auth_provider_id       INTEGER,
+    provider_user_id       VARCHAR(100) NOT NULL,  -- external subject/id (e.g. Google "sub")
+    is_active              BOOLEAN      NOT NULL DEFAULT TRUE,
+    created_by             INTEGER      NOT NULL,
+    created_on             TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
     modified_by            INTEGER,
     modified_on            TIMESTAMPTZ,
 

@@ -22,8 +22,6 @@
 --     NULL,                                                    -- modified_by (NULL at creation)
 --     NULL                                                     -- modified_on (NULL at creation)
 -- );
-
-
 INSERT INTO app.user_login (
   user_login_unique,
   email, 
@@ -49,6 +47,31 @@ SELECT
   NULL
 FROM generate_series(1, 100) AS gs;
 
+INSERT INTO app.provider_type(
+  type_code,
+  description,
+  created_by,
+  created_on
+) VALUES (
+  'oauth',
+  'OAuth-based external providers (e.g., Google, Facebook)',
+  1,
+  NOW()
+);
+INSERT INTO app.auth_provider(
+  provider_name,
+  provider_key,
+  provider_type_id,
+  created_by,
+  created_on
+) VALUES (
+  'Google',
+  'google',
+  1,
+  1,
+  NOW()
+);
+
 
 DO $$
 DECLARE
@@ -63,9 +86,9 @@ BEGIN
 END $$;
 
 
-call imp.usp_seed_academic_organization();
-CALL imp.usp_seed_university_category();
-CALL imp.batch_create_campus();
+-- call imp.usp_seed_academic_organization();
+-- CALL imp.usp_seed_university_category();
+-- CALL imp.batch_create_campus();
 
 
 
@@ -114,20 +137,20 @@ call imp.batch_create_universities();
 --https://dadosabertos.mec.gov.br/images/conteudo/sisu/2019/ListagemChamadaRegular_2019-1.csv
 --https://dadosabertos.mec.gov.br/images/conteudo/sisu/2019/ListagemListaEspera_2019-1.csv
 --https://dadosabertos.mec.gov.br/images/conteudo/sisu/2019/ListagemListaEspera_2019-2.csv
-CALL imp.batch_create_degrees();
-CALL imp.batch_create_degree_levels();
-CALL imp.batch_create_shift();
-CALL imp.batch_create_regions();
-CALL imp.batch_create_states();
-CALL imp.batch_create_cities();
-CALL imp.batch_create_frequency();
-CALL imp.batch_create_quota_type();
-CALL app.usp_quote_type_flags_update();
-CALL imp.batch_create_special_quota();
-CALL app.usp_special_quota_flags_update();
-CALL imp.batch_create_university_mapping();
-CALL imp.batch_create_seats(1);
-CALL app.usp_seats_cutoff_update();
+--CALL imp.batch_create_degrees();
+--CALL imp.batch_create_degree_levels();
+--CALL imp.batch_create_shift();
+--CALL imp.batch_create_regions();
+--CALL imp.batch_create_states();
+--CALL imp.batch_create_cities();
+--CALL imp.batch_create_frequency();
+--CALL imp.batch_create_quota_type();
+--CALL app.usp_quote_type_flags_update();
+--CALL imp.batch_create_special_quota();
+--CALL app.usp_special_quota_flags_update();
+--CALL imp.batch_create_university_mapping();
+--CALL imp.batch_create_seats(1);
+--CALL app.usp_seats_cutoff_update();
 
 DO $$
 DECLARE
@@ -467,7 +490,7 @@ BEGIN
 END $$;
 
 
-CALL imp.batch_create_student_result(2025, 1);
+--CALL imp.batch_create_student_result(2025, 1);
 
 refresh materialized view app.vw_student_result;
 

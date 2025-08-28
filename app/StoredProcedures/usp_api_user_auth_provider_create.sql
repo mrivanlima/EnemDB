@@ -1,10 +1,10 @@
 CREATE OR REPLACE PROCEDURE app.usp_api_user_auth_provider_create (
     IN  p_user_login_id     INTEGER,
-    IN  p_provider_type_id  INTEGER,
+    IN  p_auth_provider_id  INTEGER,
     IN  p_provider_user_id  VARCHAR(100),
     IN  p_created_by        INTEGER,
-    OUT out_message         TEXT,
-    OUT out_haserror        BOOLEAN
+    INOUT out_message         VARCHAR(255),
+    INOUT out_haserror        BOOLEAN
 )
 LANGUAGE plpgsql
 AS $$
@@ -23,8 +23,8 @@ BEGIN
         RETURN;
     END IF;
 
-    IF p_provider_type_id IS NULL THEN
-        out_message := 'Validação falhou: provider_type_id não pode ser nulo.';
+    IF p_auth_provider_id IS NULL THEN
+        out_message := 'Validação falhou: auth_provider_id não pode ser nulo.';
         out_haserror := TRUE;
         RETURN;
     END IF;
@@ -44,7 +44,7 @@ BEGIN
     SELECT 1 INTO v_exists
     FROM app.user_auth_provider
     WHERE user_login_id = p_user_login_id
-      AND provider_type_id = p_provider_type_id
+      AND auth_provider_id = p_auth_provider_id
       AND provider_user_id = p_provider_user_id;
 
     IF FOUND THEN
@@ -55,14 +55,14 @@ BEGIN
     BEGIN
         INSERT INTO app.user_auth_provider (
             user_login_id,
-            provider_type_id,
+            auth_provider_id,
             provider_user_id,
             created_by,
             created_on
         )
         VALUES (
             p_user_login_id,
-            p_provider_type_id,
+            p_auth_provider_id,
             p_provider_user_id,
             p_created_by,
             v_created_on
@@ -76,7 +76,7 @@ BEGIN
             v_command := format(
                 'CALL app.usp_api_user_auth_provider_create(%s, %s, %L, %s)',
                 p_user_login_id,
-                p_provider_type_id,
+                p_auth_provider_id,
                 p_provider_user_id,
                 p_created_by
             );

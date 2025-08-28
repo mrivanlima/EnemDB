@@ -15,3 +15,4 @@ DROP PROCEDURE IF EXISTS app.usp_api_user_login_external_create;
 DROP PROCEDURE IF EXISTS app.usp_api_user_login_add_password;
 DROP PROCEDURE IF EXISTS app.usp_user_register_create;
 DROP PROCEDURE IF EXISTS app.usp_api_user_login_attempts_update;
+DROP PROCEDURE IF EXISTS app.usp_api_user_auth_provider_create;
