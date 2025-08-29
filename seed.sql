@@ -47,6 +47,17 @@ SELECT
   NULL
 FROM generate_series(1, 100) AS gs;
 
+INSERT INTO app.verification_purpose 
+    (purpose, created_by, created_on, modified_by, modified_on)
+VALUES
+    ('Registro', 1, NOW(), 1, NOW());
+
+INSERT INTO app.verification_purpose 
+    (purpose, created_by, created_on, modified_by, modified_on)
+VALUES
+    ('Esqueceu Senha', 1, NOW(), 1, NOW());
+
+
 INSERT INTO app.provider_type(
   type_code,
   description,

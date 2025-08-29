@@ -42,7 +42,8 @@
 \i './app/Tables/question_current.sql'
 \i './app/Tables/student_theta.sql'
 \i './app/Tables/student_result.sql'
-\i './app/Tables/user_email_verification.sql'
+\i './app/Tables/verification_purpose.sql'
+\i './app/Tables/user_verification.sql'
 
 
 
@@ -91,6 +92,8 @@
 \i './app/StoredProcedures/usp_api_question_current_create.sql'
 \i './app/StoredProcedures/usp_question_params_by_id_update.sql'
 \i './app/StoredProcedures/usp_api_student_theta_create.sql'
+\i './app/StoredProcedures/usp_api_user_verification_create.sql'
+\i './app/StoredProcedures/usp_api_verification_validate_token.sql'
 
 
 --Functions
