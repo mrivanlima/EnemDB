@@ -107,6 +107,8 @@ END $$;
 \copy imp.region_state(region_name, state_name) FROM 'Region_mapping.csv' WITH CSV HEADER ENCODING 'LATIN1';
 \copy imp.brazil_states(ibge_code, name, uf) FROM 'estados.csv' WITH CSV HEADER ENCODING 'LATIN1';
 \copy imp.city(state_code, city_code, name) FROM 'municipios.csv' WITH CSV HEADER ENCODING 'LATIN1';
+
+
 \copy imp.degree_mapping(published_degree, area, context, similarity, equivalent) FROM 'degree_mapping_equivalents_filled.csv' WITH CSV HEADER ENCODING 'LATIN1';
 \copy imp.university_mapping(university_original_name, university_mapped_name) FROM 'university_mapping.csv' WITH CSV HEADER ENCODING 'LATIN1';
 \copy imp.enem_question_parameter(question_position,subject_area,question_code,answer_key,skill_code,is_abandoned,abandonment_reason,param_a,param_b,param_c,exam_color,exam_code,language_type,is_adapted_question) FROM 'itens_prova_2024.csv' WITH (FORMAT csv, HEADER, DELIMITER ';', NULL '', ENCODING 'LATIN1');
@@ -151,9 +153,9 @@ call imp.batch_create_universities();
 --CALL imp.batch_create_degrees();
 --CALL imp.batch_create_degree_levels();
 --CALL imp.batch_create_shift();
---CALL imp.batch_create_regions();
---CALL imp.batch_create_states();
---CALL imp.batch_create_cities();
+CALL imp.batch_create_regions();
+CALL imp.batch_create_states();
+CALL imp.batch_create_cities();
 --CALL imp.batch_create_frequency();
 --CALL imp.batch_create_quota_type();
 --CALL app.usp_quote_type_flags_update();
