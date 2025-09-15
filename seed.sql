@@ -150,20 +150,20 @@ call imp.batch_create_universities();
 --https://dadosabertos.mec.gov.br/images/conteudo/sisu/2019/ListagemChamadaRegular_2019-1.csv
 --https://dadosabertos.mec.gov.br/images/conteudo/sisu/2019/ListagemListaEspera_2019-1.csv
 --https://dadosabertos.mec.gov.br/images/conteudo/sisu/2019/ListagemListaEspera_2019-2.csv
---CALL imp.batch_create_degrees();
---CALL imp.batch_create_degree_levels();
---CALL imp.batch_create_shift();
+CALL imp.batch_create_degrees();
+CALL imp.batch_create_degree_levels();
+CALL imp.batch_create_shift();
 CALL imp.batch_create_regions();
 CALL imp.batch_create_states();
 CALL imp.batch_create_cities();
---CALL imp.batch_create_frequency();
---CALL imp.batch_create_quota_type();
---CALL app.usp_quote_type_flags_update();
---CALL imp.batch_create_special_quota();
---CALL app.usp_special_quota_flags_update();
---CALL imp.batch_create_university_mapping();
---CALL imp.batch_create_seats(1);
---CALL app.usp_seats_cutoff_update();
+CALL imp.batch_create_frequency();
+CALL imp.batch_create_quota_type();
+CALL app.usp_quote_type_flags_update();
+CALL imp.batch_create_special_quota();
+CALL app.usp_special_quota_flags_update();
+CALL imp.batch_create_university_mapping();
+CALL imp.batch_create_seats(1);
+CALL app.usp_seats_cutoff_update();
 
 DO $$
 DECLARE
