@@ -13,6 +13,7 @@
 \i './imp/Tables/sisu_past_waitlist.sql'
 \i './imp/Tables/sisu_past_results.sql'
 \i './imp/Tables/university_mapping.sql'
+\i './imp/Tables/zipcode_info.sql'
 
 
 --A-- Stored Procedures from imp
