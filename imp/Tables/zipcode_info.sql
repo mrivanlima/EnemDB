@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS imp.zipcode_info;
+--DROP TABLE IF EXISTS imp.zipcode_info;
 
-CREATE TABLE imp.zipcode_info
+CREATE TABLE IF NOT EXISTS imp.zipcode_info
 (
     cepid        integer     , 
     cidadenome   varchar(150),
